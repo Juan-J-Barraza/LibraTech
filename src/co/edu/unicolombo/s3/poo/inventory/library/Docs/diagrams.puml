@@ -1,0 +1,93 @@
+@startuml ""
+
+
+class Book {
+    - String ISB;
+    - String title;
+    - date publicaion;
+    - boolean available;
+    - int stock;
+    - Publisher publisher;
+    - Category category;
+    - Loan loan;
+    - Reservation reservation;
+    - Invetory inventory;
+}
+
+
+class User {
+    - int ID;
+    - String name;
+    - String phoneNumber;
+    - String email;
+    - String typeUser;
+    - Inventory inventory;
+}
+
+class Inventory {
+    - Map<String> listBooks; 
+}
+
+
+class Category {
+    - int ID;
+    - String name;
+    - List<Book> books;
+}
+
+class Author {
+    - String name;
+    - String lastName;
+    - List<Book> books; 
+}
+
+
+class Publisher {
+    - int ID;
+    - String name;
+    - List<Book> books;
+}
+
+
+class Client {
+    - int ID;
+    - String name;
+    - String address;
+    - String phoneNumber;
+    - List<Loan> loans;
+
+}
+
+class Loan {
+    - int ID;
+    - date dateLoan;
+    - date dateReturn;
+    - Client client;
+    - List<Book> books;
+
+}
+
+class Reservation {
+    - int ID;
+    - date dateReservation;
+    - Client client;
+    - List<Book> books;
+}
+
+
+
+' relatioships
+
+Book "*" -- "1" Author: have
+Book "*" -- "1" Publisher: do
+Book "*" -- "1" Category: contain
+Book "*" -- "1" Loan: contain
+Book "*" -- "1" Inventory: contain
+Loan "*" -- "1" Client: do
+Reservation "1" -- "1" Client: do
+Reservation "1" -- "*" Book: contain
+Inventory "1" -- "1" User: handler
+
+
+
+@enduml
