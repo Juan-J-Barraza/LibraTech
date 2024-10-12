@@ -1,0 +1,79 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Environment variables
+.env
+.env.*.local
+
+# Build outputs
+dist/
+build/
+out/
+.cache/
+.next/
+coverage/
+
+# Temporary files
+*.tmp
+*.swp
+
+# TypeScript
+*.tsbuildinfo
+*.d.ts
+*.d.ts.map
+
+# IDEs and editors
+.idea/
+.vscode/
+*.code-workspace
+
+# VSCode settings and extensions
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# NetBeans-specific files
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Temporary files created by editors
+*~
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Testing files
+coverage/
+.nyc_output/
+
+# Prettier
+.prettierignore
+.prettiercache
+
+# Linting
+.eslintcache
+
+# IDE-specific
+*.sublime-workspace
+*.sublime-project
