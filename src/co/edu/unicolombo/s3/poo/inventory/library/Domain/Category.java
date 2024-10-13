@@ -12,17 +12,18 @@ import java.util.List;
  * @author Juan
  */
 public class Category {
-
+    private int incrementID;
     private int ID;
     private String name;
     private List<Book> books;
 
     public Category() {
+        this.ID = incrementID++;
         this.books = new ArrayList<>();
     }
 
-    public Category(int ID, String name) {
-        this.ID = ID;
+    public Category(String name) {
+        this.ID = incrementID++;
         this.name = name;
         this.books = new ArrayList<>();
     }

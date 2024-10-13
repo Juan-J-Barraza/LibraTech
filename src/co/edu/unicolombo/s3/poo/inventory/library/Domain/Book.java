@@ -33,8 +33,8 @@ public class Book {
         this.ISB = ISB;
         this.title = title;
         this.publicaion = publicaion;
-        this.available = available;
-        this.stock = stock;
+        this.available = available = true;
+        this.stock = stock = 1;
         this.publisher = publisher;
         this.category = category;
         this.loan = loan;

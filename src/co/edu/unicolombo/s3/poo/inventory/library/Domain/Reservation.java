@@ -13,23 +13,27 @@ import java.util.List;
  * @author Juan
  */
 public class Reservation {
-
+    private static int incrementID;
     private int ID;
     private Date dateReservation;
     private Client client;
+    private int quantity;
     private List<Book> books;
 
     public Reservation() {
+        this.ID = incrementID++;
         this.books = new ArrayList<>();
 
     }
 
-    public Reservation(Date dateReservation, Client client) {
+    public Reservation(Date dateReservation, Client client, int quantity) {
+        this.ID = incrementID++;
         this.dateReservation = dateReservation;
         this.client = client;
+        this.quantity = quantity;
         this.books = new ArrayList<>();
     }
-
+ 
     public int getID() {
         return ID;
     }
@@ -61,7 +65,14 @@ public class Reservation {
     public void setBooks(List<Book> books) {
         this.books = books;
     }
-    
-    
 
+   
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    
 }

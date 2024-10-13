@@ -16,11 +16,8 @@ class Book {
 
 
 class User {
-    - int ID;
     - String name;
     - String phoneNumber;
-    - String email;
-    - String typeUser;
     - Inventory inventory;
 }
 
@@ -60,6 +57,7 @@ class Client {
 
 class Loan {
     - int ID;
+    - int quantity;
     - date dateLoan;
     - date dateReturn;
     - Client client;
@@ -69,6 +67,7 @@ class Loan {
 
 class Reservation {
     - int ID;
+    - int quantity;
     - date dateReservation;
     - Client client;
     - List<Book> books;

@@ -15,8 +15,10 @@ import java.util.Date;
 public class Loan {
 
     private int ID;
+    private int incemenetID;
     private Date dateLoan;
     private Date dateReturn;
+    private int  quantity;
     private Client client;
     private List<Book> books;
 
@@ -24,10 +26,12 @@ public class Loan {
         this.books = new ArrayList<>();
     }
 
-    public Loan(Date dateLoan, Date dateReturn, Client client) {
+    public Loan(Date dateLoan, Date dateReturn, Client client, int quantity) {
+        this.ID = incemenetID++;
         this.dateLoan = dateLoan;
         this.dateReturn = dateReturn;
         this.client = client;
+        this.quantity = quantity;
         this.books = new ArrayList<>();
     }
 
@@ -69,6 +73,14 @@ public class Loan {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
   
 }

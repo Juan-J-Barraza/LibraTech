@@ -18,5 +18,13 @@ public class Inventory {
     public Inventory() {
         listBooks = new HashMap<>();
     }
+
+    public Map<String, List<Book>> getListBooks() {
+        return listBooks;
+    }
+
+    public void setListBooks(Map<String, List<Book>> listBooks) {
+        this.listBooks = listBooks;
+    }
     
 }

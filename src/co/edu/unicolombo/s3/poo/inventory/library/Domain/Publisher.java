@@ -12,15 +12,18 @@ import java.util.List;
  * @author Juan
  */
 public class Publisher {
+    private static int incrementID;
     private int ID;
     private String name;
     private List<Book> books;
 
     public Publisher() {
+        this.ID = incrementID++;
         this.books = new ArrayList<>();
     }
 
     public Publisher(String name) {
+        this.ID = incrementID++;
         this.name = name;
         this.books = new ArrayList<>();
     }

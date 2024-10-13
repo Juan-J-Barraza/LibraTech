@@ -12,6 +12,7 @@ import java.util.List;
  * @author Juan
  */
 public class Client {
+    private static int incrementID;
     private int ID;
     private String name;
     private String address;
@@ -19,9 +20,11 @@ public class Client {
     private List<Loan> loans;
     
     public Client() {
+        this.ID = incrementID++;
         this.loans = new ArrayList<>();
     }
     public Client(String name, String address, String phoneNumber) {
+        this.ID = incrementID++;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
