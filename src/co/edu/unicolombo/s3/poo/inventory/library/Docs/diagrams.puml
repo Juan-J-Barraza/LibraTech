@@ -9,9 +9,6 @@ class Book {
     - int stock;
     - Publisher publisher;
     - Category category;
-    - Loan loan;
-    - Reservation reservation;
-    - Invetory inventory;
 }
 
 
@@ -21,21 +18,11 @@ class User {
     - Inventory inventory;
 }
 
-class Inventory {
-    - Map<String> listBooks; 
-}
-
 
 class Category {
     - int ID;
     - String name;
     - List<Book> books;
-}
-
-class Author {
-    - String name;
-    - String lastName;
-    - List<Book> books; 
 }
 
 
@@ -77,15 +64,12 @@ class Reservation {
 
 ' relatioships
 
-Book "*" -- "1" Author: have
 Book "*" -- "1" Publisher: do
 Book "*" -- "1" Category: contain
 Book "*" -- "1" Loan: contain
-Book "*" -- "1" Inventory: contain
 Loan "*" -- "1" Client: do
 Reservation "1" -- "1" Client: do
 Reservation "1" -- "*" Book: contain
-Inventory "1" -- "1" User: handler
 
 
 
