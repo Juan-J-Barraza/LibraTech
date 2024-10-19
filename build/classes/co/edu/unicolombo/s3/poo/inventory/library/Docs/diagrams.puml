@@ -9,18 +9,12 @@ class Book {
     - int stock;
     - Publisher publisher;
     - Category category;
-    - Loan loan;
-    - Reservation reservation;
-    - Invetory inventory;
 }
 
 
 class User {
-    - int ID;
     - String name;
     - String phoneNumber;
-    - String email;
-    - String typeUser;
     - Inventory inventory;
 }
 
@@ -33,12 +27,6 @@ class Category {
     - int ID;
     - String name;
     - List<Book> books;
-}
-
-class Author {
-    - String name;
-    - String lastName;
-    - List<Book> books; 
 }
 
 
@@ -60,6 +48,7 @@ class Client {
 
 class Loan {
     - int ID;
+    - int quantity;
     - date dateLoan;
     - date dateReturn;
     - Client client;
@@ -69,6 +58,7 @@ class Loan {
 
 class Reservation {
     - int ID;
+    - int quantity;
     - date dateReservation;
     - Client client;
     - List<Book> books;
@@ -78,7 +68,6 @@ class Reservation {
 
 ' relatioships
 
-Book "*" -- "1" Author: have
 Book "*" -- "1" Publisher: do
 Book "*" -- "1" Category: contain
 Book "*" -- "1" Loan: contain
