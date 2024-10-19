@@ -19,7 +19,7 @@ public class ReservationRepository implements IReservationRepository {
     private final DB db = DB.getInstance();
 
     @Override
-    public void addReservation(int quantity, Reservation reservation) throws Exception {
+    public void addReservation(Reservation reservation) throws Exception {
 
         boolean exists = db.getListReservations().stream()
                 .anyMatch(existingReservation -> existingReservation.getID() == reservation.getID());
@@ -95,5 +95,13 @@ public class ReservationRepository implements IReservationRepository {
         }
 
         return -1;
+    }
+    
+    @Override
+    public boolean bookIsAvailable(String title) {
+        var indexBook = db.getIndexBookByTitle(title);
+        var isAviableBook = db.getListBooks().get(indexBook).isAvailable();
+        var isStockBook = db.getListBooks().get(indexBook).getStock() > 0;
+        return isAviableBook && isStockBook;
     }
 }
