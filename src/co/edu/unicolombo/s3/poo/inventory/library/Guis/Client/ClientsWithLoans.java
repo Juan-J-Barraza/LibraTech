@@ -15,15 +15,15 @@ import java.util.*;
  */
 public class ClientsWithLoans extends javax.swing.JDialog {
 
-    private GetListClientsWithLoanQueries getListClientsWithLoanQueries;
-    private ReturnLoanCommandsController returnLoanCommandsController;
-    private Map<Integer, Client> clientMap = new HashMap<>();
+private GetListClientsWithLoanQueries getListClientsWithLoanQueries;
+private ReturnLoanCommandsController returnLoanCommandsController;
+private Map<Integer, Client> clientMap = new HashMap<>();
 
-    /**
+/**
      * Creates new form ClientsWithLoans
      */
     public ClientsWithLoans(java.awt.Frame parent, boolean modal,
-            GetListClientsWithLoanQueries getListClientsWithLoanQueries,
+        GetListClientsWithLoanQueries getListClientsWithLoanQueries,
             ReturnLoanCommandsController returnLoanCommandsController) {
         super(parent, modal);
         initComponents();

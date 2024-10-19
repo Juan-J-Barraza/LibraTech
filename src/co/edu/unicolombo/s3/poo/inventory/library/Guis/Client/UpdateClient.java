@@ -4,18 +4,30 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
+import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Client.UpdatecClientCommands;
+
 /**
  *
  * @author Juan
  */
 public class UpdateClient extends javax.swing.JDialog {
 
+  private UpdatecClientCommands updatecClientCommands;
+    private Client clientSelected;
+
     /**
      * Creates new form UpdateClient
      */
-    public UpdateClient(java.awt.Frame parent, boolean modal) {
+    public UpdateClient(java.awt.Frame parent, boolean modal, Client client,
+            UpdatecClientCommands updatecClientCommands) {
         super(parent, modal);
+        this.updatecClientCommands = updatecClientCommands;
+        this.clientSelected = client;
         initComponents();
+        fieldName.setText(client.getName());
+        fieldAddress.setText(client.getAddress());
+        fieldPhoneNumber.setText(client.getPhoneNumber());
     }
 
     /**
@@ -54,11 +66,7 @@ public class UpdateClient extends javax.swing.JDialog {
         labelPhoneNumber.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         labelPhoneNumber.setText("Phone Number:");
 
-        fieldPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldPhoneNumberActionPerformed(evt);
-            }
-        });
+        
 
         buttonUpdate.setBackground(new java.awt.Color(0, 153, 153));
         buttonUpdate.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -143,14 +151,29 @@ public class UpdateClient extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void fieldPhoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldPhoneNumberActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldPhoneNumberActionPerformed
 
-    private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonUpdateActionPerformed
 
+    private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonUpdateActionPerformed
+        var name = fieldName.getText();
+        var address = fieldAddress.getText();
+        var phoneNumber = fieldPhoneNumber.getText();
+
+        if (clientSelected == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "No client selected for update");
+            return;
+        }
+
+        clientSelected.setName(name);
+        clientSelected.setAddress(address);
+        clientSelected.setPhoneNumber(phoneNumber);
+
+        try {
+            updatecClientCommands.updateClient(clientSelected);
+            javax.swing.JOptionPane.showMessageDialog(this, "Client update Sucessfully");
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
     /**
      * @param args the command line arguments
      */
