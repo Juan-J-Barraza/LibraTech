@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface IReservationRepository {
     
-    public void addReservation(int quantity, Reservation reservation) 
+    public void addReservation(Reservation reservation) 
             throws Exception;
     
     public List<Reservation> getReservations()
@@ -30,4 +30,6 @@ public interface IReservationRepository {
      
      public int getIndexReservationByID(int ID)
              throws Exception;
+     
+     public boolean bookIsAvailable(String title);
 }

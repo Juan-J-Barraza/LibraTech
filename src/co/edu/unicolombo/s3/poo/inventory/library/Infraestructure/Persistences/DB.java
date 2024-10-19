@@ -8,7 +8,7 @@ import java.util.*;
  * @author Juan
  */
 public class DB {
-     private final List<Book> listBooks;
+    private final List<Book> listBooks;
     private final List<Category> categories;
     private final List<Publisher> listPublishers;
     private final List<Loan> listLoans;
