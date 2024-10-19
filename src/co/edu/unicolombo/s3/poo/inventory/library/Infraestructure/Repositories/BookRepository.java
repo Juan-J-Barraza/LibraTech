@@ -125,4 +125,19 @@ public class BookRepository implements IBookRepository {
         return false;
     }
 
+    @Override
+    public void bookIsTrueAvailable(String ISB) throws Exception {
+        var indexBook = db.getIndexBookByISB(ISB);
+        if (indexBook < 0) {
+            throw new Exception("The book with the provided ISBN does not exist");
+        }
+
+        var book = db.getListBooks().get(indexBook);
+        var getStock = book.getStock();
+        if (getStock < 0) {
+            throw new Exception();
+        }
+        book.setAvailable(true);
+    }
+
 }
