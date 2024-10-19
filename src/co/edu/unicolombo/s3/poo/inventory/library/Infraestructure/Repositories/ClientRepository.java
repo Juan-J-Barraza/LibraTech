@@ -62,4 +62,14 @@ public class ClientRepository implements IClientRepository {
         }
     }
 
+    @Override
+    public Client getClientByIDClient(int IDClient) throws Exception {
+        if (IDClient == 0) {
+            throw new Exception("clientId do not exist");
+        }
+
+        var indexClient = db.getIndexClientById(IDClient);
+        return db.getListClients().get(indexClient);
+    }
+
 }
