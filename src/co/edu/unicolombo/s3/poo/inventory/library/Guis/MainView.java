@@ -7,6 +7,7 @@ package co.edu.unicolombo.s3.poo.inventory.library.Guis;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Books.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Client.ManageClient;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Loans.GeneralLoan;
+import co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation.CreateReservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Book.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Client.*;
@@ -185,7 +186,13 @@ public class MainView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemReservationCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReservationCreateActionPerformed
-        // TODO add your handling code here:
+        var manageClient = new CreateReservation(null, true,
+                addReservationCommands,
+                getListReservationsQueries,
+                deleteReservationCommands,
+        );
+        manageClient.setLocationRelativeTo(this);
+        manageClient.setVisible(true);
     }//GEN-LAST:event_itemReservationCreateActionPerformed
 
     private void itemBookCreateActionPerformed(java.awt.event.ActionEvent evt) {
