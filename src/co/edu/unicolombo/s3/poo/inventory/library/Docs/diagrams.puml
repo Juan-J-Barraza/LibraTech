@@ -12,12 +12,6 @@ class Book {
 }
 
 
-class User {
-    - String name;
-    - String phoneNumber;
-    - Inventory inventory;
-}
-
 
 class Category {
     - int ID;

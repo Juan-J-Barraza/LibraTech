@@ -26,6 +26,8 @@ public interface IBookRepository {
     public boolean bookIsAvailable(String title);
 
     public boolean bookIsFalseAvailable(String ISB) throws Exception;
+    
+    public void bookIsTrueAvailable(String ISB) throws Exception;
 
     public void addBookToStock(int amount, String title) throws Exception;
 

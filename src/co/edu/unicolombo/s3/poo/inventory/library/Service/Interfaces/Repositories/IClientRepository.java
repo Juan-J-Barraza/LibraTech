@@ -22,4 +22,6 @@ public interface IClientRepository {
     public void updateClient(Client newClient) throws Exception;
 
     public void deleteClient(Client client);
+
+    public Client getClientByIDClient(int IDClient ) throws Exception;
 }

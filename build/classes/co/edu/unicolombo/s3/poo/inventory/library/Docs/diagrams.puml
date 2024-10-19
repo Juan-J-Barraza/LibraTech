@@ -12,16 +12,6 @@ class Book {
 }
 
 
-class User {
-    - String name;
-    - String phoneNumber;
-    - Inventory inventory;
-}
-
-class Inventory {
-    - Map<String> listBooks; 
-}
-
 
 class Category {
     - int ID;
@@ -71,11 +61,9 @@ class Reservation {
 Book "*" -- "1" Publisher: do
 Book "*" -- "1" Category: contain
 Book "*" -- "1" Loan: contain
-Book "*" -- "1" Inventory: contain
 Loan "*" -- "1" Client: do
 Reservation "1" -- "1" Client: do
 Reservation "1" -- "*" Book: contain
-Inventory "1" -- "1" User: handler
 
 
 
