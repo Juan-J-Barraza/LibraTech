@@ -7,7 +7,11 @@ package co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Reservation.AddReservationCommands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Reservation.DeleteReservationCommands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Reservation.GetListReservationsQueries;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -15,15 +19,32 @@ import java.util.List;
  */
 public class CreateReservation extends javax.swing.JDialog {
     private DB db;
+    
+    private final AddReservationCommands addReservationCommands;
+    //private final GetListReservationsQueries getListReservationsQueries
+    private final DeleteReservationCommands deleteReservationCommands;
 
     /**
      * Creates new form CreateReservation
      * @param parent
      * @param modal
+     * @param addReservationCommands
+     * @param getListReservationsQueries
+     * @param deleteReservationCommands
      */
-    public CreateReservation(java.awt.Frame parent, boolean modal) {
+    public CreateReservation(
+            java.awt.Frame parent,
+            boolean modal,
+            AddReservationCommands addReservationCommands,
+            GetListReservationsQueries getListReservationsQueries,
+            DeleteReservationCommands deleteReservationCommands
+    ) {
         super(parent, modal);
         initComponents();
+        
+        this.addReservationCommands = addReservationCommands;
+        //this.getListReservationsQueries = getListReservationsQueries;
+        this.deleteReservationCommands = deleteReservationCommands;
         
         listClients();
         listBooks();
@@ -115,6 +136,11 @@ public class CreateReservation extends javax.swing.JDialog {
         ButtonAddReservation.setBackground(new java.awt.Color(0, 153, 153));
         ButtonAddReservation.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ButtonAddReservation.setText("ADD");
+        ButtonAddReservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonAddReservationActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -196,6 +222,19 @@ public class CreateReservation extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ButtonAddReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddReservationActionPerformed
+        int quantity = Integer.parseInt(this.fieldQuantity.getText());
+        String date = fieldDate.getText();
+        Optional<Client> client = db.getListClients()
+                .stream()
+                .filter(c -> c.getName().equalsIgnoreCase((String) fieldClient.getSelectedItem()))
+                .findFirst();
+        Optional<Book> book = db.getListBooks()
+                .stream()
+                .filter(c -> c.getTitle().equalsIgnoreCase((String) fieldBook.getSelectedItem()))
+                .findFirst();
+    }//GEN-LAST:event_ButtonAddReservationActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -216,34 +255,13 @@ public class CreateReservation extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateReservation.class.getName()).log(java.util.logging.Level.SEVERE,
-                    null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateReservation.class.getName()).log(java.util.logging.Level.SEVERE,
-                    null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateReservation.class.getName()).log(java.util.logging.Level.SEVERE,
-                    null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(CreateReservation.class.getName()).log(java.util.logging.Level.SEVERE,
                     null, ex);
         }
         // </editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                CreateReservation dialog = new CreateReservation(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        
+        // </editor-fold>
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

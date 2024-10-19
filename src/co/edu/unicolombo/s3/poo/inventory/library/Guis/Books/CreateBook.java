@@ -235,7 +235,9 @@ public class CreateBook extends javax.swing.JDialog {
                 var selectedCategory = (Category) comboBoxCategory.getSelectedItem();
 
                 if (title.isEmpty() || ISB.isEmpty() || stockstr.isEmpty() || selectedPublisher == null
-                                || selectedCategory == null) {
+                                
+                        
+                        || selectedCategory == null) {
                         javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
                         return;
                 }

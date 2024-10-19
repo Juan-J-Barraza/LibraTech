@@ -186,11 +186,11 @@ public class MainView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemReservationCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReservationCreateActionPerformed
-        var manageClient = new CreateReservation(null, true,
+        var manageClient = new CreateReservation(this, true,
                 addReservationCommands,
                 getListReservationsQueries,
                 deleteReservationCommands,
-        );
+        )
         manageClient.setLocationRelativeTo(this);
         manageClient.setVisible(true);
     }//GEN-LAST:event_itemReservationCreateActionPerformed
