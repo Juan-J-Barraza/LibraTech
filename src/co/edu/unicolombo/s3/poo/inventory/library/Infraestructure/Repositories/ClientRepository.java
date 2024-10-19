@@ -25,7 +25,7 @@ public class ClientRepository implements IClientRepository {
     @Override
     public List<Client> getListClients() throws Exception {
         if (db.getListClients() == null || db.getListClients().isEmpty()) {
-            throw new Exception();
+            throw new Exception("client not found");
         }
         return db.getListClients();
     }

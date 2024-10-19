@@ -3,6 +3,7 @@ package co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.*;
 import java.util.*;
+
 /**
  *
  * @author Juan
@@ -15,9 +16,7 @@ public class DB {
     private final List<Client> listClients;
     private final List<Reservation> listReservations;
     private static DB instance;
-    
-    
-    
+
     public DB() {
         this.listBooks = new ArrayList<>();
         this.categories = new ArrayList<>();
@@ -25,17 +24,18 @@ public class DB {
         this.listLoans = new ArrayList<>();
         this.listClients = new ArrayList<>();
         this.listReservations = new ArrayList<>();
+        createDefaultClients();
         createDefaultCategories();
         createDefaultPublisher();
+        createDefaultBooks();
     }
-    
+
     public static DB getInstance() {
         if (instance == null) {
             instance = new DB();
         }
         return instance;
     }
-    
 
     public List<Book> getListBooks() {
         return listBooks;
@@ -60,7 +60,7 @@ public class DB {
     public List<Reservation> getListReservations() {
         return listReservations;
     }
-  
+
     private void createDefaultCategories() {
         categories.add(new Category("Fiction"));
         categories.add(new Category("Science"));
@@ -70,6 +70,21 @@ public class DB {
 
     private void createDefaultPublisher() {
         listPublishers.add(new Publisher("Ejemplo Editorial"));
+    }
+
+    public void createDefaultBooks() {
+        Book book = new Book(
+                "ABC123",
+                "Harry Potter",
+                new Date(),
+                2,
+                new Publisher("J.K.Rolling"),
+                new Category("Fantasia"));
+        listBooks.add(book);
+    }
+
+    public void createDefaultClients() {
+        listClients.add(new Client("Juan Barraza", "Pozon", "3001234567"));
     }
 
     public int getIndexBookByISB(String ISB) {
