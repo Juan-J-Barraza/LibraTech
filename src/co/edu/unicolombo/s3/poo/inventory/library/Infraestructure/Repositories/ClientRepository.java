@@ -64,8 +64,12 @@ public class ClientRepository implements IClientRepository {
 
     @Override
     public Client getClientByIDClient(int IDClient) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getClientByIDClient'");
+        if (IDClient == 0) {
+            throw new Exception("id do not exist");
+        }
+
+        var indexClient = db.getIndexClientById(IDClient);
+        return db.getListClients().get(indexClient);
     }
 
 }
