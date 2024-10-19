@@ -7,7 +7,7 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Cl
 
 /**
  *
- * @author Juan
+ * @author Jose
  */
 public class UpdatecClientCommands implements IUpdateClientCommands {
 
