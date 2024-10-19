@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author Juan
+ * @author Deiver Vasquez
  */
 public interface IReservationRepository {
     
@@ -25,5 +25,9 @@ public interface IReservationRepository {
      public void deleteReservation(Reservation reservation)
             throws Exception;
 
-     public Reservation getReservationByID(int ID) throws Exception;
+     public Reservation getReservationByID(int ID)
+             throws Exception;
+     
+     public int getIndexReservationByID(int ID)
+             throws Exception;
 }
