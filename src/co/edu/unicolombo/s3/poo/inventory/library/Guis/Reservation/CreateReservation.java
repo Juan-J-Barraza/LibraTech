@@ -6,10 +6,14 @@ package co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Reservation.AddReservationCommands;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Reservation.DeleteReservationCommands;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Reservation.GetListReservationsQueries;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +23,8 @@ import java.util.Optional;
  */
 public class CreateReservation extends javax.swing.JDialog {
     private DB db;
+    
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     
     private final AddReservationCommands addReservationCommands;
     //private final GetListReservationsQueries getListReservationsQueries
@@ -223,22 +229,55 @@ public class CreateReservation extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonAddReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddReservationActionPerformed
-        int quantity = Integer.parseInt(this.fieldQuantity.getText());
-        String date = fieldDate.getText();
-        Optional<Client> client = db.getListClients()
+        String quantityText = this.fieldQuantity.getText();
+        String dateText = fieldDate.getText();
+        Optional<Client> clientOption = db.getListClients()
                 .stream()
                 .filter(c -> c.getName().equalsIgnoreCase((String) fieldClient.getSelectedItem()))
                 .findFirst();
-        Optional<Book> book = db.getListBooks()
+        Optional<Book> bookOption = db.getListBooks()
                 .stream()
                 .filter(c -> c.getTitle().equalsIgnoreCase((String) fieldBook.getSelectedItem()))
                 .findFirst();
         
-//        if (title.isEmpty() || ISB.isEmpty() || stockstr.isEmpty() || selectedPublisher == null
-//            || selectedCategory == null) {
-//            javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
-//            return;
-//        }
+        if (quantityText.isEmpty() || dateText.isEmpty() || clientOption.isPresent() || bookOption.isPresent()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
+            return;
+        }
+        
+        int quantity;
+        try {
+                quantity = Integer.parseInt(quantityText);
+        } catch (NumberFormatException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Invalid stock number.");
+                return;
+        }
+        
+        Date date;
+        try {
+                date = dateFormat.parse(dateText);
+        } catch (ParseException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Invalid date format. Please use dd/MM/yyyy.");
+                return;
+        }
+        
+        Reservation newReservation = new Reservation(
+                date,
+                clientOption.get(),
+                quantity
+        );
+        newReservation.addBook(bookOption.get());
+        
+        try {
+            this.addReservationCommands.createReservation(newReservation);
+        } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this, e);
+                return;
+        }
+        
+        javax.swing.JOptionPane.showMessageDialog(this, "Book added successfully!");
+        fieldDate.setText("");
+        fieldQuantity.setText("");
     }//GEN-LAST:event_ButtonAddReservationActionPerformed
 
     /**

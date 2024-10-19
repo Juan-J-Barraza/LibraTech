@@ -61,6 +61,10 @@ public class Reservation {
     public List<Book> getBooks() {
         return books;
     }
+    
+    public void addBook(Book book) {
+        this.getBooks().add(book);
+    }
 
     public void setBooks(List<Book> books) {
         this.books = books;
