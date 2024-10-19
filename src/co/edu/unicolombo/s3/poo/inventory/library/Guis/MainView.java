@@ -190,7 +190,7 @@ public class MainView extends javax.swing.JFrame {
                 addReservationCommands,
                 getListReservationsQueries,
                 deleteReservationCommands,
-        )
+        );
         manageClient.setLocationRelativeTo(this);
         manageClient.setVisible(true);
     }//GEN-LAST:event_itemReservationCreateActionPerformed
