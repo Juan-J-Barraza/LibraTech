@@ -233,6 +233,12 @@ public class CreateReservation extends javax.swing.JDialog {
                 .stream()
                 .filter(c -> c.getTitle().equalsIgnoreCase((String) fieldBook.getSelectedItem()))
                 .findFirst();
+        
+//        if (title.isEmpty() || ISB.isEmpty() || stockstr.isEmpty() || selectedPublisher == null
+//            || selectedCategory == null) {
+//            javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
+//            return;
+//        }
     }//GEN-LAST:event_ButtonAddReservationActionPerformed
 
     /**
