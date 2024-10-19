@@ -2,39 +2,38 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package co.edu.unicolombo.s3.poo.inventory.library.Domain;
+package co.edu.unicolombo.s3.poo.inventory.library.Domain.Models;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author Juan
  */
-public class Loan {
-
+public class Reservation {
+    private static int incrementID;
     private int ID;
-    private int incemenetID;
-    private Date dateLoan;
-    private Date dateReturn;
-    private int  quantity;
+    private Date dateReservation;
     private Client client;
+    private int quantity;
     private List<Book> books;
 
-    public Loan() {
+    public Reservation() {
+        this.ID = incrementID++;
         this.books = new ArrayList<>();
+
     }
 
-    public Loan(Date dateLoan, Date dateReturn, Client client, int quantity) {
-        this.ID = incemenetID++;
-        this.dateLoan = dateLoan;
-        this.dateReturn = dateReturn;
+    public Reservation(Date dateReservation, Client client, int quantity) {
+        this.ID = incrementID++;
+        this.dateReservation = dateReservation;
         this.client = client;
         this.quantity = quantity;
         this.books = new ArrayList<>();
     }
-
+ 
     public int getID() {
         return ID;
     }
@@ -43,20 +42,12 @@ public class Loan {
         this.ID = ID;
     }
 
-    public Date getDateLoan() {
-        return dateLoan;
+    public Date getDateReservation() {
+        return dateReservation;
     }
 
-    public void setDateLoan(Date dateLoan) {
-        this.dateLoan = dateLoan;
-    }
-
-    public Date getDateReturn() {
-        return dateReturn;
-    }
-
-    public void setDateReturn(Date dateReturn) {
-        this.dateReturn = dateReturn;
+    public void setDateReservation(Date dateReservation) {
+        this.dateReservation = dateReservation;
     }
 
     public Client getClient() {
@@ -75,6 +66,7 @@ public class Loan {
         this.books = books;
     }
 
+   
     public int getQuantity() {
         return quantity;
     }
@@ -82,5 +74,5 @@ public class Loan {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-  
+    
 }

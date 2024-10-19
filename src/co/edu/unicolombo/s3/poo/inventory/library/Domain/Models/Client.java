@@ -2,33 +2,53 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package co.edu.unicolombo.s3.poo.inventory.library.Domain;
+package co.edu.unicolombo.s3.poo.inventory.library.Domain.Models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
  * @author Juan
  */
 public class Client {
-    private static int incrementID;
+    private static int incrementID = 1;
     private int ID;
     private String name;
     private String address;
     private String phoneNumber;
     private List<Loan> loans;
-    
+
     public Client() {
         this.ID = incrementID++;
         this.loans = new ArrayList<>();
     }
+
     public Client(String name, String address, String phoneNumber) {
         this.ID = incrementID++;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.loans = new ArrayList<>();
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Client client = (Client) o;
+        return ID == client.ID;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID);
     }
 
     public int getID() {
@@ -70,5 +90,5 @@ public class Client {
     public void setLoans(List<Loan> loans) {
         this.loans = loans;
     }
-    
+
 }

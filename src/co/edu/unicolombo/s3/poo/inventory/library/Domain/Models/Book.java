@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package co.edu.unicolombo.s3.poo.inventory.library.Domain;
+package co.edu.unicolombo.s3.poo.inventory.library.Domain.Models;
 
 import java.util.Date;
-
+import java.util.Objects;
 /**
  *
  * @author Juan
@@ -19,27 +19,34 @@ public class Book {
     private int stock;
     private Publisher publisher;
     private Category category;
-    private Loan loan;
-    private Reservation reservation;
-    private Inventory inventory;
-    
+
     public Book() {
-        
+
     }
 
-    public Book(String ISB, String title, Date publicaion, boolean available, 
-            int stock, Publisher publisher, Category category, Loan loan, 
-            Reservation reservation, Inventory inventory) {
+    public Book(String ISB, String title, Date publicaion,
+            int stock, Publisher publisher, Category category) {
         this.ISB = ISB;
         this.title = title;
         this.publicaion = publicaion;
-        this.available = available = true;
-        this.stock = stock = 1;
+        this.available = true;
+        this.stock = stock;
         this.publisher = publisher;
         this.category = category;
-        this.loan = loan;
-        this.reservation = reservation;
-        this.inventory = inventory;
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return ISB.equals(book.ISB);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ISB); 
     }
 
     public String getISB() {
@@ -97,30 +104,4 @@ public class Book {
     public void setCategory(Category category) {
         this.category = category;
     }
-
-    public Loan getLoan() {
-        return loan;
-    }
-
-    public void setLoan(Loan loan) {
-        this.loan = loan;
-    }
-
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-    
-    
 }
