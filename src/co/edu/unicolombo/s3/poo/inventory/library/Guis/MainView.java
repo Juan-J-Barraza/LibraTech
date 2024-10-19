@@ -42,8 +42,9 @@ public class MainView extends javax.swing.JFrame {
             loanRepository);
     private final FindLoanByBook findLoanByBook = new FindLoanByBook(loanRepository);
     private final GetAllLoansQueries getAllLoansQueries = new GetAllLoansQueries(loanRepository);
-    private final GetListReservationsQueries getListReservationsQueries = new GetListReservationsQueries(reservationRepository);
-    
+    private final GetListReservationsQueries getListReservationsQueries = new GetListReservationsQueries(
+            reservationRepository);
+
     // Commands
     private final CreateBookCommandController bookCreate = new CreateBookCommandController(bookRepository);
     private final UpdateBookCommandController bookUpdate = new UpdateBookCommandController(bookRepository);
@@ -59,7 +60,8 @@ public class MainView extends javax.swing.JFrame {
     private final ReturnLoanCommandsController returnLoanCommandsController = new ReturnLoanCommandsController(
             loanRepository);
     private final AddReservationCommands addReservationCommands = new AddReservationCommands(reservationRepository);
-    private final DeleteReservationCommands deleteReservationCommands = new DeleteReservationCommands(reservationRepository);
+    private final DeleteReservationCommands deleteReservationCommands = new DeleteReservationCommands(
+            reservationRepository);
 
     /**
      * Creates new form MainView
@@ -75,7 +77,8 @@ public class MainView extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         MainMenu = new javax.swing.JMenuBar();
@@ -95,7 +98,8 @@ public class MainView extends javax.swing.JFrame {
         BooksMenu.setMnemonic('B');
         BooksMenu.setText("Books");
 
-        itemBookCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemBookCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A,
+                java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemBookCreate.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemBookCreate.setMnemonic('A');
         itemBookCreate.setText("Add...");
@@ -106,7 +110,8 @@ public class MainView extends javax.swing.JFrame {
         });
         BooksMenu.add(itemBookCreate);
 
-        itemGeneralBooks.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemGeneralBooks.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G,
+                java.awt.event.InputEvent.ALT_DOWN_MASK));
         itemGeneralBooks.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemGeneralBooks.setMnemonic('L');
         itemGeneralBooks.setText("General...");
@@ -123,7 +128,8 @@ public class MainView extends javax.swing.JFrame {
         LoanMenu.setMnemonic('L');
         LoanMenu.setText("Loans");
 
-        itemGeneralLoan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemGeneralLoan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G,
+                java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemGeneralLoan.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemGeneralLoan.setText("General...");
         itemGeneralLoan.addActionListener(new java.awt.event.ActionListener() {
@@ -138,17 +144,23 @@ public class MainView extends javax.swing.JFrame {
         ReservationMenu.setMnemonic('L');
         ReservationMenu.setText("Reservations...");
 
-        itemReservationCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemReservationCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R,
+                java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemReservationCreate.setText("Add...");
         itemReservationCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemReservationCreateActionPerformed(evt);
+                try {
+                    itemReservationCreateActionPerformed(evt);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         ReservationMenu.add(itemReservationCreate);
         itemReservationCreate.getAccessibleContext().setAccessibleName("Add");
 
-        itemGeneralReservations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemGeneralReservations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R,
+                java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemGeneralReservations.setLabel("General");
         ReservationMenu.add(itemGeneralReservations);
 
@@ -157,7 +169,8 @@ public class MainView extends javax.swing.JFrame {
         ClientsMenu.setMnemonic('L');
         ClientsMenu.setText("Clients");
 
-        itemClientMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemClientMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C,
+                java.awt.event.InputEvent.ALT_DOWN_MASK));
         itemClientMenu.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemClientMenu.setText("ManageClients...");
         itemClientMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -174,26 +187,27 @@ public class MainView extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 776, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 776, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 402, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 402, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void itemReservationCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReservationCreateActionPerformed
-        var manageClient = new CreateReservation(this, true,
+    private void itemReservationCreateActionPerformed(java.awt.event.ActionEvent evt) throws Exception {// GEN-FIRST:event_itemReservationCreateActionPerformed
+        var manageClient = new CreateReservation(
+                this,
+                true,
                 addReservationCommands,
                 getListReservationsQueries,
-                deleteReservationCommands
-        );
+                deleteReservationCommands,
+                bookList,
+                getAllClientsQueries);
         manageClient.setLocationRelativeTo(this);
         manageClient.setVisible(true);
-    }//GEN-LAST:event_itemReservationCreateActionPerformed
+    }// GEN-LAST:event_itemReservationCreateActionPerformed
 
     private void itemBookCreateActionPerformed(java.awt.event.ActionEvent evt) {
         var createBookDialog = new CreateBook(this, true, bookCreate);
