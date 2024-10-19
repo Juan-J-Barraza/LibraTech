@@ -189,7 +189,7 @@ public class MainView extends javax.swing.JFrame {
         var manageClient = new CreateReservation(this, true,
                 addReservationCommands,
                 getListReservationsQueries,
-                deleteReservationCommands,
+                deleteReservationCommands
         );
         manageClient.setLocationRelativeTo(this);
         manageClient.setVisible(true);

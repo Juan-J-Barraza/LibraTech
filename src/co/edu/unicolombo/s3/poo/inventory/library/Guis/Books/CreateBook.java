@@ -125,9 +125,7 @@ public class CreateBook extends javax.swing.JDialog {
         labelCategory.setText("Category:");
 
         comboBoxPublisher.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        comboBoxPublisher.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        comboBoxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -334,8 +332,8 @@ public class CreateBook extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ISB;
     private javax.swing.JButton buttonAddBook;
-    private javax.swing.JComboBox<String> comboBoxCategory;
-    private javax.swing.JComboBox<String> comboBoxPublisher;
+    private javax.swing.JComboBox<Category> comboBoxCategory;
+    private javax.swing.JComboBox<Publisher> comboBoxPublisher;
     private javax.swing.JTextField fieldISB1;
     private javax.swing.JTextField fieldPublication;
     private javax.swing.JTextField fieldStock;

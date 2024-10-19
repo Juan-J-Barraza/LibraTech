@@ -278,7 +278,7 @@ public class GeneralLoan extends javax.swing.JDialog {
                                 returnLoanCommandsController.returnLoan(loan);           
                                 JOptionPane.showMessageDialog(this, "Book returned successfully.");
                                 setTrueBookIsAvailable.setTrueIsAvailable(selectBook.getISB());
-                                updateTable();
+                                //updateTable();
                             }
                         } catch (Exception e) {
                           JOptionPane.showMessageDialog(this, "Please select a book from the table.");
@@ -286,35 +286,35 @@ public class GeneralLoan extends javax.swing.JDialog {
                 }
         }// GEN-LAST:event_buttonReturnActionPerformed
 
-        private void updateTable() {
-                bookMap.clear();
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                model.setRowCount(0);
-                try {
-                        List<Book> books = bookList.getAllBooks();
+        // private void updateTable() {
+        //         bookMap.clear();
+        //         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        //         model.setRowCount(0);
+        //         try {
+        //                 List<Book> books = bookList.getAllBooks();
 
-                        if (books.isEmpty()) {
-                                JOptionPane.showMessageDialog(this, "The list is empty.");
-                        }
+        //                 if (books.isEmpty()) {
+        //                         JOptionPane.showMessageDialog(this, "The list is empty.");
+        //                 }
 
-                        for (int i = 0; i < books.size(); i++) {
-                                Book book = books.get(i);
-                                bookMap.put(i, book);
-                                boolean isAvailable = book.isAvailable();
-                                String availableSrt = isAvailable ? "yes" : "no";
-                                model.addRow(new Object[] {
-                                                book.getISB(),
-                                                book.getTitle(),
-                                                book.getStock(),
-                                                availableSrt
-                                });
-                        }
-                } catch (Exception e) {
-                        javax.swing.JOptionPane.showMessageDialog(this,
-                                        e.getMessage());
-                }
+        //                 for (int i = 0; i < books.size(); i++) {
+        //                         Book book = books.get(i);
+        //                         bookMap.put(i, book);
+        //                         boolean isAvailable = book.isAvailable();
+        //                         String availableSrt = isAvailable ? "yes" : "no";
+        //                         model.addRow(new Object[] {
+        //                                         book.getISB(),
+        //                                         book.getTitle(),
+        //                                         book.getStock(),
+        //                                         availableSrt
+        //                         });
+        //                 }
+        //         } catch (Exception e) {
+        //                 javax.swing.JOptionPane.showMessageDialog(this,
+        //                                 e.getMessage());
+        //         }
 
-        }
+        // }
 
         private void buttonClientsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonClientsActionPerformed
                 openListClientWithLoanWindow();
