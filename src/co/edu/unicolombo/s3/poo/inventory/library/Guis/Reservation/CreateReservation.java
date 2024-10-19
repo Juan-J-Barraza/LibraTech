@@ -68,6 +68,7 @@ public class CreateReservation extends javax.swing.JDialog {
         fieldClient = new javax.swing.JComboBox<>();
         Book = new javax.swing.JLabel();
         fieldBook = new javax.swing.JComboBox<>();
+        ButtonAddReservation = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -111,6 +112,10 @@ public class CreateReservation extends javax.swing.JDialog {
         fieldBook.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         fieldBook.setName(""); // NOI18N
 
+        ButtonAddReservation.setBackground(new java.awt.Color(0, 153, 153));
+        ButtonAddReservation.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        ButtonAddReservation.setText("ADD");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -129,6 +134,10 @@ public class CreateReservation extends javax.swing.JDialog {
                     .addComponent(fieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(121, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ButtonAddReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,7 +158,9 @@ public class CreateReservation extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Book)
                     .addComponent(fieldBook, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
+                .addComponent(ButtonAddReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
 
         Quantity.getAccessibleContext().setAccessibleName("Quantity:");
@@ -237,6 +248,7 @@ public class CreateReservation extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Book;
+    private javax.swing.JButton ButtonAddReservation;
     private javax.swing.JLabel Client;
     private javax.swing.JLabel Date;
     private javax.swing.JLabel Quantity;
