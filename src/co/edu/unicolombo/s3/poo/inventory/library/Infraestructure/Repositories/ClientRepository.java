@@ -62,4 +62,10 @@ public class ClientRepository implements IClientRepository {
         }
     }
 
+    @Override
+    public Client getClientByIDClient(int IDClient) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getClientByIDClient'");
+    }
+
 }
