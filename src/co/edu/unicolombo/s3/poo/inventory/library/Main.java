@@ -1,4 +1,4 @@
-package co.edu.unicolombo.s3.poo.inventory.library.Main;
+package co.edu.unicolombo.s3.poo.inventory.library;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.MainView;
 import javax.swing.*;
