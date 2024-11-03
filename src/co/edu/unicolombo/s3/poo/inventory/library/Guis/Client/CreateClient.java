@@ -5,7 +5,7 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Client.CreateClientCommmands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.CreateClientCommmands;
 
 /**
  *

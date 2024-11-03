@@ -3,7 +3,7 @@ package co.edu.unicolombo.s3.poo.inventory.library.Guis.Books;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Book.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

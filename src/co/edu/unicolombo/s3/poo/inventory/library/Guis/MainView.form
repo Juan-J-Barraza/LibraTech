@@ -92,6 +92,9 @@
                 </Property>
                 <Property name="label" type="java.lang.String" value="General"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemGeneralReservationsActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

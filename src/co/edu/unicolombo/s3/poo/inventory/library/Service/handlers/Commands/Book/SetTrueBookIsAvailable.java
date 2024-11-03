@@ -1,4 +1,4 @@
-package co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Book;
+package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.BookRepository;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Book.ISetTrueIsAvailableBookCommands;

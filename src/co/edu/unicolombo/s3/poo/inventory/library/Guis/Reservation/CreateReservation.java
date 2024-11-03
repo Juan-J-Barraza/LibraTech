@@ -7,18 +7,16 @@ package co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Reservation.AddReservationCommands;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Reservation.DeleteReservationCommands;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Book.GetListBookQueries;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Client.GetAllClientsQueries;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Reservation.GetListReservationsQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Reservation.AddReservationCommands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Reservation.DeleteReservationCommands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book.GetListBookQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Client.GetAllClientsQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Reservation.GetListReservationsQueries;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

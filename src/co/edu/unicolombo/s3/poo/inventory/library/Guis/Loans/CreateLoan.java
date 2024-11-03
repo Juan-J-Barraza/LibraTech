@@ -8,11 +8,11 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Client.CreateClient;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Book.RemoveQuantityFromStock;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Book.SetBookToFalseAviailable;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Client.CreateClientCommmands;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Loan.*;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Client.GetClientByNameQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.RemoveQuantityFromStock;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.SetBookToFalseAviailable;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.CreateClientCommmands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Client.GetClientByNameQueries;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

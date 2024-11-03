@@ -9,16 +9,15 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Category;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Client.ClientsWithLoans;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Book.SetTrueBookIsAvailable;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Loan.ReturnLoanCommandsController;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Book.GetListBookByCategoryQueries;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Loan.FindLoanByBook;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Loan.GetAllLoansQueries;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Loan.GetListClientsWithLoanQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.SetTrueBookIsAvailable;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan.ReturnLoanCommandsController;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book.GetListBookByCategoryQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.FindLoanByBook;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.GetAllLoansQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.GetListClientsWithLoanQueries;
 import java.util.stream.Collectors;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *

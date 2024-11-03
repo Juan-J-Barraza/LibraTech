@@ -5,8 +5,8 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Client.*;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Client.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Client.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +20,7 @@ public class ManageClient extends javax.swing.JDialog {
         private CreateClientCommmands createClientCommmands;
         private GetAllClientsQueries getAllClientsQueries;
         private GetClientByNameQueries getClientByNameQueries;
-        private UpdatecClientCommands updatecClientCommands;
+        private UpdateClientCommands updatecClientCommands;
         private DeleteCLientCommands deleteCLientCommands;
         private Map<Integer, Client> clientMap = new HashMap<>();
 
@@ -31,7 +31,7 @@ public class ManageClient extends javax.swing.JDialog {
                         CreateClientCommmands createClientCommmands,
                         GetAllClientsQueries getAllClientsQueries,
                         GetClientByNameQueries getClientByNameQueries,
-                        UpdatecClientCommands updatecClientCommands,
+                        UpdateClientCommands updatecClientCommands,
                         DeleteCLientCommands deleteCLientCommands) {
                 super(parent, modal);
                 initComponents();

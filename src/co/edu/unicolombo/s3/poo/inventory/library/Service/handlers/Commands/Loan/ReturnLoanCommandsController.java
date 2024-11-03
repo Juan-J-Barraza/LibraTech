@@ -1,5 +1,5 @@
 
-package co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Loan;
+package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.LoanRepository;

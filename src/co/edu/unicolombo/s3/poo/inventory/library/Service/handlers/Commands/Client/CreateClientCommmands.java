@@ -1,5 +1,5 @@
 
-package co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Client;
+package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.ClientRepository;

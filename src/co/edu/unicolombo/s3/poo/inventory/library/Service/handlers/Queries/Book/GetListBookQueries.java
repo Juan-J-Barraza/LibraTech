@@ -1,5 +1,5 @@
 
-package co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Book;
+package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Book.IGetListBook;

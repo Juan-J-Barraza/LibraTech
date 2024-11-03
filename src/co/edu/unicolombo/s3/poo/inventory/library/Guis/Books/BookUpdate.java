@@ -5,7 +5,7 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Books;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Book.UpdateBookCommandController;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.UpdateBookCommandController;
 
 import java.text.SimpleDateFormat;
 

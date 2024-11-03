@@ -5,8 +5,8 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Loan.ReturnLoanCommandsController;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Loan.GetListClientsWithLoanQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan.ReturnLoanCommandsController;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.GetListClientsWithLoanQueries;
 import java.util.*;
 
 /**

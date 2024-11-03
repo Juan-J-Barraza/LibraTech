@@ -7,11 +7,11 @@ package co.edu.unicolombo.s3.poo.inventory.library.Guis.Books;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Loans.CreateLoan;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Book.*;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Client.*;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Commands.Loan.*;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Book.*;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Controller.Queries.Client.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Client.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
