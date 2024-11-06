@@ -81,7 +81,6 @@ public class DB {
                 new Publisher("J.K.Rolling"),
                 new Category("Fiction"));
         listBooks.add(book);
-        categories.add(book.getCategory());
     }
 
     public void createDefaultClients() {

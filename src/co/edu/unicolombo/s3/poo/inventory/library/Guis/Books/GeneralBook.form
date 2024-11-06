@@ -256,6 +256,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Look For"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonLookForActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buttonUpdate">
       <Properties>
@@ -271,6 +274,9 @@
         <Property name="text" type="java.lang.String" value="Update"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonUpdateActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buttonDelete">
       <Properties>
@@ -285,6 +291,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Delete"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDeleteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buttonLoan">
       <Properties>

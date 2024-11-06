@@ -60,12 +60,15 @@ public class LoanRepository implements ILoanRepository {
     @Override
     public void returnBook(Loan loan) throws Exception {
         if (loan == null) {
+            System.out.println("loan null");
             throw new Exception();
         }
         for (Book book : loan.getBooks()) {
             var title = book.getTitle();
             var quantity = loan.getQuantity();
+            System.out.println("book: " + title + "quantity: " + quantity);
             bookRepository.addBookToStock(quantity, title);
+            System.out.println("add suceess");
         }
         var indexLo = db.getIndexLoanById(loan.getID());
         db.getListLoans().remove(indexLo);

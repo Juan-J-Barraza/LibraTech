@@ -15,7 +15,7 @@ import java.util.Date;
 public class Loan {
 
     private int ID;
-    private int incemenetID;
+    private int incemenetID = 1;
     private Date dateLoan;
     private Date dateReturn;
     private int  quantity;

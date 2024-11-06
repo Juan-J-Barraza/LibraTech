@@ -2,10 +2,8 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Loans.CreateLoan;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.RemoveQuantityFromStock;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.SetBookToFalseAviailable;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.CreateClientCommmands;
@@ -30,7 +28,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GeneralReservation extends javax.swing.JDialog {
 
-    private DB db;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private Map<Integer, Reservation> reservationMap = new HashMap<>();
     private GetReservationByNameClient getReservation;
@@ -67,12 +64,14 @@ public class GeneralReservation extends javax.swing.JDialog {
         addToReservationTable();
     }
 
+    // shows the reservation list 
     private void addToReservationTable() {
         try {
             var reservations = getListReservationsQueries.getAllReservations();
             filterTableWithData(reservations);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            // JOptionPane.showMessageDialog(this,e);
+            System.out.println("is empty");
         }
     }
 

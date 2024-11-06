@@ -11,14 +11,13 @@ import co.edu.unicolombo.s3.poo.inventory.library.Guis.Client.ClientsWithLoans;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.SetTrueBookIsAvailable;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan.ReturnLoanCommandsController;
-import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book.GetListBookByCategoryQueries;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.FindLoanByBook;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.GetAllLoansQueries;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.GetBooksWithLoanByCateg;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.GetListClientsWithLoanQueries;
-import java.util.stream.Collectors;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -52,6 +51,7 @@ public class GeneralLoan extends javax.swing.JDialog {
                 this.getListClientsWithLoanQueries = getListClientsWithLoanQueries;
                 this.getBooksWithLoanByCateg = getBooksWithLoanByCateg;
                 this.findLoan = findLoanByBook;
+                this.setTrueBookIsAvailable = setTrueBookIsAvailable;
                 listCategories();
                 setToBooksOnTable();
         }
@@ -78,16 +78,16 @@ public class GeneralLoan extends javax.swing.JDialog {
                         }
 
                         // for (Loan loan : loans) {
-                        //         if (loan.getBooks() != null && !loan.getBooks().isEmpty()) {
-                        //                 Book lonedBook = loan.getBooks().get(0);
-                        //                 System.out.println("Book in Selected Loan: " + lonedBook.getTitle());
-                        //                 System.out.println("Books in Selected loan: " + lonedBook);
-                        //                 books.add(lonedBook);
-                        //         }
+                        // if (loan.getBooks() != null && !loan.getBooks().isEmpty()) {
+                        // Book lonedBook = loan.getBooks().get(0);
+                        // System.out.println("Book in Selected Loan: " + lonedBook.getTitle());
+                        // System.out.println("Books in Selected loan: " + lonedBook);
+                        // books.add(lonedBook);
+                        // }
                         // }
                         // System.out.println("Total books to display: " + books.size());
                         // books = books.stream().distinct().collect(Collectors.toList());
-                       filterTableWithBooks(loans);
+                        filterTableWithBooks(loans);
                 } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, e.getMessage());
                 }
@@ -273,25 +273,26 @@ public class GeneralLoan extends javax.swing.JDialog {
 
                                 var loans = getAllLoansQueries.getLoans();
                                 // for (Loan loan : loans) {
-                                //         if (loan.getBooks() != null && !loan.getBooks().isEmpty()) {
-                                //                 Book lonedBook = loan.getBooks().get(0);
-                                //                 System.out.println("Books in Selected loan: " + lonedBook);
-                                //                 System.out.println("Selected Category: " + selectedCategory.getName());
-                                //                 books.add(lonedBook);
-                                //         }
+                                // if (loan.getBooks() != null && !loan.getBooks().isEmpty()) {
+                                // Book lonedBook = loan.getBooks().get(0);
+                                // System.out.println("Books in Selected loan: " + lonedBook);
+                                // System.out.println("Selected Category: " + selectedCategory.getName());
+                                // books.add(lonedBook);
+                                // }
                                 // }
                                 // books = books.stream().distinct().collect(Collectors.toList());
                                 filterTableWithBooks(loans);
                         } else {
-                                var loans = getBooksWithLoanByCateg.getBooksByCategoryWithLoans(selectedCategory.getName());
+                                var loans = getBooksWithLoanByCateg
+                                                .getBooksByCategoryWithLoans(selectedCategory.getName());
                                 if (loans.isEmpty()) {
                                         javax.swing.JOptionPane.showMessageDialog(this,
-                                        "No books found in this category");
+                                                        "No books found in this category");
                                 }
                                 // loans = books.stream().distinct().collect(Collectors.toList());
                                 filterTableWithBooks(loans);
                         }
-                        
+
                 } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                 }
@@ -299,52 +300,56 @@ public class GeneralLoan extends javax.swing.JDialog {
         }// GEN-LAST:event_comBoxCategoryActionPerformed
 
         private void buttonReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonReturnActionPerformed
-                // int selectedRow = loansTable.getSelectedRow();
-                // Loan selectBook = loanMap.get(selectedRow);
-                // if (selectedRow >= 0) {
-                //         try {
-                //                 Loan loan = findLoan.findLoanByBook(selectBook);
-                //                 if (loan != null) {
-                //                         returnLoanCommandsController.returnLoan(loan);
-                //                         JOptionPane.showMessageDialog(this, "Book returned successfully.");
-                //                         setTrueBookIsAvailable.setTrueIsAvailable(selectBook.getISB());
-                //                         // updateTable();
-                //                 }
-                //         } catch (Exception e) {
-                //                 JOptionPane.showMessageDialog(this, "Please select a book from the table.");
-                //         }
-                // }
+                int selectedRow = loansTable.getSelectedRow();
+                Loan selectBook = loanMap.get(selectedRow);
+                if (selectedRow >= 0) {
+                        try {
+                                Loan loan = findLoan.findLoanByBook(selectBook.getBooks().get(0));
+                                Book book = loan.getBooks().get(0);
+                                if (loan != null) {
+                                        System.out.println("si se guardo");
+                                        System.out.println("stock: " + book.getStock());
+                                        if (book.getStock() == 0) {
+                                                setTrueBookIsAvailable.setTrueIsAvailable(book.getISB());
+                                        }
+                                        returnLoanCommandsController.returnLoan(loan);
+                                        JOptionPane.showMessageDialog(this, "Book returned successfully.");
+                                        updateTable();
+                                }
+                        } catch (Exception e) {
+                                JOptionPane.showMessageDialog(this, "Error processing the return. Please check the selection and try again.");
+                        }
+                } else {
+                        JOptionPane.showMessageDialog(this, "Please select a book from the table.");
+                    }
         }// GEN-LAST:event_buttonReturnActionPerformed
 
-        // private void updateTable() {
-        // loanMap.clear();
-        // DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        // model.setRowCount(0);
-        // try {
-        // List<Book> books = bookList.getAllBooks();
+        private void updateTable() {
+                loanMap.clear();
+                DefaultTableModel model = (DefaultTableModel) loansTable.getModel();
+                model.setRowCount(0);
+                try {
+                        List<Loan> loans = getAllLoansQueries.getLoans();
 
-        // if (books.isEmpty()) {
-        // JOptionPane.showMessageDialog(this, "The list is empty.");
-        // }
+                        if (loans.isEmpty()) {
+                                JOptionPane.showMessageDialog(this, "The list is empty.");
+                        }
 
-        // for (int i = 0; i < books.size(); i++) {
-        // Book book = books.get(i);
-        // loanMap.put(i, book);
-        // boolean isAvailable = book.isAvailable();
-        // String availableSrt = isAvailable ? "yes" : "no";
-        // model.addRow(new Object[] {
-        // book.getISB(),
-        // book.getTitle(),
-        // book.getStock(),
-        // availableSrt
-        // });
-        // }
-        // } catch (Exception e) {
-        // javax.swing.JOptionPane.showMessageDialog(this,
-        // e.getMessage());
-        // }
+                        for (int i = 0; i < loans.size(); i++) {
+                                Loan loan = loans.get(i);
+                                loanMap.put(i, loan);
+                                model.addRow(new Object[] {
+                                                loan.getBooks().get(0).getISB(),
+                                                loan.getBooks().get(0).getTitle(),
+                                                loan.getQuantity()
+                                });
+                        }
+                } catch (Exception e) {
+                        javax.swing.JOptionPane.showMessageDialog(this,
+                                        e.getMessage());
+                }
 
-        // }
+        }
 
         private void buttonClientsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonClientsActionPerformed
                 openListClientWithLoanWindow();
@@ -394,56 +399,6 @@ public class GeneralLoan extends javax.swing.JDialog {
         // };
         // model.addRow(row);
         // }
-        // }
-
-        /**
-         * @param args the command line arguments
-         */
-        // public static void main(String args[]) {
-        // /* Set the Nimbus look and feel */
-        // //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
-        // /* If Nimbus (introduced in Java SE 6) is not available, stay with the
-        // default look and feel.
-        // * For details see
-        // http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-        // */
-        // try {
-        // for (javax.swing.UIManager.LookAndFeelInfo info :
-        // javax.swing.UIManager.getInstalledLookAndFeels()) {
-        // if ("Nimbus".equals(info.getName())) {
-        // javax.swing.UIManager.setLookAndFeel(info.getClassName());
-        // break;
-        // }
-        // }
-        // } catch (ClassNotFoundException ex) {
-        // java.util.logging.Logger.getLogger(GeneralLoan.class.getName()).log(java.util.logging.Level.SEVERE,
-        // null, ex);
-        // } catch (InstantiationException ex) {
-        // java.util.logging.Logger.getLogger(GeneralLoan.class.getName()).log(java.util.logging.Level.SEVERE,
-        // null, ex);
-        // } catch (IllegalAccessException ex) {
-        // java.util.logging.Logger.getLogger(GeneralLoan.class.getName()).log(java.util.logging.Level.SEVERE,
-        // null, ex);
-        // } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        // java.util.logging.Logger.getLogger(GeneralLoan.class.getName()).log(java.util.logging.Level.SEVERE,
-        // null, ex);
-        // }
-        // //</editor-fold>
-        //
-        // /* Create and display the dialog */
-        // java.awt.EventQueue.invokeLater(new Runnable() {
-        // public void run() {
-        // GeneralLoan dialog = new GeneralLoan(new javax.swing.JFrame(), true);
-        // dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-        // @Override
-        // public void windowClosing(java.awt.event.WindowEvent e) {
-        // System.exit(0);
-        // }
-        // });
-        // dialog.setVisible(true);
-        // }
-        // });
         // }
 
         // Variables declaration - do not modify//GEN-BEGIN:variables

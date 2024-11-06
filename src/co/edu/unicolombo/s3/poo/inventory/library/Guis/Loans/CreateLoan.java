@@ -455,7 +455,7 @@ public class CreateLoan extends javax.swing.JDialog {
                         setBookToFalseAviailable.bookSetTofalseAvailable(book.getISB());
                 } catch (Exception e) {
                         javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
-
+                        return;
                 }
                 // newLoan.getBooks().add(book);
                 javax.swing.JOptionPane.showMessageDialog(this, "Loan successfully!");

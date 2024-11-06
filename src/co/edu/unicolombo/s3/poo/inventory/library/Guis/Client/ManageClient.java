@@ -5,6 +5,7 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Client.*;
 import javax.swing.*;
@@ -264,9 +265,7 @@ public class ManageClient extends javax.swing.JDialog {
                                 if (client != null) {
                                     filterTableWithClients(Collections.singletonList(client));
                                 } else {
-                                    // Solo mostrar un mensaje si no se encuentra el cliente
                                     javax.swing.JOptionPane.showMessageDialog(this, "No se encontró ningún cliente con ese nombre.", "Error", JOptionPane.ERROR_MESSAGE);
-                                    // Opcional: Limpiar la tabla o mostrar todos los clientes si no hay coincidencias
                                     var allClients = getAllClientsQueries.getListClients();
                                     filterTableWithClients(allClients);
                                 }
@@ -281,6 +280,10 @@ public class ManageClient extends javax.swing.JDialog {
                 var selectedRow = jTable1.getSelectedRow();
                 if (selectedRow >= 0) {
                         Client client = clientMap.get(selectedRow);
+                        if (client == null) {
+                                JOptionPane.showMessageDialog(this, "he client is null");
+                                return;
+                        }
                         openUpdateClientWindow(client);
                 } else {
                         javax.swing.JOptionPane.showMessageDialog(this, "Please select a book from the table.");
@@ -320,7 +323,7 @@ public class ManageClient extends javax.swing.JDialog {
 
                         for (int i = 0; i < clients.size(); i++) {
                                 var client = clients.get(i);
-                                clientMap.put(i, null);
+                                clientMap.put(i, client);
                                 model.addRow(new Object[] {
                                                 client.getName(),
                                                 client.getAddress(),
@@ -341,6 +344,12 @@ public class ManageClient extends javax.swing.JDialog {
         private void openUpdateClientWindow(Client client) {
                 var updateClientWindow = new UpdateClient(new JFrame(), true, client,
                                 updatecClientCommands);
+                        updateClientWindow.setOnUpdateClient(() -> {
+                    int selectRow = jTable1.getSelectedRow();
+                    if (selectRow >= 0) {
+                        updateTable();
+                    }
+                });
                 updateClientWindow.setLocationRelativeTo(this);
                 updateClientWindow.setVisible(true);
         }
@@ -371,10 +380,10 @@ public class ManageClient extends javax.swing.JDialog {
                                         client.getPhoneNumber()
                         });
 
-                        jTable1.setModel(tableModel);
-                        jTable1.repaint();
                         clientMap.put(rowIndex++, client);
                 }
+                jTable1.setModel(tableModel);
+                jTable1.repaint();
         }
 
         /**

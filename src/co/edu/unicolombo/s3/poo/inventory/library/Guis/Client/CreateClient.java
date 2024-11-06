@@ -4,6 +4,8 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
+import javax.swing.JOptionPane;
+
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.CreateClientCommmands;
 
@@ -198,6 +200,11 @@ public class CreateClient extends javax.swing.JDialog {
                 var address = fieldAddress.getText();
                 var phoneNumber = fieldPhoneNumber.getText();
 
+                if (name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "Please complete all fields");
+                        return;
+                }
+
                 var client = new Client(name, address, phoneNumber);
                 try {
                         createClientCommmands.createClient(client);
@@ -206,10 +213,10 @@ public class CreateClient extends javax.swing.JDialog {
                 }
 
                 javax.swing.JOptionPane.showMessageDialog(this, "The client has been successfully created");
-                this.dispose();
                 if (onClientCreate != null) {
                         onClientCreate.run();
                 }
+                this.dispose();
         }// GEN-LAST:event_buttonCreateActionPerformed
 
         /**

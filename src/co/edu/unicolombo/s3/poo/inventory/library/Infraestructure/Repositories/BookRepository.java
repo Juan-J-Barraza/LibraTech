@@ -134,8 +134,11 @@ public class BookRepository implements IBookRepository {
 
         var book = db.getListBooks().get(indexBook);
         var getStock = book.getStock();
+        System.out.println("Index del libro: " + indexBook);
+        System.out.println("Stock del libro: " + getStock);
+        System.out.println("ISBN del libro: " + ISB);
         if (getStock < 0) {
-            throw new Exception();
+            throw new Exception("stock is 0");
         }
         book.setAvailable(true);
     }
