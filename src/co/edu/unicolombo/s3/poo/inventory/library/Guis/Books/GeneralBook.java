@@ -399,6 +399,9 @@ public class GeneralBook extends javax.swing.JDialog {
                 createClientCommmands, getClientByNameQueries,
                 removeQuantityFromStock,
                 setBookToFalseAviailable);
+                createLoanWindow.setOnLoanCreated( () ->  {
+                    updateTable();
+                });
         createLoanWindow.setLocationRelativeTo(this);
         createLoanWindow.setVisible(true);
     }
