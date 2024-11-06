@@ -110,9 +110,9 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="labelOfTitle" max="32767" attributes="0"/>
                       <Component id="fieldInitialDate" max="32767" attributes="0"/>
-                      <Component id="fieldReturnDate" alignment="0" max="32767" attributes="0"/>
                       <Component id="fieldQuantity" alignment="1" max="32767" attributes="0"/>
                       <Component id="comboBoxClient" pref="227" max="32767" attributes="0"/>
+                      <Component id="fieldDate" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
               </Group>
@@ -134,9 +134,9 @@
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="labelFinalDate" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
-                      <Component id="fieldReturnDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="fieldDate" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="labelQuantity" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                       <Component id="fieldQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -185,8 +185,6 @@
             <Property name="text" type="java.lang.String" value="Return date:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="fieldReturnDate">
-        </Component>
         <Component class="javax.swing.JLabel" name="labelQuantity">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -222,6 +220,8 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXDatePicker" name="fieldDate">
         </Component>
       </SubComponents>
     </Container>

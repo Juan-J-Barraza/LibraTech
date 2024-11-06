@@ -4,8 +4,8 @@ package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Clie
 import java.util.List;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.ClientRepository;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Client.IGetListClientQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IClientRepository;
 
 /**
  *
@@ -13,9 +13,9 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Cli
  */
 public class GetAllClientsQueries implements IGetListClientQueries {
 
-    private ClientRepository clientRepository;
+    private IClientRepository clientRepository;
 
-    public GetAllClientsQueries(ClientRepository clientRepository) {
+    public GetAllClientsQueries(IClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 

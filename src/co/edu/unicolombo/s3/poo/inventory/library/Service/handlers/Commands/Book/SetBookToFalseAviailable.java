@@ -1,8 +1,8 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.BookRepository;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Book.IBooktoFalseCommands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IBookRepository;
 
 /**
  *
@@ -10,9 +10,9 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Bo
  */
 public class SetBookToFalseAviailable implements IBooktoFalseCommands {
 
-    private BookRepository bookRepository;
+    private IBookRepository bookRepository;
 
-    public SetBookToFalseAviailable(BookRepository bookRepository) {
+    public SetBookToFalseAviailable(IBookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 

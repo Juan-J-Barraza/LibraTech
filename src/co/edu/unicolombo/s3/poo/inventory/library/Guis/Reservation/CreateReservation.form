@@ -29,13 +29,10 @@
                   <Component id="jLabel1" min="-2" pref="602" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPanel" min="-2" pref="588" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="241" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -46,37 +43,12 @@
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel" pref="100" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel">
-      <Properties>
-        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[100, 100]"/>
-        </Property>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[2, 354]"/>
-        </Property>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="588" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -110,16 +82,16 @@
                       <Component id="Book" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="fieldBook" min="-2" pref="380" max="-2" attributes="0"/>
-                      <Component id="fieldClient" min="-2" pref="380" max="-2" attributes="0"/>
-                      <Component id="fieldDate" min="-2" pref="380" max="-2" attributes="0"/>
-                      <Component id="fieldQuantity" min="-2" pref="380" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="fieldBook" pref="380" max="32767" attributes="0"/>
+                      <Component id="fieldClient" pref="380" max="32767" attributes="0"/>
+                      <Component id="fieldQuantity" pref="380" max="32767" attributes="0"/>
+                      <Component id="dateField" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="121" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="422" max="32767" attributes="0"/>
                   <Component id="ButtonAddReservation" min="-2" pref="141" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               </Group>
@@ -134,11 +106,11 @@
                       <Component id="fieldQuantity" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="Date" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="fieldDate" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="Date" min="-2" max="-2" attributes="0"/>
+                      <Component id="dateField" pref="30" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="Client" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="fieldClient" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
@@ -148,7 +120,7 @@
                       <Component id="Book" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="fieldBook" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="140" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
                   <Component id="ButtonAddReservation" min="-2" pref="34" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
@@ -176,8 +148,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Date:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="fieldDate">
         </Component>
         <Component class="javax.swing.JLabel" name="Client">
           <Properties>
@@ -243,6 +213,8 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonAddReservationActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXDatePicker" name="dateField">
         </Component>
       </SubComponents>
     </Container>

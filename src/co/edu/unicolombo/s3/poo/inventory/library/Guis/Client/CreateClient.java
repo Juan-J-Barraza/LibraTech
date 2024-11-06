@@ -14,6 +14,7 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Clie
 public class CreateClient extends javax.swing.JDialog {
 
         private CreateClientCommmands createClientCommmands;
+        private Runnable onClientCreate;
 
         /**
          * Creates new form CreateClient
@@ -25,6 +26,9 @@ public class CreateClient extends javax.swing.JDialog {
                 this.createClientCommmands = createClientCommmands;
         }
 
+        public void setOnClientCreate(Runnable onClientCreate) {
+                this.onClientCreate = onClientCreate;
+        }
         /**
          * This method is called from within the constructor to initialize the form.
          * WARNING: Do NOT modify this code. The content of this method is always
@@ -203,6 +207,9 @@ public class CreateClient extends javax.swing.JDialog {
 
                 javax.swing.JOptionPane.showMessageDialog(this, "The client has been successfully created");
                 this.dispose();
+                if (onClientCreate != null) {
+                        onClientCreate.run();
+                }
         }// GEN-LAST:event_buttonCreateActionPerformed
 
         /**

@@ -2,8 +2,9 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Client;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.ClientRepository;
+
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Client.IGetcClientByNameQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IClientRepository;
 
 /**
  *
@@ -11,9 +12,9 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Cli
  */
 public class GetClientByNameQueries implements IGetcClientByNameQueries {
 
-    private ClientRepository clientRepository;
+    private IClientRepository clientRepository;
 
-    public GetClientByNameQueries(ClientRepository clientRepository) {
+    public GetClientByNameQueries(IClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 

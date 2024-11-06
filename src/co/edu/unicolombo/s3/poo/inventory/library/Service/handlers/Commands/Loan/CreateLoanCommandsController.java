@@ -2,8 +2,8 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.LoanRepository;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Loan.IAddLoanCommands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.ILoanRepository;
 
 /**
  *
@@ -11,9 +11,9 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Lo
  */
 public class CreateLoanCommandsController implements IAddLoanCommands {
    
-    private LoanRepository loanrRepository;
+    private ILoanRepository loanrRepository;
 
-    public CreateLoanCommandsController(LoanRepository loanRepository) {
+    public CreateLoanCommandsController(ILoanRepository loanRepository) {
         this.loanrRepository = loanRepository;
     }
 

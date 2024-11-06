@@ -1,8 +1,8 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.BookRepository;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Book.IRemoveStockCommands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IBookRepository;
 
 /**
  *
@@ -10,9 +10,9 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Bo
  */
 public class RemoveQuantityFromStock implements  IRemoveStockCommands{
     
-    private BookRepository bookRepository;
+    private IBookRepository bookRepository;
 
-    public RemoveQuantityFromStock(BookRepository bookRepository) {
+    public RemoveQuantityFromStock(IBookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 

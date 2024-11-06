@@ -32,4 +32,6 @@ public interface IReservationRepository {
              throws Exception;
      
      public boolean bookIsAvailable(String title);
+
+     public Reservation getReservationByNameClient(String name) throws Exception;
 }

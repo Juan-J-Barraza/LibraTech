@@ -5,9 +5,7 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.*;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  *
@@ -79,10 +77,10 @@ public class CreateBook extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         labelPublisher = new javax.swing.JLabel();
         labelCategory = new javax.swing.JLabel();
-        fieldPublication = new javax.swing.JTextField();
         fieldStock = new javax.swing.JTextField();
         comboBoxPublisher = new javax.swing.JComboBox<>();
         comboBoxCategory = new javax.swing.JComboBox<>();
+        fieldPublication = new org.jdesktop.swingx.JXDatePicker();
         jLabel1 = new javax.swing.JLabel();
         buttonAddBook = new javax.swing.JButton();
 
@@ -103,6 +101,7 @@ public class CreateBook extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 4, true), "Book Data", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
         jPanel1.setMinimumSize(new java.awt.Dimension(100, 100));
         jPanel1.setPreferredSize(new java.awt.Dimension(2, 354));
 
@@ -144,10 +143,10 @@ public class CreateBook extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(fieldTitlle, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
                     .addComponent(fieldISB1)
-                    .addComponent(fieldPublication)
                     .addComponent(fieldStock)
                     .addComponent(comboBoxPublisher, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboBoxCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(comboBoxCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fieldPublication, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -161,11 +160,11 @@ public class CreateBook extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(fieldTitlle, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(fieldPublication, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                    .addComponent(fieldPublication, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fieldStock, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
@@ -228,7 +227,7 @@ public class CreateBook extends javax.swing.JDialog {
                 var title = fieldTitlle.getText();
                 var ISB = fieldISB1.getText();
                 var stockstr = fieldStock.getText();
-                var publicationDateString = fieldPublication.getText();
+                var publicationDate = fieldPublication.getDate();
                 var selectedPublisher = (Publisher) comboBoxPublisher.getSelectedItem();
                 var selectedCategory = (Category) comboBoxCategory.getSelectedItem();
 
@@ -239,7 +238,6 @@ public class CreateBook extends javax.swing.JDialog {
                         javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
                         return;
                 }
-                Date publicaDate = null;
 
                 int stock;
                 try {
@@ -249,13 +247,8 @@ public class CreateBook extends javax.swing.JDialog {
                         return;
                 }
 
-                try {
-                        publicaDate = dateFormat.parse(publicationDateString);
-                } catch (ParseException e) {
-                        javax.swing.JOptionPane.showMessageDialog(this, "Invalid date format. Please use dd/MM/yyyy.");
-                        return;
-                }
-                var newBook = new Book(ISB, title, publicaDate, stock, selectedPublisher, selectedCategory);
+        
+                var newBook = new Book(ISB, title, publicationDate, stock, selectedPublisher, selectedCategory);
                 try {
                         bookCreateService.createBook(newBook);
                 } catch (Exception e) {
@@ -270,6 +263,7 @@ public class CreateBook extends javax.swing.JDialog {
                 fieldTitlle.setText("");
                 fieldISB1.setText("");
                 fieldStock.setText("");
+                fieldPublication.getEditor().setText("");
 
         }// GEN-LAST:event_buttonAddBookActionPerformed
 
@@ -335,7 +329,7 @@ public class CreateBook extends javax.swing.JDialog {
     private javax.swing.JComboBox<Category> comboBoxCategory;
     private javax.swing.JComboBox<Publisher> comboBoxPublisher;
     private javax.swing.JTextField fieldISB1;
-    private javax.swing.JTextField fieldPublication;
+    private org.jdesktop.swingx.JXDatePicker fieldPublication;
     private javax.swing.JTextField fieldStock;
     private javax.swing.JTextField fieldTitlle;
     private javax.swing.JEditorPane jEditorPane1;

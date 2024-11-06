@@ -24,4 +24,6 @@ public interface ILoanRepository {
 
     public Loan findLoanByBook(Book book) throws Exception;
 
+    public List<Loan> getBooksWithLoansByCategory(String name) throws Exception;
+
 }

@@ -8,6 +8,7 @@ import co.edu.unicolombo.s3.poo.inventory.library.Guis.Books.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Client.ManageClient;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Loans.GeneralLoan;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation.CreateReservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation.GeneralReservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.CreateClientCommmands;
@@ -46,6 +47,11 @@ public class MainView extends javax.swing.JFrame {
     private final GetAllLoansQueries getAllLoansQueries = new GetAllLoansQueries(loanRepository);
     private final GetListReservationsQueries getListReservationsQueries = new GetListReservationsQueries(
             reservationRepository);
+    private final GetReservationByID getReservationByID = new GetReservationByID(reservationRepository);
+    private final GetReservationByNameClient getReservationByNameClient = new GetReservationByNameClient(
+            reservationRepository);
+
+    private final GetBooksWithLoanByCateg getBooksWithLoanByCateg = new GetBooksWithLoanByCateg(loanRepository);
 
     // Commands
     private final CreateBookCommandController bookCreate = new CreateBookCommandController(bookRepository);
@@ -80,7 +86,8 @@ public class MainView extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         MainMenu = new javax.swing.JMenuBar();
@@ -100,7 +107,8 @@ public class MainView extends javax.swing.JFrame {
         BooksMenu.setMnemonic('B');
         BooksMenu.setText("Books");
 
-        itemBookCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemBookCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A,
+                java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemBookCreate.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemBookCreate.setMnemonic('A');
         itemBookCreate.setText("Add...");
@@ -111,7 +119,8 @@ public class MainView extends javax.swing.JFrame {
         });
         BooksMenu.add(itemBookCreate);
 
-        itemGeneralBooks.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemGeneralBooks.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G,
+                java.awt.event.InputEvent.ALT_DOWN_MASK));
         itemGeneralBooks.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemGeneralBooks.setMnemonic('L');
         itemGeneralBooks.setText("General...");
@@ -128,7 +137,8 @@ public class MainView extends javax.swing.JFrame {
         LoanMenu.setMnemonic('L');
         LoanMenu.setText("Loans");
 
-        itemGeneralLoan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemGeneralLoan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G,
+                java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemGeneralLoan.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemGeneralLoan.setText("General...");
         itemGeneralLoan.addActionListener(new java.awt.event.ActionListener() {
@@ -143,14 +153,14 @@ public class MainView extends javax.swing.JFrame {
         ReservationMenu.setMnemonic('L');
         ReservationMenu.setText("Reservations...");
 
-        itemReservationCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemReservationCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R,
+                java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemReservationCreate.setText("Add...");
         itemReservationCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                     itemReservationCreateActionPerformed(evt);
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -158,7 +168,8 @@ public class MainView extends javax.swing.JFrame {
         ReservationMenu.add(itemReservationCreate);
         itemReservationCreate.getAccessibleContext().setAccessibleName("Add");
 
-        itemGeneralReservations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemGeneralReservations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R,
+                java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemGeneralReservations.setLabel("General");
         itemGeneralReservations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,7 +183,8 @@ public class MainView extends javax.swing.JFrame {
         ClientsMenu.setMnemonic('L');
         ClientsMenu.setText("Clients");
 
-        itemClientMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemClientMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C,
+                java.awt.event.InputEvent.ALT_DOWN_MASK));
         itemClientMenu.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemClientMenu.setText("ManageClients...");
         itemClientMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -189,20 +201,28 @@ public class MainView extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 776, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 776, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 402, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 402, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void itemGeneralReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGeneralReservationsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemGeneralReservationsActionPerformed
+    private void itemGeneralReservationsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemGeneralReservationsActionPerformed
+        var generalReservation = new GeneralReservation(this, true,
+                getReservationByNameClient,
+                createLoanCommandsController,
+                createClientCommmands,
+                getClientByNameQueries,
+                removeQuantityFromStock, 
+                setBookToFalseAviailable,
+                getListReservationsQueries,
+                deleteReservationCommands);
+        generalReservation.setLocationRelativeTo(this);
+        generalReservation.setVisible(true);
+    }// GEN-LAST:event_itemGeneralReservationsActionPerformed
 
     private void itemReservationCreateActionPerformed(java.awt.event.ActionEvent evt) throws Exception {// GEN-FIRST:event_itemReservationCreateActionPerformed
         var manageClient = new CreateReservation(
@@ -242,7 +262,7 @@ public class MainView extends javax.swing.JFrame {
                 getAllLoansQueries,
                 findLoanByBook,
                 sTrueBookIsAvailable,
-                categoryService);
+                getBooksWithLoanByCateg);
         generalLoan.setLocationRelativeTo(this);
         generalLoan.setVisible(true);
     }// GEN-LAST:event_itemGeneralLoanActionPerformed

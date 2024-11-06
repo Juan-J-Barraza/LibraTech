@@ -2,8 +2,8 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.LoanRepository;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Loan.IReturnLoanCommands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.ILoanRepository;
 
 /**
  *
@@ -11,9 +11,9 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Lo
  */
 public class ReturnLoanCommandsController implements IReturnLoanCommands {
 
-    private LoanRepository loanRepository;
+    private ILoanRepository loanRepository;
 
-    public ReturnLoanCommandsController(LoanRepository loanRepository) {
+    public ReturnLoanCommandsController(ILoanRepository loanRepository) {
         this.loanRepository = loanRepository;
     }
 

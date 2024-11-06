@@ -69,7 +69,7 @@ public class DB {
     }
 
     private void createDefaultPublisher() {
-        listPublishers.add(new Publisher("Ejemplo Editorial"));
+        listPublishers.add(new Publisher("ED.J.Creations"));
     }
 
     public void createDefaultBooks() {
@@ -79,8 +79,9 @@ public class DB {
                 new Date(),
                 2,
                 new Publisher("J.K.Rolling"),
-                new Category("Fantasia"));
+                new Category("Fiction"));
         listBooks.add(book);
+        categories.add(book.getCategory());
     }
 
     public void createDefaultClients() {

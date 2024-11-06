@@ -9,7 +9,21 @@
 <!-- in the project's Project Properties dialog box.-->
 <project name="AulaProject" default="default" basedir=".">
     <description>Builds, tests, and runs the project AulaProject.</description>
-    <import file="nbproject/build-impl.xml"/>
+    <path id="project.class.path">
+        <fileset dir="dist/lib">
+            <include name="swingx-1.6.1.jar" />
+        </fileset>
+    </path>
+    <target name="init"> <!-- Initialization tasks -->
+    </target>
+    <target name="compile" depends="init">
+        <mkdir dir="build" />
+        <javac srcdir="src" destdir="build" classpathref="project.class.path" />
+    </target>
+    <target name="clean">
+        <delete dir="build" />
+    </target>
+    <import file="nbproject/build-impl.xml" />
     <!--
 
     There exist several targets which are by default empty and which can be 

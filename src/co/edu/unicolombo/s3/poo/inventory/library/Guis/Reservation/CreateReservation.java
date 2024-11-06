@@ -94,35 +94,22 @@ public class CreateReservation extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         Quantity = new javax.swing.JLabel();
         fieldQuantity = new javax.swing.JTextField();
         Date = new javax.swing.JLabel();
-        fieldDate = new javax.swing.JTextField();
         Client = new javax.swing.JLabel();
         fieldClient = new javax.swing.JComboBox<>();
         Book = new javax.swing.JLabel();
         fieldBook = new javax.swing.JComboBox<>();
         ButtonAddReservation = new javax.swing.JButton();
+        dateField = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jPanel.setMinimumSize(new java.awt.Dimension(100, 100));
-        jPanel.setPreferredSize(new java.awt.Dimension(2, 354));
-
-        javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
-        jPanel.setLayout(jPanelLayout);
-        jPanelLayout.setHorizontalGroup(
-                jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 588, Short.MAX_VALUE));
-        jPanelLayout.setVerticalGroup(
-                jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 100, Short.MAX_VALUE));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("FORM TO ADD RESERVATION");
@@ -141,15 +128,13 @@ public class CreateReservation extends javax.swing.JDialog {
         Client.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         Client.setText("Client:");
 
-        fieldClient.setModel(
-                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        fieldClient.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         fieldClient.setName(""); // NOI18N
 
         Book.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         Book.setText("Product:");
 
-        fieldBook.setModel(
-                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        fieldBook.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         fieldBook.setName(""); // NOI18N
 
         ButtonAddReservation.setBackground(new java.awt.Color(0, 153, 153));
@@ -168,61 +153,49 @@ public class CreateReservation extends javax.swing.JDialog {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 79,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Client)
-                                        .addComponent(Book))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(fieldBook, javax.swing.GroupLayout.PREFERRED_SIZE, 380,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(fieldClient, javax.swing.GroupLayout.PREFERRED_SIZE, 380,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(fieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, 380,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(fieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 380,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(121, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ButtonAddReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 141,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)));
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Client)
+                    .addComponent(Book))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(fieldBook, 0, 380, Short.MAX_VALUE)
+                    .addComponent(fieldClient, 0, 380, Short.MAX_VALUE)
+                    .addComponent(fieldQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(dateField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(422, Short.MAX_VALUE)
+                .addComponent(ButtonAddReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+        );
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 26,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(fieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 27,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(Date)
-                                        .addComponent(fieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, 28,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(Client)
-                                        .addComponent(fieldClient, javax.swing.GroupLayout.PREFERRED_SIZE, 32,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(Book)
-                                        .addComponent(fieldBook, javax.swing.GroupLayout.PREFERRED_SIZE, 32,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140,
-                                        Short.MAX_VALUE)
-                                .addComponent(ButtonAddReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(23, 23, 23)));
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Date)
+                    .addComponent(dateField, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Client)
+                    .addComponent(fieldClient, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Book)
+                    .addComponent(fieldBook, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(140, 140, 140)
+                .addComponent(ButtonAddReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
 
         Quantity.getAccessibleContext().setAccessibleName("Quantity:");
         Book.getAccessibleContext().setAccessibleName("Product");
@@ -230,41 +203,32 @@ public class CreateReservation extends javax.swing.JDialog {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 602,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(2, 2, 2)
-                                                .addGroup(layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                588, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addContainerGap(241, Short.MAX_VALUE)));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                                .addGap(35, 35, 35)));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonAddReservationActionPerformed(java.awt.event.ActionEvent evt) throws Exception {// GEN-FIRST:event_ButtonAddReservationActionPerformed
         String quantityText = this.fieldQuantity.getText();
-        String dateText = fieldDate.getText();
+        var dateTime = dateField.getDate();
         Optional<Client> clientObj = getAllClientsQueries.getListClients()
                 .stream()
                 .filter(c -> c.getName().equalsIgnoreCase((String) fieldClient.getSelectedItem()))
@@ -274,7 +238,7 @@ public class CreateReservation extends javax.swing.JDialog {
                 .filter(c -> c.getTitle().equalsIgnoreCase((String) fieldBook.getSelectedItem()))
                 .findFirst();
 
-        if (quantityText.isEmpty() || !bookObj.isPresent() || dateText.isEmpty() || !clientObj.isPresent()) {
+        if (quantityText.isEmpty() || !bookObj.isPresent() || !clientObj.isPresent()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
             return;
         }
@@ -287,17 +251,10 @@ public class CreateReservation extends javax.swing.JDialog {
             return;
         }
 
-        Date date;
-
-        try {
-            date = dateFormat.parse(dateText);
-        } catch (ParseException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Invalid date format. Please use dd/MM/yyyy.");
-            return;
-        }
+    
 
         Reservation newReservation = new Reservation(
-                date,
+                dateTime,
                 clientObj.get(),
                 quantity);
         newReservation.addBook(bookObj.get());
@@ -312,7 +269,7 @@ public class CreateReservation extends javax.swing.JDialog {
         javax.swing.JOptionPane.showMessageDialog(this, "Book added successfully!");
 
         fieldQuantity.setText("");
-        fieldDate.setText("");
+        dateField.getEditor().setText("");
     }// GEN-LAST:event_ButtonAddReservationActionPerformed
 
     /**
@@ -351,12 +308,11 @@ public class CreateReservation extends javax.swing.JDialog {
     private javax.swing.JLabel Client;
     private javax.swing.JLabel Date;
     private javax.swing.JLabel Quantity;
+    private org.jdesktop.swingx.JXDatePicker dateField;
     private javax.swing.JComboBox<String> fieldBook;
     private javax.swing.JComboBox<String> fieldClient;
-    private javax.swing.JTextField fieldDate;
     private javax.swing.JTextField fieldQuantity;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

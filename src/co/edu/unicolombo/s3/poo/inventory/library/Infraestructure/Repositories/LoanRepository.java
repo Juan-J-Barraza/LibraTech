@@ -7,6 +7,7 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.ILoanRepository;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -94,6 +95,22 @@ public class LoanRepository implements ILoanRepository {
             }
         }
         throw new Exception("No loan found for the selected book.");
+    }
+
+    @Override
+    public List<Loan> getBooksWithLoansByCategory(String name) throws Exception {
+        if (name == null) {
+            throw new Exception("the catgeory is null");
+        }
+        var loans = db.getListLoans()
+                .stream()
+                .filter(loan -> loan.getBooks() != null && !loan.getBooks().isEmpty()) 
+                .filter(loan -> loan.getBooks().get(0).getCategory() != null) 
+                .filter(loan -> loan.getBooks().get(0).getCategory().getName().equals(name)) 
+                // .map(loan -> loan.getBooks().get(0)) 
+                .collect(Collectors.toList());
+
+        return loans;
     }
 
 }

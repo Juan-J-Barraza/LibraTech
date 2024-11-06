@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author Deiver Vasquez
  */
 public class ReservationRepository implements IReservationRepository {
-    
+
     private final DB db = DB.getInstance();
 
     @Override
@@ -23,11 +23,11 @@ public class ReservationRepository implements IReservationRepository {
 
         boolean exists = db.getListReservations().stream()
                 .anyMatch(existingReservation -> existingReservation.getID() == reservation.getID());
-        
+
         if (exists) {
             throw new Exception("The reservation with the same ID already Exist");
         }
-        
+
         db.getListReservations().add(reservation);
     }
 
@@ -39,7 +39,7 @@ public class ReservationRepository implements IReservationRepository {
         if (reservations == null || reservations.isEmpty()) {
             throw new Exception("the list is empty or null");
         }
-        
+
         return reservations;
     }
 
@@ -54,7 +54,7 @@ public class ReservationRepository implements IReservationRepository {
         if (indexReservation < 0) {
             throw new Exception("The new reservation does not exist");
         }
-        
+
         db.getListReservations().set(indexReservation, reservation);
     }
 
@@ -64,13 +64,13 @@ public class ReservationRepository implements IReservationRepository {
         if (!db.getListReservations().contains(reservation)) {
             throw new Exception("The reservation does not exist");
         }
-        
+
         boolean removeReservation = db.getListReservations().remove(reservation);
         if (!removeReservation) {
             throw new Exception("The reservation could not be delete");
         }
     }
-    
+
     @Override
     public Reservation getReservationByID(int ID) throws Exception {
 
@@ -84,7 +84,7 @@ public class ReservationRepository implements IReservationRepository {
 
         return firstReservation.get();
     }
-    
+
     @Override
     public int getIndexReservationByID(int ID) throws Exception {
 
@@ -96,12 +96,29 @@ public class ReservationRepository implements IReservationRepository {
 
         return -1;
     }
-    
+
     @Override
     public boolean bookIsAvailable(String title) {
         var indexBook = db.getIndexBookByTitle(title);
         var isAviableBook = db.getListBooks().get(indexBook).isAvailable();
         var isStockBook = db.getListBooks().get(indexBook).getStock() > 0;
         return isAviableBook && isStockBook;
+    }
+
+    @Override
+    public Reservation getReservationByNameClient(String name) throws Exception {
+        if (name == null) {
+            System.out.println("entrando al if");
+            throw new Exception("The client does not have a reservation");
+        }
+
+        Optional<Reservation> reservation = db.getListReservations().stream()
+                .filter(c -> c.getClient().getName().equalsIgnoreCase(name))
+                .findFirst();
+        if (reservation.isEmpty()) {
+            throw new Exception("No reservation found for the client: " + name);
+        }
+        System.out.println("no entro al if y retorno: " + reservation.get());
+        return reservation.get();
     }
 }

@@ -4,8 +4,8 @@ package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan
 import java.util.List;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.LoanRepository;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Loan.IGetLoansQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.ILoanRepository;
 
 /**
  *
@@ -13,9 +13,9 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Loa
  */
 public class GetAllLoansQueries  implements IGetLoansQueries{
     
-    private LoanRepository loanRepository;
+    private ILoanRepository loanRepository;
 
-    public GetAllLoansQueries(LoanRepository loanRepository) {
+    public GetAllLoansQueries(ILoanRepository loanRepository) {
         this.loanRepository = loanRepository;
     }
 

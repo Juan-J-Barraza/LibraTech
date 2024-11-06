@@ -2,8 +2,8 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.LoanRepository;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Loan.IGetClientLoanQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.ILoanRepository;
 
 /**
  *
@@ -11,9 +11,9 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Loa
  */
 public class GetClientFromLoanQueries implements IGetClientLoanQueries {
 
-    private LoanRepository loanRepository;
+    private ILoanRepository loanRepository;
 
-    public GetClientFromLoanQueries(LoanRepository loanRepository) {
+    public GetClientFromLoanQueries(ILoanRepository loanRepository) {
         this.loanRepository = loanRepository;
     }
 

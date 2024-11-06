@@ -14,6 +14,7 @@ import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book.GetListBookByCategoryQueries;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.FindLoanByBook;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.GetAllLoansQueries;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.GetBooksWithLoanByCateg;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.GetListClientsWithLoanQueries;
 import java.util.stream.Collectors;
 import java.util.*;
@@ -25,12 +26,13 @@ import javax.swing.*;
  */
 public class GeneralLoan extends javax.swing.JDialog {
         private DB db;
-        private Map<Integer, Book> bookMap = new HashMap<>();
+        private Map<Integer, Loan> loanMap = new HashMap<>();
         private ReturnLoanCommandsController returnLoanCommandsController;
         private GetListClientsWithLoanQueries getListClientsWithLoanQueries;
         private GetAllLoansQueries getAllLoansQueries;
         private FindLoanByBook findLoan;
-        private SetTrueBookIsAvailable setTrueBookIsAvailable;        private GetListBookByCategoryQueries categoryService;
+        private SetTrueBookIsAvailable setTrueBookIsAvailable;
+        private GetBooksWithLoanByCateg getBooksWithLoanByCateg;
 
         /**
          * Creates new form GeneralLoan
@@ -41,16 +43,17 @@ public class GeneralLoan extends javax.swing.JDialog {
                         GetAllLoansQueries getAllLoansQueries,
                         FindLoanByBook findLoanByBook,
                         SetTrueBookIsAvailable setTrueBookIsAvailable,
-                        GetListBookByCategoryQueries categoryService) {
+                        GetBooksWithLoanByCateg getBooksWithLoanByCateg) {
                 super(parent, modal);
                 initComponents();
                 this.db = DB.getInstance();
                 this.returnLoanCommandsController = returnLoanCommandsController;
                 this.getAllLoansQueries = getAllLoansQueries;
                 this.getListClientsWithLoanQueries = getListClientsWithLoanQueries;
-                this.categoryService = categoryService;
+                this.getBooksWithLoanByCateg = getBooksWithLoanByCateg;
                 this.findLoan = findLoanByBook;
                 listCategories();
+                setToBooksOnTable();
         }
 
         private void listCategories() {
@@ -66,6 +69,30 @@ public class GeneralLoan extends javax.swing.JDialog {
                 comBoxCategory.repaint();
         }
 
+        private void setToBooksOnTable() {
+                try {
+                        var loans = getAllLoansQueries.getLoans();
+                        System.out.println("totals books: " + loans.size());
+                        if (loans.isEmpty()) {
+                                System.out.println("No loans found.");
+                        }
+
+                        // for (Loan loan : loans) {
+                        //         if (loan.getBooks() != null && !loan.getBooks().isEmpty()) {
+                        //                 Book lonedBook = loan.getBooks().get(0);
+                        //                 System.out.println("Book in Selected Loan: " + lonedBook.getTitle());
+                        //                 System.out.println("Books in Selected loan: " + lonedBook);
+                        //                 books.add(lonedBook);
+                        //         }
+                        // }
+                        // System.out.println("Total books to display: " + books.size());
+                        // books = books.stream().distinct().collect(Collectors.toList());
+                       filterTableWithBooks(loans);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, e.getMessage());
+                }
+        }
+
         /**
          * This method is called from within the constructor to initialize the form.
          * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,12 +100,14 @@ public class GeneralLoan extends javax.swing.JDialog {
          */
         @SuppressWarnings("unchecked")
         // <editor-fold defaultstate="collapsed" desc="Generated
+        // <editor-fold defaultstate="collapsed" desc="Generated
+        // <editor-fold defaultstate="collapsed" desc="Generated
         // Code">//GEN-BEGIN:initComponents
         private void initComponents() {
 
                 jPanel1 = new javax.swing.JPanel();
                 jScrollPane1 = new javax.swing.JScrollPane();
-                jTable1 = new javax.swing.JTable();
+                loansTable = new javax.swing.JTable();
                 jLabel2 = new javax.swing.JLabel();
                 comBoxCategory = new javax.swing.JComboBox<>();
                 buttonReturn = new javax.swing.JButton();
@@ -89,22 +118,20 @@ public class GeneralLoan extends javax.swing.JDialog {
 
                 jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
                                 new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 153), 3, true),
-                                "books loans",
-                                javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
-                                javax.swing.border.TitledBorder.DEFAULT_POSITION,
-                                new java.awt.Font("Arial", 1, 12))); // NOI18N
+                                "books loans", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+                                javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
 
-                jTable1.setModel(new javax.swing.table.DefaultTableModel(
+                loansTable.setModel(new javax.swing.table.DefaultTableModel(
                                 new Object[][] {
-                                                { null, null, null, null },
-                                                { null, null, null, null },
-                                                { null, null, null, null },
-                                                { null, null, null, null }
+                                                { null, null, null },
+                                                { null, null, null },
+                                                { null, null, null },
+                                                { null, null, null }
                                 },
                                 new String[] {
-                                                "ISB", "Title", "Stock", "IsAvaiilable"
+                                                "ISB", "Title", "Quantity"
                                 }));
-                jScrollPane1.setViewportView(jTable1);
+                jScrollPane1.setViewportView(loansTable);
 
                 jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
                 jLabel2.setText("Categories: ");
@@ -239,79 +266,83 @@ public class GeneralLoan extends javax.swing.JDialog {
 
         private void comBoxCategoryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_comBoxCategoryActionPerformed
                 var selectedCategory = (Category) comBoxCategory.getSelectedItem();
-                List<Book> books = new ArrayList<>();
+                // List<Book> books = new ArrayList<>();
 
                 try {
                         if ("ALL".equals(selectedCategory.getName())) {
+
                                 var loans = getAllLoansQueries.getLoans();
-                                for (Loan loan : loans) {
-                                        var lonedBooks = loan.getBooks();
-                                        if (lonedBooks != null) {
-                                                books.addAll(lonedBooks);
-                                        }
-                                }
-                                books = books.stream().distinct().collect(Collectors.toList());
+                                // for (Loan loan : loans) {
+                                //         if (loan.getBooks() != null && !loan.getBooks().isEmpty()) {
+                                //                 Book lonedBook = loan.getBooks().get(0);
+                                //                 System.out.println("Books in Selected loan: " + lonedBook);
+                                //                 System.out.println("Selected Category: " + selectedCategory.getName());
+                                //                 books.add(lonedBook);
+                                //         }
+                                // }
+                                // books = books.stream().distinct().collect(Collectors.toList());
+                                filterTableWithBooks(loans);
                         } else {
-                                books = categoryService.listBookByCategoty(selectedCategory.getName());
-                                if (books.isEmpty()) {
+                                var loans = getBooksWithLoanByCateg.getBooksByCategoryWithLoans(selectedCategory.getName());
+                                if (loans.isEmpty()) {
                                         javax.swing.JOptionPane.showMessageDialog(this,
-                                                        "No books found in this category");
+                                        "No books found in this category");
                                 }
-                                books = books.stream().distinct().collect(Collectors.toList());
+                                // loans = books.stream().distinct().collect(Collectors.toList());
+                                filterTableWithBooks(loans);
                         }
-                        // updateBooksList(books);
-                        filterTableWithBooks(books);
+                        
                 } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "Please select a book from the table.");
+                        JOptionPane.showMessageDialog(null, e.getMessage());
                 }
 
         }// GEN-LAST:event_comBoxCategoryActionPerformed
 
         private void buttonReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonReturnActionPerformed
-                int selectedRow = jTable1.getSelectedRow();
-                Book selectBook = bookMap.get(selectedRow);
-                if (selectedRow >= 0) {
-                        try {
-                            Loan loan = findLoan.findLoanByBook(selectBook);
-                            if (loan != null) {
-                                returnLoanCommandsController.returnLoan(loan);           
-                                JOptionPane.showMessageDialog(this, "Book returned successfully.");
-                                setTrueBookIsAvailable.setTrueIsAvailable(selectBook.getISB());
-                                //updateTable();
-                            }
-                        } catch (Exception e) {
-                          JOptionPane.showMessageDialog(this, "Please select a book from the table.");
-                        }
-                }
+                // int selectedRow = loansTable.getSelectedRow();
+                // Loan selectBook = loanMap.get(selectedRow);
+                // if (selectedRow >= 0) {
+                //         try {
+                //                 Loan loan = findLoan.findLoanByBook(selectBook);
+                //                 if (loan != null) {
+                //                         returnLoanCommandsController.returnLoan(loan);
+                //                         JOptionPane.showMessageDialog(this, "Book returned successfully.");
+                //                         setTrueBookIsAvailable.setTrueIsAvailable(selectBook.getISB());
+                //                         // updateTable();
+                //                 }
+                //         } catch (Exception e) {
+                //                 JOptionPane.showMessageDialog(this, "Please select a book from the table.");
+                //         }
+                // }
         }// GEN-LAST:event_buttonReturnActionPerformed
 
         // private void updateTable() {
-        //         bookMap.clear();
-        //         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        //         model.setRowCount(0);
-        //         try {
-        //                 List<Book> books = bookList.getAllBooks();
+        // loanMap.clear();
+        // DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        // model.setRowCount(0);
+        // try {
+        // List<Book> books = bookList.getAllBooks();
 
-        //                 if (books.isEmpty()) {
-        //                         JOptionPane.showMessageDialog(this, "The list is empty.");
-        //                 }
+        // if (books.isEmpty()) {
+        // JOptionPane.showMessageDialog(this, "The list is empty.");
+        // }
 
-        //                 for (int i = 0; i < books.size(); i++) {
-        //                         Book book = books.get(i);
-        //                         bookMap.put(i, book);
-        //                         boolean isAvailable = book.isAvailable();
-        //                         String availableSrt = isAvailable ? "yes" : "no";
-        //                         model.addRow(new Object[] {
-        //                                         book.getISB(),
-        //                                         book.getTitle(),
-        //                                         book.getStock(),
-        //                                         availableSrt
-        //                         });
-        //                 }
-        //         } catch (Exception e) {
-        //                 javax.swing.JOptionPane.showMessageDialog(this,
-        //                                 e.getMessage());
-        //         }
+        // for (int i = 0; i < books.size(); i++) {
+        // Book book = books.get(i);
+        // loanMap.put(i, book);
+        // boolean isAvailable = book.isAvailable();
+        // String availableSrt = isAvailable ? "yes" : "no";
+        // model.addRow(new Object[] {
+        // book.getISB(),
+        // book.getTitle(),
+        // book.getStock(),
+        // availableSrt
+        // });
+        // }
+        // } catch (Exception e) {
+        // javax.swing.JOptionPane.showMessageDialog(this,
+        // e.getMessage());
+        // }
 
         // }
 
@@ -328,26 +359,24 @@ public class GeneralLoan extends javax.swing.JDialog {
 
         }
 
-        private void filterTableWithBooks(List<Book> books) {
+        private void filterTableWithBooks(List<Loan> loans) {
                 var tableModel = new javax.swing.table.DefaultTableModel(
                                 new Object[][] {},
-                                new String[] { "ISBN", "Title", "Stock", "IsAvailable" });
+                                new String[] { "ISBN", "Title", "Quantity" });
                 tableModel.setRowCount(0);
-                bookMap.clear();
+                loanMap.clear();
                 int rowIndex = 0;
-                for (Book book : books) {
-                        boolean isAvailable = book.isAvailable();
-                        String availableSrt = isAvailable ? "yes" : "no";
+                for (Loan loan : loans) {
                         tableModel.addRow(new Object[] {
-                                        book.getISB(),
-                                        book.getTitle(),
-                                        book.getStock(),
-                                        availableSrt, });
+                                        loan.getBooks().get(0).getISB(),
+                                        loan.getBooks().get(0).getTitle(),
+                                        loan.getQuantity()
+                        });
 
-                        jTable1.setModel(tableModel);
-                        jTable1.repaint();
-                        bookMap.put(rowIndex++, book);
+                        loanMap.put(rowIndex++, loan);
                 }
+                loansTable.setModel(tableModel);
+                loansTable.repaint();
         }
 
         // private void updateBooksList(List<Book> books) {
@@ -425,6 +454,6 @@ public class GeneralLoan extends javax.swing.JDialog {
         private javax.swing.JLabel jLabel2;
         private javax.swing.JPanel jPanel1;
         private javax.swing.JScrollPane jScrollPane1;
-        private javax.swing.JTable jTable1;
+        private javax.swing.JTable loansTable;
         // End of variables declaration//GEN-END:variables
 }

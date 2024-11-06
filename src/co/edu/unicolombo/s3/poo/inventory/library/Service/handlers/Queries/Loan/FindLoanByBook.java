@@ -2,14 +2,14 @@ package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.LoanRepository;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Loan.IFindLoanByBook;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.ILoanRepository;
 
 public class FindLoanByBook implements IFindLoanByBook {
 
-    private LoanRepository loanRepository;
+    private ILoanRepository loanRepository;
 
-    public FindLoanByBook(LoanRepository loanRepository) {
+    public FindLoanByBook(ILoanRepository loanRepository) {
         this.loanRepository = loanRepository;
     }
 

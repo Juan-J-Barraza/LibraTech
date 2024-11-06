@@ -7,13 +7,14 @@ package co.edu.unicolombo.s3.poo.inventory.library.Domain.Models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
  * @author Juan
  */
 public class Reservation {
-    private static int incrementID;
+    private static int incrementID = 1;
     private int ID;
     private Date dateReservation;
     private Client client;
@@ -32,6 +33,24 @@ public class Reservation {
         this.client = client;
         this.quantity = quantity;
         this.books = new ArrayList<>();
+    }
+
+    
+     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation reservation = (Reservation) o;
+        return ID == reservation.ID;
+    }
+
+    @Override
+    public String toString() {
+        return "revaID: " + this.ID;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID); 
     }
  
     public int getID() {
