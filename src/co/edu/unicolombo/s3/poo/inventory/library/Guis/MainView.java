@@ -87,7 +87,7 @@ public class MainView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         MainMenu = new javax.swing.JMenuBar();
@@ -105,11 +105,11 @@ public class MainView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         BooksMenu.setMnemonic('B');
-        BooksMenu.setText("Books");
+        BooksMenu.setText("Books    ");
 
-        itemBookCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A,
-                java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemBookCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemBookCreate.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemBookCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/unicolombo/s3/poo/inventory/library/Guis/icons/Wefunction-Woofunction-Book-add.32.png"))); // NOI18N
         itemBookCreate.setMnemonic('A');
         itemBookCreate.setText("Add...");
         itemBookCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -119,9 +119,9 @@ public class MainView extends javax.swing.JFrame {
         });
         BooksMenu.add(itemBookCreate);
 
-        itemGeneralBooks.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G,
-                java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemGeneralBooks.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_DOWN_MASK));
         itemGeneralBooks.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemGeneralBooks.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/unicolombo/s3/poo/inventory/library/Guis/icons/Itzikgur-My-Seven-Books-1.32.png"))); // NOI18N
         itemGeneralBooks.setMnemonic('L');
         itemGeneralBooks.setText("General...");
         itemGeneralBooks.setToolTipText("");
@@ -135,11 +135,11 @@ public class MainView extends javax.swing.JFrame {
         MainMenu.add(BooksMenu);
 
         LoanMenu.setMnemonic('L');
-        LoanMenu.setText("Loans");
+        LoanMenu.setText("Loans   ");
 
-        itemGeneralLoan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G,
-                java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemGeneralLoan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemGeneralLoan.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemGeneralLoan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/unicolombo/s3/poo/inventory/library/Guis/icons/Fatcow-Farm-Fresh-Report-stack.32.png"))); // NOI18N
         itemGeneralLoan.setText("General...");
         itemGeneralLoan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,26 +151,25 @@ public class MainView extends javax.swing.JFrame {
         MainMenu.add(LoanMenu);
 
         ReservationMenu.setMnemonic('L');
-        ReservationMenu.setText("Reservations...");
+        ReservationMenu.setText("Reservations   ");
 
-        itemReservationCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R,
-                java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemReservationCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemReservationCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/unicolombo/s3/poo/inventory/library/Guis/icons/Fatcow-Farm-Fresh-Report-add.32.png"))); // NOI18N
         itemReservationCreate.setText("Add...");
         itemReservationCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                     itemReservationCreateActionPerformed(evt);
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         });
         ReservationMenu.add(itemReservationCreate);
         itemReservationCreate.getAccessibleContext().setAccessibleName("Add");
 
-        itemGeneralReservations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R,
-                java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        itemGeneralReservations.setLabel("General");
+        itemGeneralReservations.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemGeneralReservations.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/unicolombo/s3/poo/inventory/library/Guis/icons/Louie-Mantia-Monsters-Inc-MI-Scare-Report.32.png"))); // NOI18N
+        itemGeneralReservations.setText("GeneralReservation...");
         itemGeneralReservations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemGeneralReservationsActionPerformed(evt);
@@ -183,9 +182,9 @@ public class MainView extends javax.swing.JFrame {
         ClientsMenu.setMnemonic('L');
         ClientsMenu.setText("Clients");
 
-        itemClientMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C,
-                java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemClientMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
         itemClientMenu.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemClientMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/unicolombo/s3/poo/inventory/library/Guis/icons/Fatcow-Farm-Fresh-Client-account-template.32.png"))); // NOI18N
         itemClientMenu.setText("ManageClients...");
         itemClientMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,11 +200,13 @@ public class MainView extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 776, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 776, Short.MAX_VALUE)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 402, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 519, Short.MAX_VALUE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
