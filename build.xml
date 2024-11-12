@@ -1,55 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- You may freely edit this file. See commented blocks below for -->
-<!-- some examples of how to customize the build. -->
-<!-- (If you delete it and reopen the project it will be recreated.) -->
-<!-- By default, only the Clean and Build commands use this build script. -->
-<!-- Commands such as Run, Debug, and Test only use this build script if -->
-<!-- the Compile on Save feature is turned off for the project. -->
-<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
-<!-- in the project's Project Properties dialog box.-->
-<!-- This file is customized for your project. -->
-
 <project name="AulaProject" default="default" basedir=".">
     <description>Builds, tests, and runs the project AulaProject.</description>
 
+    <!-- Define build directory -->
+    <property name="build.dir" value="build" />
+
+    <!-- Path for dependencies -->
     <path id="project.class.path">
-        <!-- Se incluyen las librerías necesarias -->
-        <fileset dir="dist/lib">
-            <include name="swingx-1.6.1.jar" />
+        <fileset dir="lib">
+            <include name="*.jar" />
+        </fileset>
+        <fileset dir="${build.dir}">
+            <include name="**/*.class" />
         </fileset>
     </path>
 
+    <!-- Initialize the build process -->
     <target name="init">
-        <!-- Tareas de inicialización -->
+        <!-- Initialization tasks -->
     </target>
 
+    <!-- Compile the source code -->
     <target name="compile" depends="init">
-        <mkdir dir="build" />
-        <!-- Compilación de código fuente -->
-        <javac srcdir="src" destdir="build" classpathref="project.class.path"
+        <mkdir dir="${build.dir}" />
+        <javac srcdir="src" destdir="${build.dir}" classpathref="project.class.path"
             includeantruntime="false">
             <compilerarg value="-Xlint:deprecation" />
         </javac>
     </target>
 
+    <!-- Clean the build directory -->
     <target name="clean">
         <delete dir="build" />
     </target>
 
-    <!-- Modificación de la tarea jar -->
+    <!-- Create the JAR file with dependencies -->
     <target name="jar" depends="compile">
-        <!-- Crear el archivo JAR -->
         <mkdir dir="dist" />
-        <jar destfile="dist/InventoryLibrary.jar" basedir="build">
+        <jar destfile="dist/InventoryLibrary.jar" basedir="${build.dir}">
             <manifest>
-                <attribute name="Class-Path" value="lib/swingx-1.6.1.jar" />
-                <attribute name="Main-Class"
-                    value="co.edu.unicolombo.s3.poo.inventory.library.Main" />
+                <attribute name="Class-Path" value="lib/*" />
+                <attribute name="Main-Class" value="co.edu.unicolombo.s3.poo.inventory.library.Main" />
             </manifest>
         </jar>
         <mkdir dir="dist/lib" />
-        <copy file="dist/lib/swingx-1.6.1.jar" todir="dist/lib" />
+        <copy todir="dist/lib">
+            <fileset dir="lib">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
     </target>
 
+    <target name="run" depends="compile">
+        <java classname="co.edu.unicolombo.s3.poo.inventory.library.Main" fork="true">
+            <classpath>
+                <pathelement location="${build.dir}" />
+                <fileset dir="lib">
+                    <include name="*.jar" />
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+    
+
+    <!-- Import the default NetBeans build settings -->
     <import file="nbproject/build-impl.xml" />
 </project>
