@@ -4,7 +4,8 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Books;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.UpdateBookCommandController;
 
 import java.text.SimpleDateFormat;
@@ -15,24 +16,24 @@ import java.text.SimpleDateFormat;
  */
 public class BookUpdate extends javax.swing.JDialog {
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    private Book selectBook;
+    private BookEntity selectBook;
     private UpdateBookCommandController bookUpdate;
 
     /**
      * Creates new form BookUpdate
      */
-    public BookUpdate(java.awt.Frame parent, boolean modal, Book book, UpdateBookCommandController bookUpdate) {
+    public BookUpdate(java.awt.Frame parent, boolean modal, BookEntity book, UpdateBookCommandController bookUpdate) {
         super(parent, modal);
         this.selectBook = book;
         this.bookUpdate = bookUpdate;
         initComponents();
-        String publication = dateFormat.format(book.getPublicaion());
+        String publication = dateFormat.format(book.getPublication());
         labelOfISB1.setText(book.getISB());
         fieldTitlle1.setText(book.getTitle());
         fieldStock1.setText(String.valueOf(book.getStock()));
         labelOfPublicationDate1.setText(publication);
-        labelPublisherOfBook1.setText(book.getPublisher().getName());
-        labelCategoryOfBook1.setText(book.getCategory().getName());
+        labelPublisherOfBook1.setText(book.getPublisherEntity().getName());
+        labelCategoryOfBook1.setText(book.getCategoryEntity().getName());
     }
 
     /**
@@ -263,7 +264,7 @@ public class BookUpdate extends javax.swing.JDialog {
         }
         System.out.println("Selected Book ISBN: " + ISB);
         System.out.println("Selected Book Title: " + selectBook.getTitle());
-        System.out.println("Selected Book Publisher: " + selectBook.getPublisher().getName());
+        System.out.println("Selected Book Publisher: " + selectBook.getPublisherEntity().getName());
         selectBook.setStock(stock);
         selectBook.setTitle(title);
 

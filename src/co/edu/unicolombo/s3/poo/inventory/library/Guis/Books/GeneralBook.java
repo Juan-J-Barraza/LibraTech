@@ -4,9 +4,10 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Books;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Loans.CreateLoan;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Config.HibernateUtil;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.CategoryEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan.*;
@@ -19,31 +20,36 @@ import java.util.stream.Collectors;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import org.hibernate.Session;
+
 /**
  *
  * @author Juan
  */
 public class GeneralBook extends javax.swing.JDialog {
 
-    private DB db;
     private GetBookByISB bookByISB;
     private GetListBookQueries bookList;
     private UpdateBookCommandController bookUpdate;
     private GetListBookByCategoryQueries categoryService;
     private DeleteBookCommands deleteBookCommands;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    private Map<Integer, Book> bookMap = new HashMap<>();
+    private Map<Integer, BookEntity> bookMap = new HashMap<>();
     private CreateLoanCommandsController createLoanCommandsController;
     private CreateClientCommmands createClientCommmands;
     private GetClientByNameQueries getClientByNameQueries;
     private RemoveQuantityFromStock removeQuantityFromStock;
     private SetBookToFalseAviailable setBookToFalseAviailable;
+    private GetBookBytitleQueries getBookBytitleQueries;
+    private GetBookIsAvailableQueries getBookIsAvailableQueries;
 
     /**
      * Creates new form ListBook
      */
     public GeneralBook(java.awt.Frame parent, boolean modal,
             GetBookByISB bookByISB,
+            GetBookIsAvailableQueries getBookIsAvailableQueries,
+            GetBookBytitleQueries getBookBytitleQueries,
             GetListBookByCategoryQueries categoryService,
             GetListBookQueries bookList,
             UpdateBookCommandController bookUpdate,
@@ -54,7 +60,6 @@ public class GeneralBook extends javax.swing.JDialog {
             RemoveQuantityFromStock removeQuantityFromStock,
             SetBookToFalseAviailable setBookToFalseAviailable) {
         super(parent, modal);
-        db = DB.getInstance();
         this.bookByISB = bookByISB;
         this.bookList = bookList;
         this.categoryService = categoryService;
@@ -65,22 +70,36 @@ public class GeneralBook extends javax.swing.JDialog {
         this.createClientCommmands = createClientCommmands;
         this.removeQuantityFromStock = removeQuantityFromStock;
         this.setBookToFalseAviailable = setBookToFalseAviailable;
+        this.getBookBytitleQueries = getBookBytitleQueries;
+        this.getBookIsAvailableQueries = getBookIsAvailableQueries;
         initComponents();
-        listCategories();
         setToBooksOnTable();
+        listCategories();
     }
 
     private void listCategories() {
-        Category allCategories = new Category("ALL");
-        comboBoxCategory.addItem(allCategories);
-        var showCategories = db.getCategories();
-        if (showCategories.isEmpty()) {
-            comboBoxCategory.addItem(new Category("not category"));
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            List<CategoryEntity> categories = session.createQuery("FROM CategoryEntity", CategoryEntity.class).list();
+
+            CategoryEntity allCategory = new CategoryEntity("ALL");
+            comboBoxCategory.addItem(allCategory);
+
+            if (categories.isEmpty()) {
+                comboBoxCategory.addItem(new CategoryEntity("not category"));
+            } else {
+                for (CategoryEntity category : categories) {
+                    System.out.println("Adding category: " + category.getName());
+                    comboBoxCategory.addItem(category);
+                }
+            }
+            comboBoxCategory.repaint();
+        } catch (Exception e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar categorías ");
+        } finally {
+            session.close();
         }
-        for (Category category : showCategories) {
-            comboBoxCategory.addItem(category);
-        }
-        comboBoxCategory.repaint();
     }
 
     private void setToBooksOnTable() {
@@ -295,8 +314,8 @@ public class GeneralBook extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void comBoxCategoryActionPerformed(java.awt.event.ActionEvent evt) {
-        var selectedCategory = (Category) comboBoxCategory.getSelectedItem();
-        List<Book> books = new ArrayList<>();
+        var selectedCategory = (CategoryEntity) comboBoxCategory.getSelectedItem();
+        List<BookEntity> books = new ArrayList<>();
 
         try {
             if ("ALL".equals(selectedCategory.getName())) {
@@ -305,15 +324,17 @@ public class GeneralBook extends javax.swing.JDialog {
 
             } else {
                 books = categoryService.listBookByCategoty(selectedCategory.getName());
+                System.out.println("Books in category " + selectedCategory.getName() + ": " + books);
                 if (books.isEmpty()) {
-                    javax.swing.JOptionPane.showMessageDialog(this,
-                            "No books found in this category");
+                    javax.swing.JOptionPane.showMessageDialog(this, "No books found in this category");
+                } else {
+                    books = books.stream().distinct().collect(Collectors.toList());
+                    filterTableWithBooks(books);
                 }
-                books = books.stream().distinct().collect(Collectors.toList());
-                filterTableWithBooks(books);
-
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Error filtering books by category: " + e.getMessage());
         }
 
     }
@@ -321,7 +342,7 @@ public class GeneralBook extends javax.swing.JDialog {
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_textLookforActionPerformed
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow >= 0) {
-            Book selectedBook = bookMap.get(selectedRow);
+            BookEntity selectedBook = bookMap.get(selectedRow);
             deleteBook(selectedBook);
             JOptionPane.showMessageDialog(this, "Book delete sucessfully");
             updateTable();
@@ -331,10 +352,11 @@ public class GeneralBook extends javax.swing.JDialog {
 
     }// GEN-LAST:event_textLookforActionPerformed
 
-    private void deleteBook(Book book) {
+    private void deleteBook(BookEntity book) {
         try {
             deleteBookCommands.deleteBook(book);
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
@@ -344,23 +366,23 @@ public class GeneralBook extends javax.swing.JDialog {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         try {
-            List<Book> books = bookList.getAllBooks();
+            List<BookEntity> books = bookList.getAllBooks();
 
             if (books.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "The list is empty.");
             }
 
             for (int i = 0; i < books.size(); i++) {
-                Book book = books.get(i);
+                BookEntity book = books.get(i);
                 bookMap.put(i, book);
                 boolean isAvailable = book.isAvailable();
                 String availableSrt = isAvailable ? "yes" : "no";
                 model.addRow(new Object[] {
                         book.getISB(),
                         book.getTitle(),
-                        dateFormat.format(book.getPublicaion()),
+                        dateFormat.format(book.getPublication()),
                         book.getStock(),
-                        book.getCategory().getName(),
+                        book.getCategoryEntity().getName(),
                         availableSrt
                 });
             }
@@ -374,9 +396,9 @@ public class GeneralBook extends javax.swing.JDialog {
     private void buttonLoanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonLoanActionPerformed
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow >= 0) {
-            Book selectedBook = bookMap.get(selectedRow);
+            BookEntity selectedBook = bookMap.get(selectedRow);
             try {
-                boolean isAvailable = setBookToFalseAviailable.bookSetTofalseAvailable(selectedBook.getISB());
+                boolean isAvailable = getBookIsAvailableQueries.bookIsAvailable(selectedBook);
 
                 if (!isAvailable) {
                     JOptionPane.showMessageDialog(this, "The book is not Available");
@@ -392,75 +414,63 @@ public class GeneralBook extends javax.swing.JDialog {
 
     }// GEN-LAST:event_buttonLoanActionPerformed
 
-    private void openCreateLoanWindow(Book book) {
+    private void openCreateLoanWindow(BookEntity book) {
         var createLoanWindow = new CreateLoan(new javax.swing.JFrame(), true,
                 book,
                 createLoanCommandsController,
                 createClientCommmands, getClientByNameQueries,
                 removeQuantityFromStock,
                 setBookToFalseAviailable);
-                createLoanWindow.setOnLoanCreated( () ->  {
-                    updateTable();
-                });
+        createLoanWindow.setOnLoanCreated(() -> {
+            updateTable();
+        });
         createLoanWindow.setLocationRelativeTo(this);
         createLoanWindow.setVisible(true);
     }
 
     private void buttonLookForActionPerformed(java.awt.event.ActionEvent evt) {
-        // var selectedCategory = (Category) comboBoxCategory.getSelectedItem();
-        // List<Book> books = new ArrayList<>();
-
         try {
             if (textLookfor != null && !textLookfor.getText().isEmpty()) {
-                Book book = bookByISB.getBookByISB(textLookfor.getText().toLowerCase());
-                filterTableWithBooks(Collections.singletonList(book));
+                BookEntity book = getBookBytitleQueries.getBookByTitle(textLookfor.getText());
+                if (book != null) {
+                    filterTableWithBooks(Collections.singletonList(book));
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this, "No book found with this ISBN.");
+                }
                 textLookfor.setText("");
             }
-            // } else if ("ALL".equals(selectedCategory.getName())) {
-            // books = bookList.getAllBooks();
-            // filterTableWithBooks(books);
-            // }
-            // } else {
-            // books = categoryService.listBookByCategoty(selectedCategory.getName());
-            // if (books.isEmpty()) {
-            // javax.swing.JOptionPane.showMessageDialog(this,
-            // "No books found in this category");
-            // }
-            // books = books.stream().distinct().collect(Collectors.toList());
-            // filterTableWithBooks(books);
-            // textLookfor.setText("");
-            // }
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "The list is empty");
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Error finding book: " + e.getMessage());
         }
     }
 
     private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow >= 0) {
-            Book selectedBook = bookMap.get(selectedRow);
+            BookEntity selectedBook = bookMap.get(selectedRow);
             openUpdateBookWindow(selectedBook);
         } else {
             JOptionPane.showMessageDialog(null, "Please select a book from the table.");
         }
     }
 
-    private void openUpdateBookWindow(Book book) {
+    private void openUpdateBookWindow(BookEntity book) {
         BookUpdate updateBookWindow = new BookUpdate(new javax.swing.JFrame(), true, book, bookUpdate);
         updateBookWindow.setLocationRelativeTo(this);
         updateBookWindow.setVisible(true);
         updateTable();
     }
 
-    private void filterTableWithBooks(List<Book> books) {
+    private void filterTableWithBooks(List<BookEntity> books) {
         var tableModel = new javax.swing.table.DefaultTableModel(
                 new Object[][] {},
                 new String[] { "ISBN", "Title", "Publication", "Stock", "Category", "IsAvailable" });
         tableModel.setRowCount(0);
         bookMap.clear();
         int rowIndex = 0;
-        for (Book book : books) {
-            String formattedDate = dateFormat.format(book.getPublicaion());
+        for (BookEntity book : books) {
+            String formattedDate = dateFormat.format(book.getPublication());
             boolean isAvailable = book.isAvailable();
             String availableSrt = isAvailable ? "yes" : "no";
             tableModel.addRow(new Object[] {
@@ -468,7 +478,7 @@ public class GeneralBook extends javax.swing.JDialog {
                     book.getTitle(),
                     formattedDate,
                     book.getStock(),
-                    book.getCategory().getName(),
+                    book.getCategoryEntity().getName(),
                     availableSrt, });
 
             jTable1.setModel(tableModel);
@@ -482,7 +492,7 @@ public class GeneralBook extends javax.swing.JDialog {
     private javax.swing.JButton buttonLoan;
     private javax.swing.JButton buttonLookFor;
     private javax.swing.JButton buttonUpdate;
-    private javax.swing.JComboBox<Category> comboBoxCategory;
+    private javax.swing.JComboBox<CategoryEntity> comboBoxCategory;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

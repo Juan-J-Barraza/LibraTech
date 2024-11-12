@@ -4,7 +4,9 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ReservationEntity;
+
 import java.util.List;
 
 /**
@@ -13,25 +15,25 @@ import java.util.List;
  */
 public interface IReservationRepository {
     
-    public void addReservation(Reservation reservation) 
+    public void addReservation(ReservationEntity reservation) 
             throws Exception;
     
-    public List<Reservation> getReservations()
+    public List<ReservationEntity> getReservations()
             throws Exception;
     
-    public void updateReservation(Reservation reservation)
+    public void updateReservation(ReservationEntity reservation)
             throws Exception;
     
-     public void deleteReservation(Reservation reservation)
+     public void deleteReservation(ReservationEntity reservation)
             throws Exception;
 
-     public Reservation getReservationByID(int ID)
+     public ReservationEntity getReservationByID(int ID)
              throws Exception;
      
-     public int getIndexReservationByID(int ID)
-             throws Exception;
+//      public int getIndexReservationByID(int ID)
+//              throws Exception;
      
-     public boolean bookIsAvailable(String title);
+//      public boolean bookIsAvailable(String title);
 
-     public Reservation getReservationByNameClient(String name) throws Exception;
+     public ReservationEntity getReservationByNameClient(String name) throws Exception;
 }

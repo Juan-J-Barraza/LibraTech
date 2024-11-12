@@ -5,7 +5,7 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Client.*;
 import javax.swing.*;
@@ -23,7 +23,7 @@ public class ManageClient extends javax.swing.JDialog {
         private GetClientByNameQueries getClientByNameQueries;
         private UpdateClientCommands updatecClientCommands;
         private DeleteCLientCommands deleteCLientCommands;
-        private Map<Integer, Client> clientMap = new HashMap<>();
+        private Map<Integer, ClientEntity> clientMap = new HashMap<>();
 
         /**
          * Creates new form ManageClient
@@ -261,7 +261,7 @@ public class ManageClient extends javax.swing.JDialog {
                         }
 
                         if (serchField.length() >= 9) {
-                                Client client = getClientByNameQueries.getClientByName(serchField);
+                                ClientEntity client = getClientByNameQueries.getClientByName(serchField);
                                 if (client != null) {
                                     filterTableWithClients(Collections.singletonList(client));
                                 } else {
@@ -279,7 +279,7 @@ public class ManageClient extends javax.swing.JDialog {
         private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonUpdateActionPerformed
                 var selectedRow = jTable1.getSelectedRow();
                 if (selectedRow >= 0) {
-                        Client client = clientMap.get(selectedRow);
+                        ClientEntity client = clientMap.get(selectedRow);
                         if (client == null) {
                                 JOptionPane.showMessageDialog(this, "he client is null");
                                 return;
@@ -293,7 +293,7 @@ public class ManageClient extends javax.swing.JDialog {
         private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonDeleteActionPerformed
                 int selectedRow = jTable1.getSelectedRow();
                 if (selectedRow >= 0) {
-                        Client selectedClienyt = clientMap.get(selectedRow);
+                        ClientEntity selectedClienyt = clientMap.get(selectedRow);
                         deleteClient(selectedClienyt);
                         JOptionPane.showMessageDialog(this, "Client delete sucessfully");
                         updateTable();
@@ -302,7 +302,7 @@ public class ManageClient extends javax.swing.JDialog {
                 }
         }// GEN-LAST:event_buttonDeleteActionPerformed
 
-        private void deleteClient(Client client) {
+        private void deleteClient(ClientEntity client) {
                 try {
                         deleteCLientCommands.deleteClient(client);
                 } catch (Exception e) {
@@ -315,7 +315,7 @@ public class ManageClient extends javax.swing.JDialog {
                 DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                 model.setRowCount(0);
                 try {
-                        List<Client> clients = getAllClientsQueries.getListClients();
+                        List<ClientEntity> clients = getAllClientsQueries.getListClients();
 
                         if (clients.isEmpty()) {
                                 JOptionPane.showMessageDialog(this, "The list is empty.");
@@ -341,7 +341,7 @@ public class ManageClient extends javax.swing.JDialog {
                 openCreateClientWIndow();
         }// GEN-LAST:event_bottonNewClientActionPerformed
 
-        private void openUpdateClientWindow(Client client) {
+        private void openUpdateClientWindow(ClientEntity client) {
                 var updateClientWindow = new UpdateClient(new JFrame(), true, client,
                                 updatecClientCommands);
                         updateClientWindow.setOnUpdateClient(() -> {
@@ -366,14 +366,14 @@ public class ManageClient extends javax.swing.JDialog {
                 createClientWindow.setVisible(true);
         }
 
-        private void filterTableWithClients(List<Client> clients) {
+        private void filterTableWithClients(List<ClientEntity> clients) {
                 var tableModel = new javax.swing.table.DefaultTableModel(
                                 new Object[][] {},
                                 new String[] { "Name", "Address", "PhoneNumber" });
                 tableModel.setRowCount(0);
                 clientMap.clear();
                 int rowIndex = 0;
-                for (Client client : clients) {
+                for (ClientEntity client : clients) {
                         tableModel.addRow(new Object[] {
                                         client.getName(),
                                         client.getAddress(),

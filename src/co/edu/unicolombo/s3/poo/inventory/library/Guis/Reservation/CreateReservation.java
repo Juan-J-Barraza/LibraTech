@@ -4,19 +4,24 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ReservationEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Reservation.AddReservationCommands;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Reservation.DeleteReservationCommands;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book.GetListBookQueries;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Client.GetAllClientsQueries;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Reservation.GetListReservationsQueries;
-import java.text.ParseException;
+// import net.bytebuddy.dynamic.DynamicType.Builder.FieldDefinition.Optional;
+
+// import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+// import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+// import java.util.Optional;
 
 /**
  *
@@ -24,7 +29,7 @@ import java.util.Optional;
  */
 public class CreateReservation extends javax.swing.JDialog {
 
-    // private final GetListReservationsQueries getListReservationsQueries
+    private final GetListReservationsQueries getListReservationsQueries;
     private final GetListBookQueries getBooksQueries;
     private final GetAllClientsQueries getAllClientsQueries;
     private final AddReservationCommands addReservationCommands;
@@ -55,11 +60,10 @@ public class CreateReservation extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
-        // this.getListReservationsQueries = getListReservationsQueries;
+        this.getListReservationsQueries = getListReservationsQueries;
         this.getBooksQueries = getBooksQueries;
         this.getAllClientsQueries = getAllClientsQueries;
         this.addReservationCommands = addReservationCommands;
-        // this.getListReservationsQueries = getListReservationsQueries;
         this.deleteReservationCommands = deleteReservationCommands;
 
         listClients();
@@ -68,20 +72,20 @@ public class CreateReservation extends javax.swing.JDialog {
 
     private void listClients() throws Exception {
         fieldClient.removeAllItems();
-        List<Client> showClients = getAllClientsQueries.getListClients();
+        List<ClientEntity> showClients = getAllClientsQueries.getListClients();
 
-        for (Client client : showClients) {
-            fieldClient.addItem(client.getName());
+        for (ClientEntity client : showClients) {
+            fieldClient.addItem(client);
         }
         fieldClient.repaint();
     }
 
     private void listBooks() throws Exception {
         fieldBook.removeAllItems();
-        List<Book> showBooks = getBooksQueries.getAllBooks();
+        List<BookEntity> showBooks = getBooksQueries.getAllBooks();
 
-        for (Book book : showBooks) {
-            fieldBook.addItem(book.getTitle());
+        for (BookEntity book : showBooks) {
+            fieldBook.addItem(book);
         }
         fieldBook.repaint();
     }
@@ -128,13 +132,11 @@ public class CreateReservation extends javax.swing.JDialog {
         Client.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         Client.setText("Client:");
 
-        fieldClient.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         fieldClient.setName(""); // NOI18N
 
         Book.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         Book.setText("Product:");
 
-        fieldBook.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         fieldBook.setName(""); // NOI18N
 
         ButtonAddReservation.setBackground(new java.awt.Color(0, 153, 153));
@@ -229,16 +231,11 @@ public class CreateReservation extends javax.swing.JDialog {
     private void ButtonAddReservationActionPerformed(java.awt.event.ActionEvent evt) throws Exception {// GEN-FIRST:event_ButtonAddReservationActionPerformed
         String quantityText = this.fieldQuantity.getText();
         var dateTime = dateField.getDate();
-        Optional<Client> clientObj = getAllClientsQueries.getListClients()
-                .stream()
-                .filter(c -> c.getName().equalsIgnoreCase((String) fieldClient.getSelectedItem()))
-                .findFirst();
-        Optional<Book> bookObj = getBooksQueries.getAllBooks()
-                .stream()
-                .filter(c -> c.getTitle().equalsIgnoreCase((String) fieldBook.getSelectedItem()))
-                .findFirst();
-
-        if (quantityText.isEmpty() || !bookObj.isPresent() || !clientObj.isPresent()) {
+        ClientEntity clientObj = (ClientEntity) fieldClient.getSelectedItem();
+        BookEntity bookObj = (BookEntity) fieldBook.getSelectedItem();
+        java.sql.Date sqlReservationDate = new java.sql.Date(dateTime.getTime());
+        
+        if (quantityText.isEmpty() || bookObj == null || clientObj == null) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
             return;
         }
@@ -253,12 +250,11 @@ public class CreateReservation extends javax.swing.JDialog {
 
     
 
-        Reservation newReservation = new Reservation(
-                dateTime,
-                clientObj.get(),
-                quantity);
-        newReservation.addBook(bookObj.get());
-
+        ReservationEntity newReservation = new ReservationEntity(
+            sqlReservationDate,
+                clientObj,
+                quantity,
+                bookObj);
         try {
             this.addReservationCommands.createReservation(newReservation);
         } catch (Exception e) {
@@ -272,35 +268,7 @@ public class CreateReservation extends javax.swing.JDialog {
         dateField.getEditor().setText("");
     }// GEN-LAST:event_ButtonAddReservationActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-         * look and feel.
-         * For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateReservation.class.getName()).log(java.util.logging.Level.SEVERE,
-                    null, ex);
-        }
-        // </editor-fold>
-
-        // </editor-fold>
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Book;
@@ -309,8 +277,8 @@ public class CreateReservation extends javax.swing.JDialog {
     private javax.swing.JLabel Date;
     private javax.swing.JLabel Quantity;
     private org.jdesktop.swingx.JXDatePicker dateField;
-    private javax.swing.JComboBox<String> fieldBook;
-    private javax.swing.JComboBox<String> fieldClient;
+    private javax.swing.JComboBox<BookEntity> fieldBook;
+    private javax.swing.JComboBox<ClientEntity> fieldClient;
     private javax.swing.JTextField fieldQuantity;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

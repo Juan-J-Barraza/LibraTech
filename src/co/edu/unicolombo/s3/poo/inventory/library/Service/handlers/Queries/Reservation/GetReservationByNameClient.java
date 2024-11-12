@@ -1,6 +1,7 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Reservation;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ReservationEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Reservation.IGetReservationByClienName;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IReservationRepository;
 
@@ -13,7 +14,7 @@ public class GetReservationByNameClient implements IGetReservationByClienName {
     }
 
     @Override
-    public Reservation getReservationByClienName(String name) throws Exception {
+    public ReservationEntity getReservationByClienName(String name) throws Exception {
         return repository.getReservationByNameClient(name);
     }
     

@@ -4,7 +4,8 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
+
 import java.util.List;
 
 /**
@@ -13,5 +14,5 @@ import java.util.List;
  */
 public interface ICategoryRepository {
 
-    public List<Book> listBookByCategoty(String name) throws Exception;
+    public List<BookEntity> listBookByCategoty(String name) throws Exception;
 }

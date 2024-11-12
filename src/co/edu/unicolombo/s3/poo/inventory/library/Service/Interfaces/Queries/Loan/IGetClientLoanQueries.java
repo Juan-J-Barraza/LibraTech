@@ -4,7 +4,8 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Loan;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 
 /**
  *
@@ -12,5 +13,5 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
  */
 public interface IGetClientLoanQueries {
     
-    public Client getClientLoan(int idClient) throws Exception;
+    public ClientEntity getClientLoan(int idClient) throws Exception;
 }

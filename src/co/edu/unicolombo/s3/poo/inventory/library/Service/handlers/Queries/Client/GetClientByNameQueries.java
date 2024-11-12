@@ -1,8 +1,8 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Client;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Client.IGetcClientByNameQueries;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IClientRepository;
 
@@ -19,7 +19,7 @@ public class GetClientByNameQueries implements IGetcClientByNameQueries {
     }
 
     @Override
-    public Client getClientByName(String name) throws Exception {
+    public ClientEntity getClientByName(String name) throws Exception {
         return clientRepository.getClientByName(name);
     }
 

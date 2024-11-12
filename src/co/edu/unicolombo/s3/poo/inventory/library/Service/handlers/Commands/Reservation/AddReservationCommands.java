@@ -4,7 +4,8 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Reservation;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ReservationEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Reservation.IAddReservationCommands;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IReservationRepository;
 
@@ -21,7 +22,7 @@ public class AddReservationCommands implements IAddReservationCommands {
     }
     
     @Override
-    public void createReservation(Reservation reservation) throws Exception {
+    public void createReservation(ReservationEntity reservation) throws Exception {
         this.repository.addReservation(reservation);
     }
     

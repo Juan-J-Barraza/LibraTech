@@ -1,7 +1,7 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Book.IUpdateBookCommands;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IBookRepository;
 
@@ -19,7 +19,7 @@ public class UpdateBookCommandController implements IUpdateBookCommands {
     }
 
     @Override
-    public void updateBook(Book book) throws Exception {
+    public void updateBook(BookEntity book) throws Exception {
         bookRepository.updateBook(book);
     }
 }

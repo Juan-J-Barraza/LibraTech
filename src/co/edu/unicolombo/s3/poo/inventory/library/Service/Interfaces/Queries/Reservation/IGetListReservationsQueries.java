@@ -4,7 +4,9 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Reservation;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ReservationEntity;
+
 import java.util.List;
 
 /**
@@ -13,5 +15,5 @@ import java.util.List;
  */
 public interface IGetListReservationsQueries {
     
-    public List<Reservation> getAllReservations() throws Exception;
+    public List<ReservationEntity> getAllReservations() throws Exception;
 }

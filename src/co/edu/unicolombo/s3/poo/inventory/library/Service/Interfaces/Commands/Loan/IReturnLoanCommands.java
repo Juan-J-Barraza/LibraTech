@@ -1,7 +1,8 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Loan;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.LoanEntity;
 
 /**
  *
@@ -9,5 +10,5 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
  */
 public interface IReturnLoanCommands {
     
-    public void returnLoan(Loan loan) throws Exception;
+    public void returnLoan(LoanEntity loan) throws Exception;
 }

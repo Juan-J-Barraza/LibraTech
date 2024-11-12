@@ -4,11 +4,15 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Loans;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Category;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Category;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Client.ClientsWithLoans;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Config.HibernateUtil;
+// import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.CategoryEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.LoanEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.SetTrueBookIsAvailable;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan.ReturnLoanCommandsController;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.FindLoanByBook;
@@ -19,13 +23,15 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import org.hibernate.Session;
+
 /**
  *
  * @author Juan
  */
 public class GeneralLoan extends javax.swing.JDialog {
-        private DB db;
-        private Map<Integer, Loan> loanMap = new HashMap<>();
+        // private DB db;
+        private Map<Integer, LoanEntity> loanMap = new HashMap<>();
         private ReturnLoanCommandsController returnLoanCommandsController;
         private GetListClientsWithLoanQueries getListClientsWithLoanQueries;
         private GetAllLoansQueries getAllLoansQueries;
@@ -45,7 +51,7 @@ public class GeneralLoan extends javax.swing.JDialog {
                         GetBooksWithLoanByCateg getBooksWithLoanByCateg) {
                 super(parent, modal);
                 initComponents();
-                this.db = DB.getInstance();
+                // this.db = DB.getInstance();
                 this.returnLoanCommandsController = returnLoanCommandsController;
                 this.getAllLoansQueries = getAllLoansQueries;
                 this.getListClientsWithLoanQueries = getListClientsWithLoanQueries;
@@ -57,39 +63,53 @@ public class GeneralLoan extends javax.swing.JDialog {
         }
 
         private void listCategories() {
-                Category allCategories = new Category("ALL");
-                comBoxCategory.addItem(allCategories);
-                var showCategories = db.getCategories();
-                if (showCategories.isEmpty()) {
-                        comBoxCategory.addItem(new Category("not category"));
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                try {
+                        List<CategoryEntity> categories = session
+                                        .createQuery("FROM CategoryEntity", CategoryEntity.class).list();
+
+                        CategoryEntity allCategory = new CategoryEntity("ALL");
+                        comBoxCategory.addItem(allCategory);
+
+                        if (categories.isEmpty()) {
+                                comBoxCategory.addItem(new CategoryEntity("not category"));
+                        } else {
+                                for (CategoryEntity category : categories) {
+                                        System.out.println("Adding category: " + category.getName());
+                                        comBoxCategory.addItem(category);
+                                }
+                        }
+                        comBoxCategory.repaint();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar categorías ");
+                } finally {
+                        session.close();
                 }
-                for (Category category : showCategories) {
-                        comBoxCategory.addItem(category);
-                }
-                comBoxCategory.repaint();
         }
 
         private void setToBooksOnTable() {
                 try {
                         var loans = getAllLoansQueries.getLoans();
                         System.out.println("totals books: " + loans.size());
+                        System.out.println("The book is: " + loans);
                         if (loans.isEmpty()) {
                                 System.out.println("No loans found.");
+                                return;
                         }
 
-                        // for (Loan loan : loans) {
-                        // if (loan.getBooks() != null && !loan.getBooks().isEmpty()) {
-                        // Book lonedBook = loan.getBooks().get(0);
-                        // System.out.println("Book in Selected Loan: " + lonedBook.getTitle());
-                        // System.out.println("Books in Selected loan: " + lonedBook);
-                        // books.add(lonedBook);
-                        // }
-                        // }
+                        for (LoanEntity loan : loans) {
+                                if (loan.getBooks() != null && !loan.getBooks().isEmpty()) {
+                                        BookEntity lonedBook = loan.getBooks().iterator().next();
+                                        System.out.println("Book in Selected Loan: " + lonedBook.getTitle());
+                                        // books.add(lonedBook);
+                                }
+                        }
+                        filterTableWithBooks(loans);
                         // System.out.println("Total books to display: " + books.size());
                         // books = books.stream().distinct().collect(Collectors.toList());
-                        filterTableWithBooks(loans);
                 } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, e.getMessage());
+                        JOptionPane.showMessageDialog(this, "Error para mapear los libros");
                 }
         }
 
@@ -265,7 +285,7 @@ public class GeneralLoan extends javax.swing.JDialog {
         }// </editor-fold>//GEN-END:initComponents
 
         private void comBoxCategoryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_comBoxCategoryActionPerformed
-                var selectedCategory = (Category) comBoxCategory.getSelectedItem();
+                var selectedCategory = (CategoryEntity) comBoxCategory.getSelectedItem();
                 // List<Book> books = new ArrayList<>();
 
                 try {
@@ -283,8 +303,7 @@ public class GeneralLoan extends javax.swing.JDialog {
                                 // books = books.stream().distinct().collect(Collectors.toList());
                                 filterTableWithBooks(loans);
                         } else {
-                                var loans = getBooksWithLoanByCateg
-                                                .getBooksByCategoryWithLoans(selectedCategory.getName());
+                                var loans = getBooksWithLoanByCateg.getBooksByCategoryWithLoans(selectedCategory.getName());
                                 if (loans.isEmpty()) {
                                         javax.swing.JOptionPane.showMessageDialog(this,
                                                         "No books found in this category");
@@ -301,27 +320,30 @@ public class GeneralLoan extends javax.swing.JDialog {
 
         private void buttonReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonReturnActionPerformed
                 int selectedRow = loansTable.getSelectedRow();
-                Loan selectBook = loanMap.get(selectedRow);
+                LoanEntity selectBook = loanMap.get(selectedRow);
                 if (selectedRow >= 0) {
                         try {
-                                Loan loan = findLoan.findLoanByBook(selectBook.getBooks().get(0));
-                                Book book = loan.getBooks().get(0);
+                                LoanEntity loan = findLoan.findLoanByBook(selectBook.getBooks().iterator().next());
+                                BookEntity book = loan.getBooks().iterator().next();
                                 if (loan != null) {
                                         System.out.println("si se guardo");
                                         System.out.println("stock: " + book.getStock());
                                         if (book.getStock() == 0) {
+                                                returnLoanCommandsController.returnLoan(loan);
                                                 setTrueBookIsAvailable.setTrueIsAvailable(book.getISB());
+                                        } else {
+                                                returnLoanCommandsController.returnLoan(loan);
+                                                JOptionPane.showMessageDialog(this, "Book returned successfully.");
                                         }
-                                        returnLoanCommandsController.returnLoan(loan);
-                                        JOptionPane.showMessageDialog(this, "Book returned successfully.");
                                         updateTable();
                                 }
                         } catch (Exception e) {
-                                JOptionPane.showMessageDialog(this, "Error processing the return. Please check the selection and try again.");
+                                JOptionPane.showMessageDialog(this,
+                                                "Error processing the return. Please check the selection and try again.");
                         }
                 } else {
                         JOptionPane.showMessageDialog(this, "Please select a book from the table.");
-                    }
+                }
         }// GEN-LAST:event_buttonReturnActionPerformed
 
         private void updateTable() {
@@ -329,19 +351,20 @@ public class GeneralLoan extends javax.swing.JDialog {
                 DefaultTableModel model = (DefaultTableModel) loansTable.getModel();
                 model.setRowCount(0);
                 try {
-                        List<Loan> loans = getAllLoansQueries.getLoans();
+                        List<LoanEntity> loans = getAllLoansQueries.getLoans();
 
                         if (loans.isEmpty()) {
                                 JOptionPane.showMessageDialog(this, "The list is empty.");
                         }
 
                         for (int i = 0; i < loans.size(); i++) {
-                                Loan loan = loans.get(i);
+                                LoanEntity loan = loans.get(i);
                                 loanMap.put(i, loan);
                                 model.addRow(new Object[] {
-                                                loan.getBooks().get(0).getISB(),
-                                                loan.getBooks().get(0).getTitle(),
-                                                loan.getQuantity()
+                                                loan.getBooks().iterator().next().getISB(),
+                                                loan.getBooks().iterator().next().getTitle(),
+                                                loan.getQuantity(),
+                                                loan.getDateReturn()
                                 });
                         }
                 } catch (Exception e) {
@@ -364,21 +387,27 @@ public class GeneralLoan extends javax.swing.JDialog {
 
         }
 
-        private void filterTableWithBooks(List<Loan> loans) {
+        private void filterTableWithBooks(List<LoanEntity> loans) {
                 var tableModel = new javax.swing.table.DefaultTableModel(
                                 new Object[][] {},
-                                new String[] { "ISBN", "Title", "Quantity" });
+                                new String[] { "ISBN", "Title", "Quantity", "Date Return" });
                 tableModel.setRowCount(0);
                 loanMap.clear();
                 int rowIndex = 0;
-                for (Loan loan : loans) {
-                        tableModel.addRow(new Object[] {
-                                        loan.getBooks().get(0).getISB(),
-                                        loan.getBooks().get(0).getTitle(),
-                                        loan.getQuantity()
-                        });
-
-                        loanMap.put(rowIndex++, loan);
+                for (LoanEntity loan : loans) {
+                        if (loan.getBooks() != null && !loan.getBooks().isEmpty()) {
+                                BookEntity book = loan.getBooks().iterator().next();
+                                tableModel.addRow(new Object[] {
+                                                book.getISB(),
+                                                book.getTitle(),
+                                                loan.getQuantity(),
+                                                loan.getDateReturn()
+                                });
+                                loanMap.put(rowIndex++, loan);
+                        } else {
+                                // Si no hay libros asociados al préstamo, puedes decidir cómo manejar este caso
+                                System.out.println("Loan ID " + loan.getId() + " has no books associated.");
+                        }
                 }
                 loansTable.setModel(tableModel);
                 loansTable.repaint();
@@ -404,7 +433,7 @@ public class GeneralLoan extends javax.swing.JDialog {
         // Variables declaration - do not modify//GEN-BEGIN:variables
         private javax.swing.JButton buttonClients;
         private javax.swing.JButton buttonReturn;
-        private javax.swing.JComboBox<Category> comBoxCategory;
+        private javax.swing.JComboBox<CategoryEntity> comBoxCategory;
         private javax.swing.JLabel jLabel1;
         private javax.swing.JLabel jLabel2;
         private javax.swing.JPanel jPanel1;

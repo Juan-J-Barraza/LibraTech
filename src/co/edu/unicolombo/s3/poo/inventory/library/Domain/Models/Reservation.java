@@ -4,9 +4,7 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Domain.Models;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,20 +17,19 @@ public class Reservation {
     private Date dateReservation;
     private Client client;
     private int quantity;
-    private List<Book> books;
+    private Book book;
 
     public Reservation() {
         this.ID = incrementID++;
-        this.books = new ArrayList<>();
 
     }
 
-    public Reservation(Date dateReservation, Client client, int quantity) {
+    public Reservation(Date dateReservation, Client client, int quantity, Book book) {
         this.ID = incrementID++;
         this.dateReservation = dateReservation;
         this.client = client;
         this.quantity = quantity;
-        this.books = new ArrayList<>();
+        this.book = book;
     }
 
     
@@ -77,16 +74,13 @@ public class Reservation {
         this.client = client;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public Book getBook() {
+        return book;
     }
     
-    public void addBook(Book book) {
-        this.getBooks().add(book);
-    }
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
+    public void setBooks(Book book) {
+        this.book = book;
     }
 
    

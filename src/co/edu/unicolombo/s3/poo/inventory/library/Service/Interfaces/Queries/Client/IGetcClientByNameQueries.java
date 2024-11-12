@@ -1,7 +1,8 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Client;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 
 /**
  *
@@ -9,5 +10,5 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
  */
 public interface IGetcClientByNameQueries {
     
-    public Client getClientByName(String name) throws Exception;
+    public ClientEntity getClientByName(String name) throws Exception;
 }

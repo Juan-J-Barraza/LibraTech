@@ -1,7 +1,8 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
+
 import java.util.List;
 
 /**
@@ -10,5 +11,5 @@ import java.util.List;
  */
 public interface IGetListBook {
     
-    public List<Book> getAllBooks() throws Exception;
+    public List<BookEntity> getAllBooks() throws Exception;
 }

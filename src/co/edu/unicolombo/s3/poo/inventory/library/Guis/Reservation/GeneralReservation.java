@@ -1,14 +1,17 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Loans.CreateLoan;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ReservationEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.RemoveQuantityFromStock;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.SetBookToFalseAviailable;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.CreateClientCommmands;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan.CreateLoanCommandsController;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Reservation.DeleteReservationCommands;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book.GetBookIsAvailableQueries;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Client.GetClientByNameQueries;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Reservation.GetListReservationsQueries;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Reservation.GetReservationByNameClient;
@@ -29,7 +32,7 @@ import javax.swing.table.DefaultTableModel;
 public class GeneralReservation extends javax.swing.JDialog {
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    private Map<Integer, Reservation> reservationMap = new HashMap<>();
+    private Map<Integer, ReservationEntity> reservationMap = new HashMap<>();
     private GetReservationByNameClient getReservation;
     private GetListReservationsQueries getListReservationsQueries;
     private CreateLoanCommandsController createLoanCommandsController;
@@ -37,6 +40,7 @@ public class GeneralReservation extends javax.swing.JDialog {
     private GetClientByNameQueries getClientByNameQueries;
     private RemoveQuantityFromStock removeQuantityFromStock;
     private SetBookToFalseAviailable setBookToFalseAviailable;
+    private GetBookIsAvailableQueries getBookIsAvailableQueries;
     private DeleteReservationCommands deleteReservationComands;
 
     /**
@@ -49,6 +53,7 @@ public class GeneralReservation extends javax.swing.JDialog {
             GetClientByNameQueries getClientByNameQueries,
             RemoveQuantityFromStock removeQuantityFromStock,
             SetBookToFalseAviailable setBookToFalseAviailable,
+            GetBookIsAvailableQueries getBookIsAvailableQueries,
             GetListReservationsQueries getListReservationsQueries,
             DeleteReservationCommands deleteReservation) {
         super(parent, modal);
@@ -59,6 +64,7 @@ public class GeneralReservation extends javax.swing.JDialog {
         this.removeQuantityFromStock = removeQuantityFromStock;
         this.setBookToFalseAviailable = setBookToFalseAviailable;
         this.getListReservationsQueries = getListReservationsQueries;
+        this.getBookIsAvailableQueries = getBookIsAvailableQueries;
         this.deleteReservationComands = deleteReservation;
         initComponents();
         addToReservationTable();
@@ -208,11 +214,14 @@ public class GeneralReservation extends javax.swing.JDialog {
                 return;
             }
 
-            if (showField.length() >= 6) {
-                var reservation = getReservation.getReservationByClienName(showField);
+            if (showField.length() >= 5) {
+                System.out.println("Searching for reservation with client name: " + showField);
+                ReservationEntity reservation = getReservation.getReservationByClienName(showField);
                 if (reservation != null) {
-                    filterTableWithData(Collections.singletonList(reservation)); // Mostrar la reserva filtrada
+                    System.out.println("Reservation found, updating table.");
+                    filterTableWithData(Collections.singletonList(reservation)); 
                 } else {
+                    System.out.println("No reservation found, clearing table.");
                     filterTableWithData(Collections.emptyList());
                 }
             }
@@ -225,17 +234,22 @@ public class GeneralReservation extends javax.swing.JDialog {
     private void buttonLoanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonLoanActionPerformed
         int selectRow = tableReservation.getSelectedRow();
         if (selectRow >= 0) {
-            Reservation selectReservation = reservationMap.get(selectRow);
-            Book book = selectReservation.getBooks().get(0);
+            ReservationEntity selectReservation = reservationMap.get(selectRow);
+            BookEntity book = selectReservation.getBookEntity();
+            System.out.println("Book ID: " + book.getId());
+            if (selectReservation.getBookEntity() == null) {
+                JOptionPane.showMessageDialog(this,"The reservation does not have a valid book.");
+            }
+            
             try {
-                boolean isAvailable = setBookToFalseAviailable.bookSetTofalseAvailable(book.getISB());
+                boolean isAvailable = getBookIsAvailableQueries.bookIsAvailable(selectReservation.getBookEntity());
                 if (!isAvailable) {
                     JOptionPane.showMessageDialog(this, "The book is not Available");
                 } else {
-                    openCreateLoanWindow(book, selectReservation);
+                    openCreateLoanWindow(selectReservation);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Please select a book from the table.");
+                JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
     }// GEN-LAST:event_buttonLoanActionPerformed
@@ -243,7 +257,7 @@ public class GeneralReservation extends javax.swing.JDialog {
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonDeleteActionPerformed
         int selectedRow = tableReservation.getSelectedRow();
         if (selectedRow >= 0) {
-            Reservation selecReservation = reservationMap.get(selectedRow);
+            ReservationEntity selecReservation = reservationMap.get(selectedRow);
             int option = JOptionPane.showConfirmDialog(this,
                     "¿Está seguro de que desea continuar?",
                     "Confirmación",
@@ -257,7 +271,7 @@ public class GeneralReservation extends javax.swing.JDialog {
         }
     }// GEN-LAST:event_buttonDeleteActionPerformed
 
-    private void deleteReservation(Reservation reservation) {
+    private void deleteReservation(ReservationEntity reservation) {
         try {
             deleteReservationComands.deleteReservation(reservation);
         } catch (Exception e) {
@@ -270,20 +284,20 @@ public class GeneralReservation extends javax.swing.JDialog {
         DefaultTableModel model = (DefaultTableModel) tableReservation.getModel();
         model.setRowCount(0);
         try {
-            List<Reservation> reservations = getListReservationsQueries.getAllReservations();
+            List<ReservationEntity> reservations = getListReservationsQueries.getAllReservations();
 
             if (reservations.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "The list is empty.");
             }
 
             for (int i = 0; i < reservations.size(); i++) {
-                Reservation reservation = reservations.get(i);
+                ReservationEntity reservation = reservations.get(i);
                 String dateReservation = dateFormat.format(reservation.getDateReservation());
                 reservationMap.put(i, reservation);
                 model.addRow(new Object[] {
-                        reservation.getClient(),
+                        reservation.getClientEntity(),
                         reservation.getQuantity(),
-                        reservation.getBooks().get(i),
+                        reservation.getBookEntity(),
                         dateReservation
                 });
             }
@@ -294,7 +308,7 @@ public class GeneralReservation extends javax.swing.JDialog {
 
     }
 
-    private void filterTableWithData(List<Reservation> reservations) {
+    private void filterTableWithData(List<ReservationEntity> reservations) {
         var tableModel = new javax.swing.table.DefaultTableModel(
                 new Object[][] {},
                 new String[] { "Client", "Quantity", "Book", "Date" });
@@ -302,12 +316,12 @@ public class GeneralReservation extends javax.swing.JDialog {
         reservationMap.clear();
         int rowIndex = 0;
 
-        for (Reservation reservation : reservations) {
+        for (ReservationEntity reservation : reservations) {
             String dateReservation = dateFormat.format(reservation.getDateReservation());
             tableModel.addRow(new Object[] {
-                    reservation.getClient(),
+                    reservation.getClientEntity(),
                     reservation.getQuantity(),
-                    reservation.getBooks().get(0),
+                    reservation.getBookEntity(),
                     dateReservation
             });
 
@@ -317,9 +331,8 @@ public class GeneralReservation extends javax.swing.JDialog {
         }
     }
 
-    private void openCreateLoanWindow(Book book, Reservation reservation) {
+    private void openCreateLoanWindow( ReservationEntity reservation) {
         var createLoanWindow = new CreateLoan(new javax.swing.JFrame(), true,
-                book,
                 reservation,
                 createLoanCommandsController,
                 createClientCommmands, getClientByNameQueries,
@@ -329,7 +342,7 @@ public class GeneralReservation extends javax.swing.JDialog {
                 createLoanWindow.setOnLoanCreated(() -> {
                     int selectRow = tableReservation.getSelectedRow();
                     if (selectRow >= 0) {
-                        Reservation selecReservation = reservationMap.get(selectRow);
+                        ReservationEntity selecReservation = reservationMap.get(selectRow);
                         deleteReservation(selecReservation);
                         updateTable();
                     }

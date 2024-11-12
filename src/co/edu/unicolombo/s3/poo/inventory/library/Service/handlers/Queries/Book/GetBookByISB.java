@@ -1,6 +1,6 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Book.IGetBooByISB;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IBookRepository;
 
@@ -17,7 +17,7 @@ public class GetBookByISB implements IGetBooByISB {
     }
 
     @Override
-    public Book getBookByISB(String ISB) throws Exception {
+    public BookEntity getBookByISB(String ISB) throws Exception {
         return bookRepository.getBookByISB(ISB);
     }
 

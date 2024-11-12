@@ -4,7 +4,9 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
+
 import java.util.List;
 
 /**
@@ -13,17 +15,19 @@ import java.util.List;
  */
 public interface IBookRepository {
 
-    public void addBook(Book book) throws Exception;
+    public void addBook(BookEntity book) throws Exception;
 
-    public List<Book> getListBooks() throws Exception;
+    public List<BookEntity> getListBooks() throws Exception;
 
-    public Book getBookByISB(String ISB) throws Exception;
+    public BookEntity getBookByISB(String ISB) throws Exception;
 
-    public void updateBook(Book newBook) throws Exception;
+    public BookEntity getBookByTitle(String title) throws Exception;
 
-    public void deleteBook(Book book) throws Exception;
+    public void updateBook(BookEntity newBook) throws Exception;
 
-    public boolean bookIsAvailable(String title);
+    public void deleteBook(BookEntity book) throws Exception;
+
+    public boolean bookIsAvailable(BookEntity book);
 
     public boolean bookIsFalseAvailable(String ISB) throws Exception;
     

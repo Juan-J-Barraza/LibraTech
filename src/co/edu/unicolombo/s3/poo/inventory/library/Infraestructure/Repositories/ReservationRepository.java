@@ -4,11 +4,16 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Config.HibernateUtil;
+// import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ReservationEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IReservationRepository;
 import java.util.List;
-import java.util.Optional;
+// import java.util.Optional;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 /**
  *
@@ -16,109 +21,155 @@ import java.util.Optional;
  */
 public class ReservationRepository implements IReservationRepository {
 
-    private final DB db = DB.getInstance();
+    private final SessionFactory sessionFactory;
 
-    @Override
-    public void addReservation(Reservation reservation) throws Exception {
-
-        boolean exists = db.getListReservations().stream()
-                .anyMatch(existingReservation -> existingReservation.getID() == reservation.getID());
-
-        if (exists) {
-            throw new Exception("The reservation with the same ID already Exist");
-        }
-
-        db.getListReservations().add(reservation);
+    public ReservationRepository() {
+        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
-    public List<Reservation> getReservations() throws Exception {
-
-        List<Reservation> reservations = db.getListReservations();
-
-        if (reservations == null || reservations.isEmpty()) {
-            throw new Exception("the list is empty or null");
+    public void addReservation(ReservationEntity reservation) throws Exception {
+        if (reservation == null) {
+            throw new Exception("Reservation is null");
         }
-
-        return reservations;
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            session.save(reservation);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                session.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
-    public void updateReservation(Reservation reservation) throws Exception {
+    public List<ReservationEntity> getReservations() throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            var reservations = session.createQuery("FROM ReservationEntity", ReservationEntity.class).list();
 
+            if (reservations.isEmpty()) {
+                throw new Exception("the reservation is empty");
+            }
+
+            return reservations;
+
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public void updateReservation(ReservationEntity reservation) throws Exception {
         if (reservation == null) {
             throw new Exception("The reservation is null");
         }
+        Session session = sessionFactory.openSession();
 
-        int indexReservation = this.getIndexReservationByID(reservation.getID());
-        if (indexReservation < 0) {
-            throw new Exception("The new reservation does not exist");
-        }
-
-        db.getListReservations().set(indexReservation, reservation);
-    }
-
-    @Override
-    public void deleteReservation(Reservation reservation) throws Exception {
-
-        if (!db.getListReservations().contains(reservation)) {
-            throw new Exception("The reservation does not exist");
-        }
-
-        boolean removeReservation = db.getListReservations().remove(reservation);
-        if (!removeReservation) {
-            throw new Exception("The reservation could not be delete");
-        }
-    }
-
-    @Override
-    public Reservation getReservationByID(int ID) throws Exception {
-
-        Optional<Reservation> firstReservation = db.getListReservations().stream()
-                .filter(r -> r.getID() == ID)
-                .findFirst();
-
-        if (!firstReservation.isPresent()) {
-            throw new Exception("Reservation not found with ID: " + ID);
-        }
-
-        return firstReservation.get();
-    }
-
-    @Override
-    public int getIndexReservationByID(int ID) throws Exception {
-
-        for (int i = 0; i < db.getListReservations().size(); i++) {
-            if (db.getListReservations().get(i).getID() == ID) {
-                return i;
+        try {
+            session.beginTransaction();
+            ReservationEntity newReservation = session.get(ReservationEntity.class, reservation.getId());
+            if (newReservation == null) {
+                throw new Exception("the reservation is null");
             }
-        }
 
-        return -1;
+            newReservation.setQuantity(reservation.getQuantity());
+            newReservation.setBookEntity(reservation.getBookEntity());
+            newReservation.setClientEntity(reservation.getClientEntity());
+            newReservation.setDateReservation(reservation.getDateReservation());
+
+            session.update(newReservation);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                session.getTransaction().rollback();
+            }
+            throw e;
+
+        } finally {
+            session.close();
+        }
     }
 
     @Override
-    public boolean bookIsAvailable(String title) {
-        var indexBook = db.getIndexBookByTitle(title);
-        var isAviableBook = db.getListBooks().get(indexBook).isAvailable();
-        var isStockBook = db.getListBooks().get(indexBook).getStock() > 0;
-        return isAviableBook && isStockBook;
+    public void deleteReservation(ReservationEntity reservation) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            ReservationEntity deleteResv = session.get(ReservationEntity.class, reservation.getId());
+            session.delete(deleteResv);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                session.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
-    public Reservation getReservationByNameClient(String name) throws Exception {
-        if (name == null) {
-            System.out.println("entrando al if");
-            throw new Exception("The client does not have a reservation");
+    public ReservationEntity getReservationByID(int ID) throws Exception {
+        if (ID == 0) {
+            throw new Exception("Id is 0");
         }
 
-        Optional<Reservation> reservation = db.getListReservations().stream()
-                .filter(c -> c.getClient().getName().equalsIgnoreCase(name))
-                .findFirst();
-        if (reservation.isEmpty()) {
-            throw new Exception("No reservation found for the client: " + name);
+        Session session = sessionFactory.openSession();
+        try {
+            ReservationEntity rEntity = session.createQuery("FROM ReservationEntity WHERE id = :id",
+                    ReservationEntity.class).setParameter("id", ID)
+                    .uniqueResult();
+            return rEntity;
+        } finally {
+            session.close();
         }
-        System.out.println("no entro al if y retorno: " + reservation.get());
-        return reservation.get();
+    }
+
+    // @Override
+    // public int getIndexReservationByID(int ID) throws Exception {
+
+    // for (int i = 0; i < db.getListReservations().size(); i++) {
+    // if (db.getListReservations().get(i).getID() == ID) {
+    // return i;
+    // }
+    // }
+
+    // return -1;
+    // }
+
+    // @Override
+    // public boolean bookIsAvailable(String title) {
+    // var indexBook = db.getIndexBookByTitle(title);
+    // var isAviableBook = db.getListBooks().get(indexBook).isAvailable();
+    // var isStockBook = db.getListBooks().get(indexBook).getStock() > 0;
+    // return isAviableBook && isStockBook;
+    // }
+
+    @Override
+    public ReservationEntity getReservationByNameClient(String name) throws Exception {
+        if (name == null || name.trim().isEmpty()) {
+            throw new Exception("The client name is null or empty.");
+        }
+        Session session = sessionFactory.openSession();
+        try {
+            ReservationEntity rEntity = session.createQuery(
+                    "FROM ReservationEntity r WHERE LOWER(r.client.name) = :name",
+                    ReservationEntity.class)
+                    .setParameter("name", name.toLowerCase())
+                    .uniqueResult();
+            if (rEntity == null) {
+                throw new Exception("the client not found");
+            }
+            System.out.println("Reservation found for client: " + name);
+            return rEntity;
+        } finally {
+            session.close();
+        }
     }
 }

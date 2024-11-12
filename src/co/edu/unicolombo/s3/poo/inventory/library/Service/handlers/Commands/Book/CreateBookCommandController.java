@@ -1,6 +1,6 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Book.IAddCommands;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IBookRepository;
 
@@ -18,7 +18,7 @@ public class CreateBookCommandController implements IAddCommands {
     
     
     @Override
-    public void createBook(Book book) throws Exception {
+    public void createBook(BookEntity book) throws Exception {
         bookRepository.addBook(book);
     }
 

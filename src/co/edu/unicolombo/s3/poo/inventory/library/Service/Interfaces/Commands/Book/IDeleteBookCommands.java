@@ -1,7 +1,7 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 
 /**
  *
@@ -9,5 +9,5 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
  */
 public interface IDeleteBookCommands {
     
-    public void deleteBook(Book book) throws Exception;
+    public void deleteBook(BookEntity book) throws Exception;
 }

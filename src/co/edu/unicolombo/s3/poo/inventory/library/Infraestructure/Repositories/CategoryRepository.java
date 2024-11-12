@@ -1,11 +1,15 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Category;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
+
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Config.HibernateUtil;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.CategoryEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.ICategoryRepository;
 import java.util.List;
-import java.util.Optional;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -13,22 +17,31 @@ import java.util.Optional;
  */
 public class CategoryRepository implements ICategoryRepository {
 
-    private DB db = DB.getInstance();
+    private SessionFactory sessionFactory;
+
+    public CategoryRepository() {
+        this.sessionFactory = HibernateUtil.getSessionFactory();
+    }
 
     @Override
-    public List<Book> listBookByCategoty(String name) throws Exception {
-        if (name != null) {
-            Optional<Category> firstCategory = db.getCategories().stream()
-                    .filter(c -> c.getName().equalsIgnoreCase(name))
-                    .findFirst();
-
-            if (!firstCategory.isPresent()) {
-                throw new Exception("The list is empty");
-            }
-            return firstCategory.get().getBooks();
+    public List<BookEntity> listBookByCategoty(String name) throws Exception {
+        if (name == null || name.isEmpty()) {
+            throw new Exception("Category name cannot be null or empty");
         }
 
-        return null;
+        try (Session session = sessionFactory.openSession()) {
+            Query<CategoryEntity> categoryQuery = session.createQuery(
+                    "FROM CategoryEntity c WHERE c.name = :name", CategoryEntity.class);
+            categoryQuery.setParameter("name", name);
+
+            CategoryEntity category = categoryQuery.uniqueResult();
+
+            if (category == null) {
+                throw new Exception("Category not found or no books in this category");
+            }
+
+            return category.getBooks();
+        }
     }
 
 }

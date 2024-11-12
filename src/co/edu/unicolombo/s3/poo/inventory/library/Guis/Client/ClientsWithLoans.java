@@ -4,7 +4,8 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Loan.ReturnLoanCommandsController;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan.GetListClientsWithLoanQueries;
 import java.util.*;
@@ -16,7 +17,7 @@ import java.util.*;
 public class ClientsWithLoans extends javax.swing.JDialog {
 
 private GetListClientsWithLoanQueries getListClientsWithLoanQueries;
-private Map<Integer, Client> clientMap = new HashMap<>();
+private Map<Integer, ClientEntity> clientMap = new HashMap<>();
 
 /**
      * Creates new form ClientsWithLoans
@@ -124,7 +125,7 @@ private Map<Integer, Client> clientMap = new HashMap<>();
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonSearchActionPerformed
-        List<Client> clients = new ArrayList<>();
+        List<ClientEntity> clients = new ArrayList<>();
         try {
             clients = getListClientsWithLoanQueries.getClientsWithLoan();
         } catch (Exception e) {
@@ -134,14 +135,14 @@ private Map<Integer, Client> clientMap = new HashMap<>();
         filterTableWithBooks(clients);
     }// GEN-LAST:event_buttonSearchActionPerformed
 
-    private void filterTableWithBooks(List<Client> clients) {
+    private void filterTableWithBooks(List<ClientEntity> clients) {
         var tableModel = new javax.swing.table.DefaultTableModel(
                 new Object[][] {},
                 new String[] { "Name", "Address", "PhoneNumber"});
         tableModel.setRowCount(0);
         clientMap.clear();
         int rowIndex = 0;
-        for (Client client : clients) {
+        for (ClientEntity client : clients) {
             tableModel.addRow(new Object[] {
                     client.getName(),
                     client.getAddress(),

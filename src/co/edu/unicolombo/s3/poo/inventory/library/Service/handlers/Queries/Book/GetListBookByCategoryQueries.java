@@ -1,7 +1,7 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.ICategoryRepository;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class GetListBookByCategoryQueries implements ICategoryRepository{
     }
 
     @Override
-    public List<Book> listBookByCategoty(String name) throws Exception {
+    public List<BookEntity> listBookByCategoty(String name) throws Exception {
         return categoryRepository.listBookByCategoty(name);
     }
     

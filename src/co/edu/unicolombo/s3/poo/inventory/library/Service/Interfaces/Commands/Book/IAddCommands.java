@@ -1,6 +1,6 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 
 /**
  *
@@ -8,6 +8,6 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
  */
 public interface IAddCommands {
     
-    public void createBook(Book book) throws Exception;
+    public void createBook(BookEntity book) throws Exception;
 
 }

@@ -1,7 +1,8 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Client;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 
 /**
  *
@@ -9,5 +10,5 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
  */
 public interface IDeleteClientCommands {
     
-    public void deleteClient(Client client) throws Exception;
+    public void deleteClient(ClientEntity client) throws Exception;
 }

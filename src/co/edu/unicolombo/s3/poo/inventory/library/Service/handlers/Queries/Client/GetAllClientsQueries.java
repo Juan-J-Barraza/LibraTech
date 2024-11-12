@@ -3,7 +3,8 @@ package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Clie
 
 import java.util.List;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Client.IGetListClientQueries;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IClientRepository;
 
@@ -20,7 +21,7 @@ public class GetAllClientsQueries implements IGetListClientQueries {
     }
 
     @Override
-    public List<Client> getListClients() throws Exception {
+    public List<ClientEntity> getListClients() throws Exception {
         return clientRepository.getListClients();
     }
 

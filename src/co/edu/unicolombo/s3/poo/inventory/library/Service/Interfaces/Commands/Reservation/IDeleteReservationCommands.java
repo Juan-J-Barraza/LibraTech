@@ -4,7 +4,8 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Reservation;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ReservationEntity;
 
 /**
  *
@@ -12,5 +13,5 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
  */
 public interface IDeleteReservationCommands {
 
-    public void deleteReservation(Reservation reservation) throws Exception;
+    public void deleteReservation(ReservationEntity reservation) throws Exception;
 }

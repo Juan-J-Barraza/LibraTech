@@ -5,6 +5,7 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.UpdateClientCommands;
 
 /**
@@ -15,12 +16,12 @@ public class UpdateClient extends javax.swing.JDialog {
 
     private Runnable onUpdateClient;
     private UpdateClientCommands updatecClientCommands;
-    private Client clientSelected;
+    private ClientEntity clientSelected;
 
     /**
      * Creates new form UpdateClient
      */
-    public UpdateClient(java.awt.Frame parent, boolean modal, Client client,
+    public UpdateClient(java.awt.Frame parent, boolean modal, ClientEntity client,
             UpdateClientCommands updatecClientCommands) {
         super(parent, modal);
         this.updatecClientCommands = updatecClientCommands;

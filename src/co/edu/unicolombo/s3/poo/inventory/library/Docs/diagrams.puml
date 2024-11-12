@@ -51,19 +51,24 @@ class Reservation {
     - int quantity;
     - date dateReservation;
     - Client client;
-    - List<Book> books;
+    - Book book;
 }
 
+class BookLoan {
+    - Loan loan;
+    - Book book;
+}
 
 
 ' relatioships
 
 Book "*" -- "1" Publisher: do
 Book "*" -- "1" Category: contain
-Book "*" -- "1" Loan: contain
+Book "*" -- "*" Loan: contain
+(Book, Loan) .. BookLoan
 Loan "*" -- "1" Client: do
 Reservation "1" -- "1" Client: do
-Reservation "1" -- "*" Book: contain
+Reservation "1" -- "1" Book: contain
 
 
 

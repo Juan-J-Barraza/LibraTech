@@ -4,7 +4,8 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Reservation;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ReservationEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Reservation.IDeleteReservationCommands;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IReservationRepository;
 
@@ -21,7 +22,7 @@ public class DeleteReservationCommands implements IDeleteReservationCommands {
     }
 
     @Override
-    public void deleteReservation(Reservation reservation) throws Exception {
+    public void deleteReservation(ReservationEntity reservation) throws Exception {
         this.repository.deleteReservation(reservation);
     }
 }

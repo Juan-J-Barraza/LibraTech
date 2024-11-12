@@ -4,11 +4,14 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Loans;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Reservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Client.CreateClient;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.LoanEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ReservationEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.RemoveQuantityFromStock;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.SetBookToFalseAviailable;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.CreateClientCommmands;
@@ -35,16 +38,15 @@ public class CreateLoan extends javax.swing.JDialog {
         private CreateClientCommmands createClientCommmands;
         private RemoveQuantityFromStock removeQuantityFromStock;
         private SetBookToFalseAviailable setBookToFalseAviailable;
-        private Book book;
-        private Reservation reservation;
+        private BookEntity book;
+        private ReservationEntity reservation;
         private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         /**
          * Creates new form CreateLoan
          */
         public CreateLoan(java.awt.Frame parent, boolean modal,
-                        Book book,
-                        Reservation reservation,
+                        ReservationEntity reservation,
                         CreateLoanCommandsController commandsController,
                         CreateClientCommmands createClientCommmands,
                         GetClientByNameQueries getClientByNameQueries,
@@ -57,19 +59,19 @@ public class CreateLoan extends javax.swing.JDialog {
                 this.createLoanCommandsController = commandsController;
                 this.removeQuantityFromStock = removeQuantityFromStock;
                 this.setBookToFalseAviailable = setBookToFalseAviailable;
-                this.book = book;
+                this.book = reservation.getBookEntity();
                 this.reservation = reservation;
                 LocalDate currentDate = LocalDate.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
                 String formattedDate = currentDate.format(formatter);
                 fieldInitialDate.setText(formattedDate);
                 labelOfTitle.setText(book.getTitle());
-                comboBoxClient.addItem(reservation.getClient());
+                comboBoxClient.addItem(reservation.getClientEntity());
                 quantityToInt();
         }
 
         public CreateLoan(java.awt.Frame parent, boolean modal,
-                        Book book,
+                        BookEntity book,
                         CreateLoanCommandsController commandsController,
                         CreateClientCommmands createClientCommmands,
                         GetClientByNameQueries getClientByNameQueries,
@@ -386,7 +388,7 @@ public class CreateLoan extends javax.swing.JDialog {
 
                 try {
                         if (fieldLookForClient != null && !fieldLookForClient.getText().isEmpty()) {
-                                Client client = getClientByNameQueries.getClientByName(selectedClient);
+                                ClientEntity client = getClientByNameQueries.getClientByName(selectedClient);
                                 if (client != null) {
                                         filterComboBoxClient(client);
                                 } else {
@@ -402,9 +404,9 @@ public class CreateLoan extends javax.swing.JDialog {
 
         }// GEN-LAST:event_buttonSearchActionPerformed
 
-        private void filterComboBoxClient(Client client) {
+        private void filterComboBoxClient(ClientEntity client) {
                 System.out.println("the client is :" + client);
-                System.out.println("id of client is: " + client.getID());
+                System.out.println("id of client is: " + client.getId());
                 comboBoxClient.addItem(client);
                 comboBoxClient.setSelectedItem(client);
         }
@@ -413,8 +415,9 @@ public class CreateLoan extends javax.swing.JDialog {
                 var returnDate = fieldDate.getDate();
                 var quantityStr = fieldQuantity.getText();
                 var initialDatestr = fieldInitialDate.getText();
-                var client = (Client) comboBoxClient.getSelectedItem();
+                var client = (ClientEntity) comboBoxClient.getSelectedItem();
                 var title = labelOfTitle.getText();
+                java.sql.Date sqlReturnDate = new java.sql.Date(returnDate.getTime());
 
                 if (client == null || quantityStr.isEmpty() || returnDate == null) {
                         javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
@@ -422,7 +425,8 @@ public class CreateLoan extends javax.swing.JDialog {
                 }
 
                 int quantity;
-                Date initisalDate = null;
+
+                java.sql.Date sqlInitialDate = null;
 
                 try {
                         quantity = Integer.parseInt(quantityStr);
@@ -432,18 +436,21 @@ public class CreateLoan extends javax.swing.JDialog {
                 }
 
                 try {
-                        initisalDate = dateFormat.parse(initialDatestr);
+                        Date initisalDate = dateFormat.parse(initialDatestr);
+                        sqlInitialDate = new java.sql.Date(initisalDate.getTime());
+
                 } catch (Exception e) {
                         javax.swing.JOptionPane.showMessageDialog(this, "Invalid quantity number.");
                         return;
                 }
 
-                var newLoan = new Loan(initisalDate, returnDate, client, quantity);
+                var newLoan = new LoanEntity(sqlInitialDate, sqlReturnDate, quantity, client);
 
+                newLoan.getBooks().add(book);
+                book.getLoans().add(newLoan);
                 try {
+                        System.out.println("ingresanado a crear el prestamo");
                         createLoanCommandsController.addLoan(newLoan);
-                        newLoan.getBooks().add(book);
-
                 } catch (Exception e) {
                         javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
                         return;
@@ -452,12 +459,10 @@ public class CreateLoan extends javax.swing.JDialog {
                 client.getLoans().add(newLoan);
                 try {
                         removeQuantityFromStock.removeStock(quantity, title);
-                        setBookToFalseAviailable.bookSetTofalseAvailable(book.getISB());
                 } catch (Exception e) {
                         javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
                         return;
                 }
-                // newLoan.getBooks().add(book);
                 javax.swing.JOptionPane.showMessageDialog(this, "Loan successfully!");
                 this.dispose();
                 if (onLoanCreated != null) {
@@ -477,61 +482,11 @@ public class CreateLoan extends javax.swing.JDialog {
                 createClientWindow.setVisible(true);
         }
 
-        /**
-         * @param args the command line arguments
-         */
-        // public static void main(String args[]) {
-        // /* Set the Nimbus look and feel */
-        // //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
-        // /* If Nimbus (introduced in Java SE 6) is not available, stay with the
-        // default look and feel.
-        // * For details see
-        // http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-        // */
-        // try {
-        // for (javax.swing.UIManager.LookAndFeelInfo info :
-        // javax.swing.UIManager.getInstalledLookAndFeels()) {
-        // if ("Nimbus".equals(info.getName())) {
-        // javax.swing.UIManager.setLookAndFeel(info.getClassName());
-        // break;
-        // }
-        // }
-        // } catch (ClassNotFoundException ex) {
-        // java.util.logging.Logger.getLogger(CreateLoan.class.getName()).log(java.util.logging.Level.SEVERE,
-        // null, ex);
-        // } catch (InstantiationException ex) {
-        // java.util.logging.Logger.getLogger(CreateLoan.class.getName()).log(java.util.logging.Level.SEVERE,
-        // null, ex);
-        // } catch (IllegalAccessException ex) {
-        // java.util.logging.Logger.getLogger(CreateLoan.class.getName()).log(java.util.logging.Level.SEVERE,
-        // null, ex);
-        // } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        // java.util.logging.Logger.getLogger(CreateLoan.class.getName()).log(java.util.logging.Level.SEVERE,
-        // null, ex);
-        // }
-        // //</editor-fold>
-        //
-        // /* Create and display the dialog */
-        // java.awt.EventQueue.invokeLater(new Runnable() {
-        // public void run() {
-        // CreateLoan dialog = new CreateLoan(new javax.swing.JFrame(), true);
-        // dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-        // @Override
-        // public void windowClosing(java.awt.event.WindowEvent e) {
-        // System.exit(0);
-        // }
-        // });
-        // dialog.setVisible(true);
-        // }
-        // });
-        // }
-
         // Variables declaration - do not modify//GEN-BEGIN:variables
         private javax.swing.JButton buttonAddLoan;
         private javax.swing.JButton buttonNewClient;
         private javax.swing.JButton buttonSearch;
-        private javax.swing.JComboBox<Client> comboBoxClient;
+        private javax.swing.JComboBox<ClientEntity> comboBoxClient;
         private org.jdesktop.swingx.JXDatePicker fieldDate;
         private javax.swing.JTextField fieldInitialDate;
         private javax.swing.JTextField fieldLookForClient;

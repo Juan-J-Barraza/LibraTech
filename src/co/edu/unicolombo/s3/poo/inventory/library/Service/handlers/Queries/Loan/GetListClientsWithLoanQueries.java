@@ -3,7 +3,8 @@ package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Loan
 
 import java.util.List;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Loan.IGetListClientsWithLoan;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.ILoanRepository;
 
@@ -20,7 +21,7 @@ public class GetListClientsWithLoanQueries implements IGetListClientsWithLoan{
     }
 
     @Override
-    public List<Client> getClientsWithLoan() throws Exception {
+    public List<ClientEntity> getClientsWithLoan() throws Exception {
         return loanRepository.getListClientsWithLoan();
     }
 

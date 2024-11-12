@@ -1,146 +1,261 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
-import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.DB;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Config.HibernateUtil;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IBookRepository;
-import java.util.List;
-import java.util.Optional;
+import org.hibernate.Session;
+// import org.hibernate.query.Query;
+import org.hibernate.SessionFactory;
 
-/**
- *
- * @author Juan
- */
+import java.util.List;
+
 public class BookRepository implements IBookRepository {
 
-    private final DB db = DB.getInstance();
+    private final SessionFactory sessionFactory;
 
-    @Override
-    public void addBook(Book book) throws Exception {
-        boolean exists = db.getListBooks().stream()
-                .anyMatch(existingBook -> existingBook.getISB()
-                        .equalsIgnoreCase(book.getISB()));
-        if (exists) {
-            throw new Exception("The book with ISB already Exist");
-        }
-        db.getListBooks().add(book);
+    public BookRepository() {
+        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
-    public List<Book> getListBooks() throws Exception {
-        var books = db.getListBooks();
-        if (books == null || books.isEmpty()) {
-            throw new Exception("the list is empty or null");
-        }
-        return books;
-    }
-
-    @Override
-    public Book getBookByISB(String ISB)
-            throws Exception {
-        if (ISB != null) {
-            Optional<Book> firstBook = db.getListBooks().stream()
-                    .filter(b -> b.getTitle()
-                            .equalsIgnoreCase(ISB))
-                    .findFirst();
-
-            if (!firstBook.isPresent()) {
-                throw new Exception("not found that book");
+    public void addBook(BookEntity book) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            session.save(book);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                session.getTransaction().rollback();
             }
-            return firstBook.get();
-        }
-        return null;
-    }
-
-    @Override
-    public void updateBook(Book newBook) throws Exception {
-        if (newBook == null) {
-            throw new Exception("The book is null");
-        }
-        var indexBook = db.getIndexBookByISB(newBook.getISB());
-        if (indexBook < 0) {
-            throw new Exception("The new book does not exist");
-        }
-        db.getListBooks().set(indexBook, newBook);
-    }
-
-    @Override
-    public void deleteBook(Book book) throws Exception {
-        if (!db.getListBooks().contains(book)) {
-            throw new Exception("The book does not exist in the list.");
-        }
-
-        boolean removeBook = db.getListBooks().remove(book);
-        if (!removeBook) {
-            throw new Exception("The book could not be delete");
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean bookIsAvailable(String title) {
-        var indexBook = db.getIndexBookByTitle(title);
-        var isAviableBook = db.getListBooks().get(indexBook).isAvailable();
-        var isStockBook = db.getListBooks().get(indexBook).getStock() > 0;
-        return isAviableBook && isStockBook;
+    public List<BookEntity> getListBooks() throws Exception {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM BookEntity", BookEntity.class).getResultList();
+
+        }
+    }
+
+    @Override
+    public BookEntity getBookByISB(String ISB) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            BookEntity entity = session.createQuery("FROM BookEntity WHERE isbn = :isb", BookEntity.class)
+                    .setParameter("isb", ISB)
+                    .uniqueResult();
+
+            if (entity == null) {
+                throw new Exception("Book not found.");
+            }
+
+            return entity;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public void updateBook(BookEntity book) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            BookEntity entity = session.get(BookEntity.class, book.getId());
+            if (entity == null) {
+                throw new Exception("Book not found.");
+            }
+            entity.setTitle(book.getTitle());
+            entity.setPublication(book.getPublication());
+            entity.setStock(book.getStock());
+            entity.setPublisherEntity(book.getPublisherEntity());
+            entity.setCategoryEntity(book.getCategoryEntity());
+            session.update(entity);
+            session.getTransaction().commit();
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public void deleteBook(BookEntity book) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            BookEntity entity = session.get(BookEntity.class, book.getId());
+            if (entity == null) {
+                throw new Exception("Book not found.");
+            }
+            session.delete(entity);
+            session.getTransaction().commit();
+        } finally {
+            if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                session.getTransaction().rollback();
+            }
+            session.close();
+        }
+    }
+
+    @Override
+    public boolean bookIsAvailable(BookEntity book) {
+        Session session = sessionFactory.openSession();
+        try {
+            BookEntity entity = session.createQuery("FROM BookEntity WHERE id = :id", BookEntity.class)
+            .setParameter("id", book.getId())
+            .uniqueResult();
+            
+            if (book == null || book.getId() == 0) {
+                return false;
+            }
+            return entity != null && entity.isAvailable() && entity.getStock() > 0;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public void addBookToStock(int amount, String title) throws Exception {
-        if (amount > 0) {
-            var indexBook = db.getIndexBookByTitle(title);
-            if (indexBook >= 0) {
-                int newStock = db.getListBooks().get(indexBook).getStock() + amount;
-                db.getListBooks().get(indexBook).setStock(newStock);
-            } else {
-                throw new Exception("The index is lower");
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            BookEntity entity = session.createQuery("FROM BookEntity WHERE LOWER(title) = :title", BookEntity.class)
+                    .setParameter("title", title.toLowerCase())
+                    .uniqueResult();
+            if (entity == null) {
+                throw new Exception("Book not found.");
             }
-        } else {
-            throw new Exception("The amount should be heigher to 0");
+            entity.setStock(entity.getStock() + amount);
+            session.update(entity);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                session.getTransaction().rollback();
+            }
+            throw e;
+
+        } finally {
+            session.close();
         }
     }
 
     @Override
     public void removeBookFromStock(int amount, String title) throws Exception {
-        var indexStock = db.getIndexBookByTitle(title);
-        var getStock = db.getListBooks().get(indexStock).getStock();
-        if (amount > 0 && getStock >= amount) {
-            int newStock = getStock - amount;
-            db.getListBooks().get(indexStock).setStock(newStock);
-        } else {
-            throw new Exception("Stock insuficiente o monto inválido");
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            BookEntity entity = session.createQuery("FROM BookEntity WHERE title = :title", BookEntity.class)
+                    .setParameter("title", title)
+                    .uniqueResult();
+
+            if (entity == null) {
+                throw new Exception("Book not found.");
+            }
+
+            if (entity.getStock() < amount) {
+                throw new Exception("Not enough stock for the loan.");
+            }
+
+            entity.setStock(entity.getStock() - amount);
+            session.update(entity);
+            session.getTransaction().commit();
+
+            if (entity.getStock() == 0) {
+                boolean updated = bookIsFalseAvailable(entity.getISB());
+                if (!updated) {
+                    throw new Exception("Failed to update book availability.");
+                }
+            }
+
+        } catch (Exception e) {
+            if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                session.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
     public boolean bookIsFalseAvailable(String ISB) throws Exception {
-        var indexBook = db.getIndexBookByISB(ISB);
-        if (indexBook < 0) {
-            throw new Exception("The book with the provided ISBN does not exist");
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            BookEntity book = session.createQuery("FROM BookEntity WHERE isbn = :isb", BookEntity.class)
+                    .setParameter("isb", ISB)
+                    .uniqueResult();
+            if (book != null && book.getStock() == 0) {
+                book.setAvailable(false);
+                session.update(book);
+                session.getTransaction().commit();
+                return true;
+            } else {
+                if (book == null) {
+                    throw new Exception("Book not found.");
+                } else {
+                    session.getTransaction().commit();
+                    return false;
+
+                }
+            }
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
         }
-        var book = db.getListBooks().get(indexBook);
-        var getStock = book.getStock();
-        if (getStock > 0) {
-            return true;
-        }
-        book.setAvailable(false);
-        return false;
     }
 
     @Override
     public void bookIsTrueAvailable(String ISB) throws Exception {
-        var indexBook = db.getIndexBookByISB(ISB);
-        if (indexBook < 0) {
-            throw new Exception("The book with the provided ISBN does not exist");
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            BookEntity book = session.createQuery("FROM BookEntity WHERE isbn = :isb", BookEntity.class)
+                    .setParameter("isb", ISB)
+                    .uniqueResult();
+            if (book != null && book.getStock() > 0) {
+                book.setAvailable(true);
+                session.update(book);
+                session.getTransaction().commit();
+            } else {
+                if (book == null) {
+                    throw new Exception("Book not found.");
+                } else {
+                    throw new Exception("Stock is 0 or the book does not exist");
+                }
+            }
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
         }
-
-        var book = db.getListBooks().get(indexBook);
-        var getStock = book.getStock();
-        System.out.println("Index del libro: " + indexBook);
-        System.out.println("Stock del libro: " + getStock);
-        System.out.println("ISBN del libro: " + ISB);
-        if (getStock < 0) {
-            throw new Exception("stock is 0");
-        }
-        book.setAvailable(true);
     }
 
+    @Override
+    public BookEntity getBookByTitle(String title) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            BookEntity entity = session.createQuery("FROM BookEntity WHERE LOWER(title) = :title", BookEntity.class)
+                    .setParameter("title", title.toLowerCase())
+                    .uniqueResult();
+
+            if (entity == null) {
+                throw new Exception("Book not found");
+            }
+            return entity;
+        } finally {
+            session.close();
+        }
+    }
 }

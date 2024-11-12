@@ -1,6 +1,6 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Commands.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 
 /**
  *
@@ -8,5 +8,5 @@ import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
  */
 public interface IUpdateBookCommands {
 
-    public void updateBook(Book book) throws Exception;
+    public void updateBook(BookEntity book) throws Exception;
 }

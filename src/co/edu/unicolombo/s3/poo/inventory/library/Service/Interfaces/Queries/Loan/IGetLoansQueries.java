@@ -4,7 +4,9 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Loan;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.LoanEntity;
+
 import java.util.List;
 
 /**
@@ -13,5 +15,5 @@ import java.util.List;
  */
 public interface IGetLoansQueries {
     
-    public List<Loan> getLoans() throws Exception;
+    public List<LoanEntity> getLoans() throws Exception;
 }

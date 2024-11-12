@@ -1,7 +1,7 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Book.IGetListBook;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories.IBookRepository;
 import java.util.List;
@@ -19,7 +19,7 @@ public class GetListBookQueries implements IGetListBook{
     }
 
     @Override
-    public List<Book> getAllBooks() throws Exception {
+    public List<BookEntity> getAllBooks() throws Exception {
          return bookRepository.getListBooks();
     }
     

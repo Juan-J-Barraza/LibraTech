@@ -1,9 +1,10 @@
 
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Book;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Loan;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.LoanEntity;
+
 import java.util.List;
 
 /**
@@ -12,18 +13,18 @@ import java.util.List;
  */
 public interface ILoanRepository {
 
-    public void addloanBook(Loan loan) throws Exception;
+    public void addloanBook(LoanEntity loan) throws Exception;
 
-    public List<Loan> getLoans() throws Exception;
+    public List<LoanEntity> getLoans() throws Exception;
     
-    public Client getClientFromLoan(int idClient) throws Exception;
+    public ClientEntity getClientFromLoan(int idClient) throws Exception;
 
-    public void returnBook(Loan loan) throws Exception;
+    public void returnBook(LoanEntity loan) throws Exception;
 
-    public List<Client> getListClientsWithLoan() throws Exception;
+    public List<ClientEntity> getListClientsWithLoan() throws Exception;
 
-    public Loan findLoanByBook(Book book) throws Exception;
+    public LoanEntity findLoanByBook(BookEntity book) throws Exception;
 
-    public List<Loan> getBooksWithLoansByCategory(String name) throws Exception;
+    public List<LoanEntity> getBooksWithLoansByCategory(String name) throws Exception;
 
 }

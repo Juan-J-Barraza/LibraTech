@@ -4,7 +4,9 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Repositories;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
+
 import java.util.List;
 
 /**
@@ -13,15 +15,15 @@ import java.util.List;
  */
 public interface IClientRepository {
 
-    public void addClient(Client client) throws Exception;
+    public void addClient(ClientEntity client) throws Exception;
 
-    public List<Client> getListClients() throws Exception;
+    public List<ClientEntity> getListClients() throws Exception;
 
-    public Client getClientByName(String name) throws Exception;
+    public ClientEntity getClientByName(String name) throws Exception;
 
-    public void updateClient(Client newClient) throws Exception;
+    public void updateClient(ClientEntity newClient) throws Exception;
 
-    public void deleteClient(Client client);
+    public void deleteClient(ClientEntity client);
 
-    public Client getClientByIDClient(int IDClient ) throws Exception;
+    public ClientEntity getClientByIDClient(int IDClient ) throws Exception;
 }
