@@ -1,4 +1,4 @@
-package co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Queries.Book;
+package co.edu.unicolombo.s3.poo.inventory.library.Service.handlers.Queries.Book;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.BookEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Interfaces.Queries.Book.IGetBooByISB;
