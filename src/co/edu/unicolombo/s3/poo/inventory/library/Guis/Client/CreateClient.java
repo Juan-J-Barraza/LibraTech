@@ -6,7 +6,7 @@ package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
 import javax.swing.JOptionPane;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.CreateClientCommmands;
 
@@ -210,7 +210,7 @@ public class CreateClient extends javax.swing.JDialog {
                 try {
                         createClientCommmands.createClient(client);
                 } catch (Exception e) {
-                        javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+                        javax.swing.JOptionPane.showMessageDialog(this, "Can not create client");
                 }
 
                 javax.swing.JOptionPane.showMessageDialog(this, "The client has been successfully created");

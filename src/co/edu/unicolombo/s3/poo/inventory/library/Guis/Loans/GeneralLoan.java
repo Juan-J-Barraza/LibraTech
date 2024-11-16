@@ -313,7 +313,7 @@ public class GeneralLoan extends javax.swing.JDialog {
                         }
 
                 } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
+                        JOptionPane.showMessageDialog(this, "Not Found");
                 }
 
         }// GEN-LAST:event_comBoxCategoryActionPerformed
@@ -369,7 +369,7 @@ public class GeneralLoan extends javax.swing.JDialog {
                         }
                 } catch (Exception e) {
                         javax.swing.JOptionPane.showMessageDialog(this,
-                                        e.getMessage());
+                                        "");
                 }
 
         }
@@ -413,22 +413,6 @@ public class GeneralLoan extends javax.swing.JDialog {
                 loansTable.repaint();
         }
 
-        // private void updateBooksList(List<Book> books) {
-        // DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        // model.setRowCount(0);
-
-        // for (Book book : books) {
-        // boolean isAvailable = book.isAvailable();
-        // String availableSrt = isAvailable ? "yes" : "no";
-        // Object[] row = new Object[] {
-        // book.getISB(),
-        // book.getTitle(),
-        // book.getStock(),
-        // availableSrt,
-        // };
-        // model.addRow(row);
-        // }
-        // }
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
         private javax.swing.JButton buttonClients;

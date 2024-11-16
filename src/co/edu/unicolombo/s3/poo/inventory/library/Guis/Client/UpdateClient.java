@@ -4,7 +4,7 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Guis.Client;
 
-import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
+// import co.edu.unicolombo.s3.poo.inventory.library.Domain.Models.Client;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Entities.ClientEntity;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.UpdateClientCommands;
 
@@ -191,7 +191,7 @@ public class UpdateClient extends javax.swing.JDialog {
             updatecClientCommands.updateClient(clientSelected);
             javax.swing.JOptionPane.showMessageDialog(this, "Client update Sucessfully");
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(this, "Client not updated");
         }
         if (onUpdateClient != null) {
             onUpdateClient.run();

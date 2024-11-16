@@ -398,7 +398,7 @@ public class CreateLoan extends javax.swing.JDialog {
                                 javax.swing.JOptionPane.showMessageDialog(this, "Please enter a client name.");
                         }
                 } catch (Exception e) {
-                        javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+                        javax.swing.JOptionPane.showMessageDialog(this, "Not found");
                         return;
                 }
 

@@ -11,6 +11,7 @@ import co.edu.unicolombo.s3.poo.inventory.library.Guis.Client.ManageClient;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Loans.GeneralLoan;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation.CreateReservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation.GeneralReservation;
+import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Data;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.CreateClientCommmands;
@@ -36,6 +37,7 @@ public class MainView extends javax.swing.JFrame {
         private final ClientRepository clientRepository = new ClientRepository();
         private final LoanRepository loanRepository = new LoanRepository(bookRepository);
         private final ReservationRepository reservationRepository = new ReservationRepository();
+        private final Data data = new Data();
 
         // Queries
         private final GetListBookByCategoryQueries categoryService = new GetListBookByCategoryQueries(

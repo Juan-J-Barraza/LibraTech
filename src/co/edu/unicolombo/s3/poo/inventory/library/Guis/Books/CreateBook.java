@@ -43,7 +43,7 @@ public class CreateBook extends javax.swing.JDialog {
             comboBoxPublisher.repaint();
         } catch (Exception e) {
             e.printStackTrace();
-            javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar editoriales: " + e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar editoriales: ");
         }
     }
 
@@ -265,15 +265,15 @@ public class CreateBook extends javax.swing.JDialog {
         var publicationDate = fieldPublication.getDate();
         var selectedPublisher = (PublisherEntity) comboBoxPublisher.getSelectedItem();
         var selectedCategory = (CategoryEntity) comboBoxCategory.getSelectedItem();
-        java.sql.Date sqlPublicationDate = new java.sql.Date(publicationDate.getTime());
-
+        
         if (title.isEmpty() || ISB.isEmpty() || stockstr.isEmpty() || selectedPublisher == null
-
-                || selectedCategory == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
-            return;
+        
+        || selectedCategory == null || publicationDate == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
+                return;
         }
-
+        
+        java.sql.Date sqlPublicationDate = new java.sql.Date(publicationDate.getTime());
         int stock;
         try {
             stock = Integer.parseInt(stockstr);

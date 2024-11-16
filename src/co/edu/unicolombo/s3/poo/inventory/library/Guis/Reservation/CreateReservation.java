@@ -233,12 +233,12 @@ public class CreateReservation extends javax.swing.JDialog {
         var dateTime = dateField.getDate();
         ClientEntity clientObj = (ClientEntity) fieldClient.getSelectedItem();
         BookEntity bookObj = (BookEntity) fieldBook.getSelectedItem();
-        java.sql.Date sqlReservationDate = new java.sql.Date(dateTime.getTime());
         
-        if (quantityText.isEmpty() || bookObj == null || clientObj == null) {
+        if (quantityText.isEmpty() || bookObj == null || clientObj == null  || dateTime == null) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please fill all fields.");
             return;
         }
+        java.sql.Date sqlReservationDate = new java.sql.Date(dateTime.getTime());
 
         int quantity;
         try {

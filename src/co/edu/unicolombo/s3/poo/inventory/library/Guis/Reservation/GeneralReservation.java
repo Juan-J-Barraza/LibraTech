@@ -226,7 +226,7 @@ public class GeneralReservation extends javax.swing.JDialog {
                 }
             }
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(this,"Not found");
         }
 
     }// GEN-LAST:event_lookForFieldActionPerformed
@@ -249,7 +249,7 @@ public class GeneralReservation extends javax.swing.JDialog {
                     openCreateLoanWindow(selectReservation);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage());
+                JOptionPane.showMessageDialog(null, "Please select a file in the table");
             }
         }
     }// GEN-LAST:event_buttonLoanActionPerformed
@@ -303,7 +303,7 @@ public class GeneralReservation extends javax.swing.JDialog {
             }
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this,
-                    e.getMessage());
+                   "can not updating the table");
         }
 
     }
