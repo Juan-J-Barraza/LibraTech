@@ -36,10 +36,10 @@ public class Data {
         // this.listClients = new ArrayList<>();
         // this.listReservations = new ArrayList<>();
         this.sessionFactory = HibernateUtil.getSessionFactory();
-        // createDefaultCategories();
-        // createDefaultPublisher();
-        // createDefaultClients();
-        // createDefaultBooks();
+        createDefaultCategories();
+        createDefaultPublisher();
+        createDefaultClients();
+        createDefaultBooks();
 
     }
 
@@ -82,16 +82,24 @@ public class Data {
         categories.add(new CategoryEntity("History"));
         categories.add(new CategoryEntity("Not fiction"));
         for (CategoryEntity categoryEntity : categories) {
-            try {
-                session.beginTransaction();
-                session.save(categoryEntity);
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
-                    session.getTransaction().rollback();
+            CategoryEntity existingCategory = session
+                    .createQuery("FROM CategoryEntity WHERE name = :name", CategoryEntity.class)
+                    .setParameter("name", categoryEntity.getName())
+                    .uniqueResult();
+
+            if (existingCategory == null) {
+                try {
+                    session.beginTransaction();
+                    session.save(categoryEntity);
+                    session.getTransaction().commit();
+                } catch (Exception e) {
+                    if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                        session.getTransaction().rollback();
+                    }
+                    throw e;
                 }
-                throw e;
-            }
+            } 
+            break;
         }
     }
 
@@ -100,16 +108,24 @@ public class Data {
         List<PublisherEntity> publisherEntities = new ArrayList<>();
         publisherEntities.add(new PublisherEntity("ED.J.Creations"));
         for (PublisherEntity publisher : publisherEntities) {
-            try {
-                session.beginTransaction();
-                session.save(publisher);
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
-                    session.getTransaction().rollback();
+            PublisherEntity exiPublisherEntity = session
+                    .createQuery("FROM PublisherEntity WHERE name = :name", PublisherEntity.class)
+                    .setParameter("name", publisher.getName())
+                    .uniqueResult();
+            if (exiPublisherEntity == null) {
+
+                try {
+                    session.beginTransaction();
+                    session.save(publisher);
+                    session.getTransaction().commit();
+                } catch (Exception e) {
+                    if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                        session.getTransaction().rollback();
+                    }
+                    throw e;
                 }
-                throw e;
             }
+            break;
         }
     }
 
@@ -118,16 +134,24 @@ public class Data {
         List<ClientEntity> clients = new ArrayList<>();
         clients.add(new ClientEntity("Juan Barraza", "Pozon", "3001234567"));
         clients.add(new ClientEntity("Deiver jose", "San jose", "309827732"));
+
         for (ClientEntity client : clients) {
-            try {
-                session.beginTransaction();
-                session.save(client);
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
-                    session.getTransaction().rollback();
+            ClientEntity extClientEntity = session
+                    .createQuery("FROM ClientEntity WHERE name = :name", ClientEntity.class)
+                    .setParameter("name", client.getName())
+                    .uniqueResult();
+
+            if (extClientEntity == null) {
+                try {
+                    session.beginTransaction();
+                    session.save(client);
+                    session.getTransaction().commit();
+                } catch (Exception e) {
+                    if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                        session.getTransaction().rollback();
+                    }
+                    throw e;
                 }
-                throw e;
             }
         }
     }
@@ -142,20 +166,27 @@ public class Data {
         var category = session.createQuery("FROM CategoryEntity", CategoryEntity.class)
                 .setMaxResults(1)
                 .uniqueResult();
-        List<BookEntity> books = new ArrayList<>();
-        books.add(new BookEntity("ABC123", "Harry Potter", dateNow, 4, publisher, category));
-        for (BookEntity book : books) {
-            try {
-                session.beginTransaction();
-                session.save(book);
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
-                    session.getTransaction().rollback();
+        BookEntity existingBook = session.createQuery("FROM BookEntity WHERE isbn = :isbn", BookEntity.class)
+                .setParameter("isbn", "ABC123")
+                .uniqueResult();
+
+        if (existingBook == null) {
+            List<BookEntity> books = new ArrayList<>();
+            books.add(new BookEntity("ABC123", "Harry Potter", dateNow, 4, publisher, category));
+
+            for (BookEntity book : books) {
+                try {
+                    session.beginTransaction();
+                    session.save(book);
+                    session.getTransaction().commit();
+                } catch (Exception e) {
+                    if (session.getTransaction() != null && session.getTransaction().getStatus().canRollback()) {
+                        session.getTransaction().rollback();
+                    }
+                    throw e;
                 }
-                throw e;
             }
-        }
+        } 
     }
 
     // private void createDefaultCategoriesList() {

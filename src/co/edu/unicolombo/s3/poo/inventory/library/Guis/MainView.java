@@ -5,6 +5,7 @@
 package co.edu.unicolombo.s3.poo.inventory.library.Guis;
 
 import java.awt.Image;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -42,7 +43,7 @@ public class MainView extends javax.swing.JFrame {
         private final ClientRepository clientRepository = new ClientRepository();
         private final LoanRepository loanRepository = new LoanRepository(bookRepository);
         private final ReservationRepository reservationRepository = new ReservationRepository();
-        private final Data data = new Data();
+        private final Data data = Data.getInstance();
 
         // Queries
         private final GetListBookByCategoryQueries categoryService = new GetListBookByCategoryQueries(
@@ -240,6 +241,11 @@ public class MainView extends javax.swing.JFrame {
                 ChatBotMenu.setText("ChatBot");
 
                 itemOpenChatBot.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+                // URL imgUrl = getClass().getResource("/co/edu/unicolombo/s3/poo/inventory/library/Guis/icons/chatbot_icon.png");
+                // if (imgUrl == null) {
+                //         System.out.println("Imagen no encontrada.");
+                // } 
+                // ImageIcon originalIcon = new ImageIcon(imgUrl);
                 ImageIcon originalIcon = new ImageIcon(getClass().getResource(
                                 "/co/edu/unicolombo/s3/poo/inventory/library/Guis/icons/chatbot_icon.png"));
 

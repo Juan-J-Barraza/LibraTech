@@ -21,6 +21,7 @@ public class GoogleAIService implements AiService {
         this.initialContext = initialContext;
     }
 
+    @Override
     public String getAIResponse(String prompt) throws Exception {
         if (apiKey == null || apiKey.isEmpty()) {
             throw new Exception("La clave de API de Google no está configurada.");
@@ -88,6 +89,7 @@ public class GoogleAIService implements AiService {
         }
     }
 
+    @Override
     public String parseResponse(String responseBody) throws Exception {
         JSONObject jsonObject = new JSONObject(responseBody);
 
