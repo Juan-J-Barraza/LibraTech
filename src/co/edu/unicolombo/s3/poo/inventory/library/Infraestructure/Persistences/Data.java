@@ -36,10 +36,10 @@ public class Data {
         // this.listClients = new ArrayList<>();
         // this.listReservations = new ArrayList<>();
         this.sessionFactory = HibernateUtil.getSessionFactory();
-        createDefaultCategories();
-        createDefaultPublisher();
-        createDefaultClients();
-        createDefaultBooks();
+        // createDefaultCategories();
+        // createDefaultPublisher();
+        // createDefaultClients();
+        // createDefaultBooks();
 
     }
 

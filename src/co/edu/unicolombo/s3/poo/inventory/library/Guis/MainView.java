@@ -4,15 +4,20 @@
  */
 package co.edu.unicolombo.s3.poo.inventory.library.Guis;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Books.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Guis.ChatBot.ChatBotGUI;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Client.ManageClient;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Loans.GeneralLoan;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation.CreateReservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.Reservation.GeneralReservation;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Persistences.Data;
 import co.edu.unicolombo.s3.poo.inventory.library.Infraestructure.Repositories.*;
+import co.edu.unicolombo.s3.poo.inventory.library.Service.GoogleAIService;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Book.*;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.CreateClientCommmands;
 import co.edu.unicolombo.s3.poo.inventory.library.Service.Handlers.Commands.Client.UpdateClientCommands;
@@ -228,6 +233,37 @@ public class MainView extends javax.swing.JFrame {
                                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGap(0, 519, Short.MAX_VALUE));
 
+                ChatBotMenu = new javax.swing.JMenu();
+                itemOpenChatBot = new javax.swing.JMenuItem();
+
+                ChatBotMenu.setMnemonic('C');
+                ChatBotMenu.setText("ChatBot");
+
+                itemOpenChatBot.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+                ImageIcon originalIcon = new ImageIcon(getClass().getResource(
+                                "/co/edu/unicolombo/s3/poo/inventory/library/Guis/icons/chatbot_icon.png"));
+
+                int desiredWidth = 24;
+                int originalWidth = originalIcon.getIconWidth();
+                int originalHeight = originalIcon.getIconHeight();
+                int desiredHeight = (originalHeight * desiredWidth) / originalWidth;
+
+                Image resizedImage = originalIcon.getImage().getScaledInstance(desiredWidth, desiredHeight,
+                                Image.SCALE_SMOOTH);
+                ImageIcon resizedIcon = new ImageIcon(resizedImage);
+
+                // Establecer el icono redimensionado en el elemento de menú
+                itemOpenChatBot.setIcon(resizedIcon);
+                itemOpenChatBot.setText("Abrir ChatBot");
+                itemOpenChatBot.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                itemOpenChatBotActionPerformed(evt);
+                        }
+                });
+                ChatBotMenu.add(itemOpenChatBot);
+
+                MainMenu.add(ChatBotMenu);
+
                 pack();
         }// </editor-fold>//GEN-END:initComponents
 
@@ -309,6 +345,24 @@ public class MainView extends javax.swing.JFrame {
         }// GEN-LAST:event_itemClientMenuActionPerformed
          // Variables declaration - do not modify//GEN-BEGIN:variables
 
+        private void itemOpenChatBotActionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                        String apiKey = "AIzaSyDOUUBHmQXUphJW7G3T8M2G9vHZ6QwDY70";
+                        String initialContext = "Eres un asistente virtual experto en recomendaciones de libros. Tu misión es ayudar a los usuarios a encontrar libros que se ajusten a sus intereses, preferencias de género, nivel de lectura y autores favoritos. Proporciona recomendaciones personalizadas basadas en las solicitudes de los usuarios, ya sea que busquen ficción, no ficción, ciencia ficción, fantasía, misterio, romance, biografías, autoayuda, entre otros géneros. Además, puedes ofrecer resúmenes breves de los libros recomendados, sugerir libros similares a aquellos que les hayan gustado previamente y proporcionar información sobre la disponibilidad de los libros en la biblioteca o en formatos digitales. Mantén siempre una comunicación clara, amigable y en texto plano, evitando el uso de formatos como markdown para asegurar la máxima comprensión. Adapta tus respuestas al nivel de conocimiento del usuario y proporciona orientación detallada cuando sea necesario. Responde solo en texto plano, nada de markdown, Inicia diciendo que eres el asistente bibliotecario";
+
+                        // Crear la instancia del servicio con el contexto inicial
+                        GoogleAIService aiService = new GoogleAIService(apiKey, initialContext);
+
+                        // Crear y mostrar el ChatBotGUI
+                        ChatBotGUI chatBotGUI = new ChatBotGUI(aiService);
+                        chatBotGUI.setVisible(true);
+
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error al iniciar el ChatBot: " + e.getMessage(), "Error",
+                                        JOptionPane.ERROR_MESSAGE);
+                }
+        }
+
         private javax.swing.JMenu BooksMenu;
         private javax.swing.JMenu ClientsMenu;
         private javax.swing.JMenu LoanMenu;
@@ -320,5 +374,7 @@ public class MainView extends javax.swing.JFrame {
         private javax.swing.JMenuItem itemGeneralLoan;
         private javax.swing.JMenuItem itemGeneralReservations;
         private javax.swing.JMenuItem itemReservationCreate;
+        private javax.swing.JMenu ChatBotMenu;
+        private javax.swing.JMenuItem itemOpenChatBot;
         // End of variables declaration//GEN-END:variables
 }

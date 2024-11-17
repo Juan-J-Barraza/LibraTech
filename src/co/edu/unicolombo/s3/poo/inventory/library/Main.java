@@ -1,6 +1,7 @@
 package co.edu.unicolombo.s3.poo.inventory.library;
 
 import co.edu.unicolombo.s3.poo.inventory.library.Guis.MainView;
+
 import javax.swing.*;
 
 /**
@@ -14,7 +15,7 @@ public class Main {
     public Main() {
         this.mainView = new MainView();
         mainView.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        mainView.setVisible(true); 
+        mainView.setVisible(true);
     }
 
     public static void main(String[] args) {
