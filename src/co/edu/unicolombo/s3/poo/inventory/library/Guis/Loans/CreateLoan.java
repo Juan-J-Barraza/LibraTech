@@ -444,6 +444,11 @@ public class CreateLoan extends javax.swing.JDialog {
                         return;
                 }
 
+                if (quantity > book.getStock()) {
+                        javax.swing.JOptionPane.showMessageDialog(this, "quantity invalid");
+                        return;
+                }
+
                 var newLoan = new LoanEntity(sqlInitialDate, sqlReturnDate, quantity, client);
 
                 newLoan.getBooks().add(book);
